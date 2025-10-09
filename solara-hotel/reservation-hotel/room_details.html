@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Status | Solara Hotel</title>
+    <title>Room Details | Solara Hotel</title>
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -19,748 +21,727 @@
         
         body {
             font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
         
-        .font-display { font-family: 'Playfair Display', serif; }
-        .text-primary { color: var(--primary); }
-        .bg-primary { background-color: var(--primary); }
-        .hover\:bg-primary:hover { background-color: var(--primary); }
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .bg-primary {
+            background-color: var(--primary);
+        }
+        
+        .text-secondary {
+            color: var(--secondary);
+        }
+        
+        .bg-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .bg-dark {
+            background-color: var(--dark);
+        }
+        
+        .hover\:bg-primary:hover {
+            background-color: var(--primary);
+        }
+        
+        .hover\:text-primary:hover {
+            color: var(--primary);
+        }
+        
+        .hover\:text-secondary:hover {
+            color: var(--secondary);
+        }
+        
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary);
+        }
         
         .gradient-primary {
             background: linear-gradient(to right, var(--secondary), var(--primary));
         }
         
-        .sidebar-item {
-            transition: all 0.3s ease;
+        .gradient-primary:hover {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
         
-        .sidebar-item:hover {
-            background-color: rgba(198, 169, 105, 0.1);
-            transform: translateX(4px);
-        }
-        
-        .sidebar-item.active {
+        .room-tab.active {
             background-color: var(--primary);
             color: white;
-            border-radius: 0.75rem;
         }
         
-        .card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .room-card {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .room-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .room-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            transition: height 0.3s ease;
-        }
-
-        .room-card:hover::before {
-            height: 8px;
-        }
-
-        .room-card.available {
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            border: 2px solid #10b981;
-        }
-
-        .room-card.available::before {
-            background: linear-gradient(90deg, #10b981, #059669);
-        }
-
-        .room-card.occupied {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            border: 2px solid #ef4444;
-        }
-
-        .room-card.occupied::before {
-            background: linear-gradient(90deg, #ef4444, #dc2626);
-        }
-
-        .room-card.maintenance {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border: 2px solid #f59e0b;
-        }
-
-        .room-card.maintenance::before {
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-        }
-
-        .room-card.checkout {
-            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
-            border: 2px solid #8b5cf6;
-        }
-
-        .room-card.checkout::before {
-            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
-        }
-
-        .room-number {
-            font-size: 2rem;
-            font-weight: 800;
-            line-height: 1;
-            letter-spacing: -0.02em;
-        }
-
-        .room-type-badge {
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .status-icon {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 0.75rem;
-        }
-
-        .available .status-icon {
-            background: #10b981;
-            color: white;
-        }
-
-        .occupied .status-icon {
-            background: #ef4444;
-            color: white;
-        }
-
-        .maintenance .status-icon {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .checkout .status-icon {
-            background: #8b5cf6;
-            color: white;
-        }
-
-        .modal {
+        .room-content {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
         }
-
-        .modal.active {
-            display: flex;
+        
+        .room-content.active {
+            display: block;
         }
-
-        .modal-content {
-            background: white;
-            border-radius: 1rem;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            margin: 20px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        
+        .feature-item {
+            transition: all 0.3s ease;
         }
-
-        .floor-section {
-            margin-bottom: 2rem;
+        
+        .feature-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-
-        .floor-header {
+        
+        .swiper-pagination-bullet-active {
+            background: var(--secondary);
+        }
+        
+        .amenity-icon {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .room-card {
-            animation: fadeIn 0.3s ease-out;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-900">
     <!-- Header -->
     <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
-        <div class="px-6 py-4">
+        <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
                     <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
                         <i data-feather="home" class="text-white h-6 w-6"></i>
                     </div>
-                    <div>
-                        <span class="font-display text-2xl font-bold text-primary">Solara Hotel</span>
-                        <p class="text-sm text-gray-600">Room Status Management</p>
-                    </div>
+                    <span class="font-display text-2xl font-bold text-primary">Solara Hotel</span>
                 </div>
                 
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                            <i data-feather="bell" class="h-6 w-6 text-gray-600"></i>
-                            <span class="notification-badge">3</span>
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center space-x-3">
-                        <div class="text-right">
-                            <p class="text-sm font-medium text-gray-900">Maria Santos</p>
-                            <p class="text-xs text-gray-500">Front Desk Manager</p>
-                        </div>
-                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                            <span class="text-white font-semibold">MS</span>
-                        </div>
-                    </div>
-                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="webpage.php" class="text-gray-700 hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="#rooms" class="text-primary font-semibold transition-colors duration-300">Rooms</a>
+                    <a href="webpage.php" class="text-gray-700 hover:text-primary transition-colors duration-300">Amenities</a>
+                    <a href="webpage.php" class="text-gray-700 hover:text-primary transition-colors duration-300">Contact</a>
+                </nav>
+                
+                <a href="booking.html" 
+                   class="gradient-primary text-white px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg">
+                     Book Now
+                </a>
+
+                
+                <button class="md:hidden focus:outline-none">
+                    <i data-feather="menu" class="h-6 w-6"></i>
+                </button>
             </div>
         </div>
     </header>
 
-    <div class="flex pt-20">
-        <!-- Sidebar -->
-        <div class="fixed left-0 top-20 h-full w-64 bg-white shadow-lg overflow-y-auto">
-            <div class="p-6">
-                <nav class="space-y-2">
-                    <a href="frontdesk.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="home" class="h-5 w-5"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="checkin.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="log-in" class="h-5 w-5"></i>
-                        <span>Check-in</span>
-                    </a>
-                    <a href="checkout.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="log-out" class="h-5 w-5"></i>
-                        <span>Check-out</span>
-                    </a>
-                    <a href="reservation.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="calendar" class="h-5 w-5"></i>
-                        <span>Reservations</span>
-                    </a>
-                    <a href="rooms.html" class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium">
-                        <i data-feather="key" class="h-5 w-5"></i>
-                        <span>Room Status</span>
-                    </a>
-                    <a href="guests.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="users" class="h-5 w-5"></i>
-                        <span>Guest Directory</span>
-                    </a>
-                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="credit-card" class="h-5 w-5"></i>
-                        <span>Billing</span>
-                    </a>
-                    <a href="reports.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="bar-chart" class="h-5 w-5"></i>
-                        <span>Reports</span>
-                    </a>
-                    <a href="index.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="briefcase" class="h-5 w-5"></i>
-                        <span>Channel Management</span>
-                    </a>
-                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
-                        <i data-feather="tool" class="h-5 w-5"></i>
-                        <span>Maintenance</span>
-                    </a>
-                </nav>
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 bg-gradient-to-br from-primary to-blue-800 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">Our Luxurious Accommodations</h1>
+                <p class="text-xl text-white/90 max-w-3xl mx-auto">Discover the perfect sanctuary for your stay, from comfortable elegance to ultimate luxury</p>
             </div>
         </div>
+    </section>
 
-        <!-- Main Content -->
-        <div class="flex-1 ml-64 p-8">
-            <div class="mb-8">
-                <h1 class="text-3xl font-display font-bold text-primary mb-2">Room Status Overview</h1>
-                <p class="text-gray-600">Monitor and manage room availability across all floors</p>
-            </div>
-
-            <!-- Status Summary -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                <div class="card p-6 hover:shadow-lg transition-shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600 mb-1">Available</p>
-                            <p class="text-3xl font-bold text-green-600" id="available-count">0</p>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                            <i data-feather="check-circle" class="h-6 w-6 text-green-600"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card p-6 hover:shadow-lg transition-shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600 mb-1">Occupied</p>
-                            <p class="text-3xl font-bold text-red-600" id="occupied-count">0</p>
-                        </div>
-                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                            <i data-feather="user" class="h-6 w-6 text-red-600"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card p-6 hover:shadow-lg transition-shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600 mb-1">Checkout</p>
-                            <p class="text-3xl font-bold text-purple-600" id="checkout-count">0</p>
-                        </div>
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                            <i data-feather="log-out" class="h-6 w-6 text-purple-600"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card p-6 hover:shadow-lg transition-shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600 mb-1">Maintenance</p>
-                            <p class="text-3xl font-bold text-yellow-600" id="maintenance-count">0</p>
-                        </div>
-                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <i data-feather="tool" class="h-6 w-6 text-yellow-600"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Room Grid by Floor -->
-            <div class="card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-semibold text-primary">Room Grid</h3>
-                    <button onclick="loadRooms()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
-                        <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
-                        Refresh
-                    </button>
-                </div>
-
-                <div id="rooms-container">
-                    <div class="text-center py-12 text-gray-500">
-                        <i data-feather="loader" class="animate-spin h-12 w-12 mx-auto mb-4"></i>
-                        <p class="font-medium">Loading rooms...</p>
-                    </div>
-                </div>
+    <!-- Room Tabs -->
+    <section class="py-8 bg-white shadow-sm sticky top-20 z-40">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all active" onclick="showRoom('regular')">Regular Suite</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200" onclick="showRoom('twin')">Twin Bed Penthouse</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200" onclick="showRoom('skyline')">Skyline Suite</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200" onclick="showRoom('deluxe')">Deluxe Villa</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Room Details Modal -->
-    <div id="room-modal" class="modal">
-        <div class="modal-content w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-display font-bold text-primary">Room Details</h2>
-                    <button onclick="closeModal()" class="text-gray-600 hover:text-gray-900">
-                        <i data-feather="x" class="h-6 w-6"></i>
-                    </button>
-                </div>
-
-                <div id="modal-content">
-                    <!-- Content will be loaded dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        feather.replace();
-
-        let roomsData = [];
-
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
-            
-            notification.className = `fixed top-24 right-6 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        async function loadRooms() {
-            try {
-                const response = await fetch('get_rooms.php');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                
-                if (result.success === false) {
-                    throw new Error(result.error || 'Unknown error');
-                }
-                
-                roomsData = result.data || [];
-                displayRooms(roomsData);
-                updateCounts(roomsData);
-                
-            } catch (error) {
-                console.error('Error loading rooms:', error);
-                document.getElementById('rooms-container').innerHTML = `
-                    <div class="text-center py-12 text-red-500">
-                        <i data-feather="alert-circle" class="h-12 w-12 mx-auto mb-4"></i>
-                        <p class="font-medium">Error loading rooms</p>
-                        <p class="text-sm">${error.message}</p>
-                        <button onclick="loadRooms()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">
-                            Try Again
-                        </button>
-                    </div>
-                `;
-                feather.replace();
-            }
-        }
-
-        function getRoomTypeShort(roomType) {
-            const typeMap = {
-                'Regular Suite': 'REG',
-                'Twin Bed Penthouse': 'TWIN',
-                'Skyline Suite': 'SKY',
-                'Deluxe Villa': 'DELUXE'
-            };
-            return typeMap[roomType] || 'ROOM';
-        }
-
-        function getStatusIcon(status) {
-            const icons = {
-                'available': 'check',
-                'occupied': 'user',
-                'checkout': 'log-out',
-                'maintenance': 'tool'
-            };
-            return icons[status] || 'home';
-        }
-
-        function displayRooms(rooms) {
-            const container = document.getElementById('rooms-container');
-            
-            const roomsByFloor = {};
-            rooms.forEach(room => {
-                if (!roomsByFloor[room.floor]) {
-                    roomsByFloor[room.floor] = [];
-                }
-                roomsByFloor[room.floor].push(room);
-            });
-
-            let html = '';
-            const floors = Object.keys(roomsByFloor).sort((a, b) => b - a);
-            
-            floors.forEach(floor => {
-                html += `
-                    <div class="floor-section">
-                        <div class="floor-header">
-                            <h3 class="text-lg font-semibold flex items-center">
-                                <i data-feather="layers" class="h-5 w-5 mr-2"></i>
-                                Floor ${floor}
-                                <span class="ml-auto text-sm font-normal opacity-90">${roomsByFloor[floor].length} rooms</span>
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                `;
-                
-                roomsByFloor[floor].forEach(room => {
-                    html += `
-                        <div class="room-card ${room.status} p-4" onclick="showRoomDetails(${room.id})">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="room-number">${room.room_number}</div>
-                                <span class="room-type-badge ${
-                                    room.status === 'available' ? 'bg-green-200 text-green-800' :
-                                    room.status === 'occupied' ? 'bg-red-200 text-red-800' :
-                                    room.status === 'maintenance' ? 'bg-yellow-200 text-yellow-800' :
-                                    'bg-purple-200 text-purple-800'
-                                }">${getRoomTypeShort(room.room_type)}</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs font-medium ${
-                                    room.status === 'available' ? 'text-green-700' :
-                                    room.status === 'occupied' ? 'text-red-700' :
-                                    room.status === 'maintenance' ? 'text-yellow-700' :
-                                    'text-purple-700'
-                                }">${room.status.toUpperCase()}</div>
-                                <div class="status-icon">
-                                    <i data-feather="${getStatusIcon(room.status)}" class="h-5 w-5"></i>
+    <!-- Room Details Content -->
+    <main class="py-20">
+        <!-- Regular Suite -->
+        <div id="regular" class="room-content active">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Regular Suite" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Regular Suite Bathroom" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1590490359854-dfba19688d70?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Regular Suite View" class="w-full h-96 object-cover">
                                 </div>
                             </div>
-                        </div>
-                    `;
-                });
-                
-                html += `
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
                         </div>
                     </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-            feather.replace();
-        }
-
-        function updateCounts(rooms) {
-            const counts = {
-                available: 0,
-                occupied: 0,
-                checkout: 0,
-                maintenance: 0
-            };
-            
-            rooms.forEach(room => {
-                counts[room.status]++;
-            });
-            
-            document.getElementById('available-count').textContent = counts.available;
-            document.getElementById('occupied-count').textContent = counts.occupied;
-            document.getElementById('checkout-count').textContent = counts.checkout;
-            document.getElementById('maintenance-count').textContent = counts.maintenance;
-        }
-
-        async function showRoomDetails(roomId) {
-            try {
-                const response = await fetch(`get_room_details.php?id=${roomId}`);
-                const result = await response.json();
-                
-                if (!result.success) {
-                    throw new Error(result.error);
-                }
-                
-                const room = result.data;
-                let content = `
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-600">Room Number</p>
-                                <p class="font-bold text-lg">${room.room_number}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Floor</p>
-                                <p class="font-bold text-lg">${room.floor}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Room Type</p>
-                                <p class="font-medium">${room.room_type}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Max Occupancy</p>
-                                <p class="font-medium">${room.max_occupancy} guests</p>
-                            </div>
-                            <div class="col-span-2">
-                                <p class="text-sm text-gray-600">Status</p>
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold
-                                    ${room.status === 'available' ? 'bg-green-100 text-green-800' : ''}
-                                    ${room.status === 'occupied' ? 'bg-red-100 text-red-800' : ''}
-                                    ${room.status === 'maintenance' ? 'bg-yellow-100 text-yellow-800' : ''}
-                                    ${room.status === 'checkout' ? 'bg-purple-100 text-purple-800' : ''}">
-                                    ${room.status.toUpperCase()}
-                                </span>
-                            </div>
-                        </div>
-                `;
-                
-                if (room.status === 'occupied' && room.guest_name) {
-                    content += `
-                        <hr class="my-4">
-                        <h3 class="text-lg font-semibold text-primary mb-3">Guest Information</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-600">Guest Name</p>
-                                <p class="font-medium">${room.guest_name}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Email</p>
-                                <p class="font-medium text-sm">${room.guest_email || 'N/A'}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Phone</p>
-                                <p class="font-medium">${room.guest_phone || 'N/A'}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Check-in</p>
-                                <p class="font-medium">${formatDate(room.check_in)}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Check-out</p>
-                                <p class="font-medium">${formatDate(room.check_out)}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Total Price</p>
-                                <p class="font-medium">₱${parseFloat(room.total_price || 0).toFixed(2)}</p>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                content += `
-                        <hr class="my-4">
-                        <div class="flex gap-2">
-                            ${room.status === 'available' ? `
-                                <button onclick="updateRoomStatus(${room.id}, 'maintenance')" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition">
-                                    Set to Maintenance
-                                </button>
-                            ` : ''}
-                            ${room.status === 'maintenance' ? `
-                                <button onclick="updateRoomStatus(${room.id}, 'available')" class="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">
-                                    Set to Available
-                                </button>
-                            ` : ''}
-                            ${room.status === 'occupied' ? `
-                                <button onclick="updateRoomStatus(${room.id}, 'checkout')" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition">
-                                    Ready for Checkout
-                                </button>
-                            ` : ''}
-                            ${room.status === 'checkout' ? `
-                                <button onclick="redirectToCheckout(${room.id})" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
-                                    Process Checkout
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-                
-                document.getElementById('modal-content').innerHTML = content;
-                document.getElementById('room-modal').classList.add('active');
-                feather.replace();
-                
-            } catch (error) {
-                console.error('Error loading room details:', error);
-                showNotification('Error loading room details', 'error');
-            }
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-        async function redirectToCheckout(roomId) {
-            try {
-                const response = await fetch(`get_room_details.php?id=${roomId}`);
-                const result = await response.json();
-                
-                if (result.success && result.data.guest_name) {
-                    const guest = {
-                        id: result.data.guest_id,
-                        guest_name: result.data.guest_name,
-                        guest_email: result.data.guest_email,
-                        guest_phone: result.data.guest_phone,
-                        room_type: result.data.room_type,
-                        room_number: result.data.room_number,
-                        check_in: result.data.check_in,
-                        check_out: result.data.check_out,
-                        total_price: result.data.total_price
-                    };
                     
-                    sessionStorage.setItem('checkoutGuest', JSON.stringify(guest));
-                    window.location.href = 'checkout.html';
-                } else {
-                    showNotification('No guest information found for this room', 'error');
-                }
-            } catch (error) {
-                console.error('Error redirecting to checkout:', error);
-                showNotification('Error processing checkout', 'error');
-            }
-        }
-
-        async function updateRoomStatus(roomId, newStatus) {
-            try {
-                const response = await fetch('update_room_status.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `room_id=${roomId}&status=${newStatus}`
-                });
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-primary mb-4">Regular Suite</h2>
+                        <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱499/night</p>
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Experience comfort and elegance in our well-appointed Regular Suite, featuring modern amenities and thoughtful design elements that ensure a relaxing stay.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Max Occupancy</p>
+                                <p class="text-gray-600">2 Adults</p>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="home" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Room Size</p>
+                                <p class="text-gray-600">35 sqm</p>
+                            </div>
+                        </div>
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                            Book Regular Suite
+                        </button>
+                    </div>
+                </div>
                 
-                const result = await response.json();
+                <!-- Amenities and Inclusions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Room Amenities</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="wifi" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Complimentary High-Speed WiFi</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="tv" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>55" Smart TV with Cable Channels</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="coffee" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Coffee & Tea Making Facilities</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="phone" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Direct-dial Telephone</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="shield" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>In-room Safe</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Included Services</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="clock" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Daily Housekeeping Service</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="droplet" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Complimentary Bottled Water</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="wind" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Climate Control Air Conditioning</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="sun" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Blackout Curtains</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="key" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Electronic Keycard Access</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Twin Bed Penthouse -->
+        <div id="twin" class="room-content">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1630999295881-e00725e1de45?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twin Bed Penthouse" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1680210851458-b7dc5685e06e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twin Bed Penthouse Bathroom" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1605346576608-92f1346b67d6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twin Bed Penthouse Balcony" class="w-full h-96 object-cover">
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-primary mb-4">Twin Bed Penthouse</h2>
+                        <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱899/night</p>
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Perfect for friends or colleagues, our Twin Bed Penthouse offers separate sleeping areas with premium amenities and stunning elevated views of the surrounding landscape.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Max Occupancy</p>
+                                <p class="text-gray-600">2 Adults</p>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="home" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Room Size</p>
+                                <p class="text-gray-600">45 sqm</p>
+                            </div>
+                        </div>
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                            Book Twin Bed Penthouse
+                        </button>
+                    </div>
+                </div>
                 
-                if (result.success) {
-                    showNotification('Room status updated successfully', 'success');
-                    closeModal();
-                    loadRooms();
-                } else {
-                    throw new Error(result.error);
-                }
+                <!-- Amenities and Inclusions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Room Amenities</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="wifi" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Premium High-Speed WiFi</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="tv" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>65" Smart TV with Streaming Services</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="coffee" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Premium Coffee Machine & Mini Bar</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="speaker" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Bluetooth Sound System</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="sunrise" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Private Balcony with City Views</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Included Services</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="clock" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Twice Daily Housekeeping</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="gift" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Welcome Amenities & Fruit Basket</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="user-check" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Priority Check-in/Check-out</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="truck" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Complimentary Airport Transfer</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="phone" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>24/7 Concierge Service</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skyline Suite -->
+        <div id="skyline" class="room-content">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1740324351912-b9189685ab1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1690935986319-c11e6cae84f7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite Living Area" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1568495248636-6432b97bd949?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite View" class="w-full h-96 object-cover">
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-primary mb-4">Skyline Suite</h2>
+                        <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱1,099/night</p>
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Embrace breathtaking panoramic views from our premium Skyline Suite, featuring floor-to-ceiling windows, separate living area, and luxury appointments throughout.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Max Occupancy</p>
+                                <p class="text-gray-600">3 Adults</p>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="home" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Room Size</p>
+                                <p class="text-gray-600">65 sqm</p>
+                            </div>
+                        </div>
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                            Book Skyline Suite
+                        </button>
+                    </div>
+                </div>
                 
-            } catch (error) {
-                console.error('Error updating room status:', error);
-                showNotification('Error updating room status', 'error');
-            }
-        }
+                <!-- Amenities and Inclusions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Room Amenities</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="eye" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Panoramic City/Ocean Views</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="home" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Separate Living & Sleeping Areas</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="tv" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>75" Smart TV + Second TV in Bedroom</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="cloud-drizzle" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Marble Bathroom with Rain Shower</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="briefcase" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Executive Work Desk & Business Center Access</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Premium Inclusions</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="coffee" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Complimentary Breakfast for 2</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="filter" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Evening Cocktail Service</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="user-check" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Priority Spa & Restaurant Reservations</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="send" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Luxury Airport Transfer</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="user-plus" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Personal Butler Service</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        function closeModal() {
-            document.getElementById('room-modal').classList.remove('active');
-        }
+        <!-- Deluxe Villa -->
+        <div id="deluxe" class="room-content">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1647336811715-d7c7837c50d9?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Deluxe Villa Pool" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1731336478850-6bce7235e320?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Deluxe Villa Terrace" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Deluxe Villa Interior" class="w-full h-96 object-cover">
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-primary mb-4">Deluxe Villa</h2>
+                        <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱1,299/night</p>
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">The ultimate in luxury accommodation, our Deluxe Villa offers a private sanctuary with exclusive amenities, personal pool, and unparalleled service for the most discerning guests.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Max Occupancy</p>
+                                <p class="text-gray-600">4 Adults</p>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <i data-feather="home" class="h-8 w-8 text-primary mx-auto mb-2"></i>
+                                <p class="font-semibold">Villa Size</p>
+                                <p class="text-gray-600">120 sqm</p>
+                            </div>
+                        </div>
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                            Book Deluxe Villa
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Amenities and Inclusions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">Exclusive Villa Features</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="droplets" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Private Infinity Pool & Jacuzzi</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="sun" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Private Sun Deck & Garden</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="home" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Separate Master & Guest Bedrooms</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="utensils" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Full Kitchen & Dining Area</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="car" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Private Parking & Entrance</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-display font-bold text-primary mb-6">VIP Services Included</h3>
+                        <div class="space-y-4">
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="user-check" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Dedicated Personal Butler 24/7</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="chef-hat" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Private Chef Service Available</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="gift" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Daily Fresh Flowers & Premium Amenities</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="heart" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Complimentary Spa Treatment Session</span>
+                            </div>
+                            <div class="feature-item flex items-center p-4 bg-white rounded-lg shadow-sm">
+                                <i data-feather="plane" class="h-6 w-6 amenity-icon mr-4"></i>
+                                <span>Private Helicopter Transfer (Optional)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-        document.getElementById('room-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
+    <!-- Call to Action -->
+    <section class="py-16 bg-primary text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready to Experience Luxury?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Contact our reservations team to book your perfect accommodation or customize your stay.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-secondary hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105">
+                    Book Now
+                </button>
+                <a href="index.html#contact" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-full font-medium text-lg transition-all">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+                            <i data-feather="home" class="text-white h-6 w-6"></i>
+                        </div>
+                        <span class="font-display text-2xl font-bold">Solara Hotel</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">Experience luxury redefined at our world-class hotel, where every moment is crafted to perfection.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-display font-semibold text-lg mb-6">Room Types</h4>
+                    <ul class="space-y-3">
+                        <li><button onclick="showRoom('regular')" class="text-gray-400 hover:text-secondary transition-colors text-left">Regular Suite</button></li>
+                        <li><button onclick="showRoom('twin')" class="text-gray-400 hover:text-secondary transition-colors text-left">Twin Bed Penthouse</button></li>
+                        <li><button onclick="showRoom('skyline')" class="text-gray-400 hover:text-secondary transition-colors text-left">Skyline Suite</button></li>
+                        <li><button onclick="showRoom('deluxe')" class="text-gray-400 hover:text-secondary transition-colors text-left">Deluxe Villa</button></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-display font-semibold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-secondary transition-colors">Home</a></li>
+                        <li><a href="index.html#amenities" class="text-gray-400 hover:text-secondary transition-colors">Amenities</a></li>
+                        <li><a href="index.html#dining" class="text-gray-400 hover:text-secondary transition-colors">Dining</a></li>
+                        <li><a href="index.html#contact" class="text-gray-400 hover:text-secondary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-display font-semibold text-lg mb-6">Contact Info</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i data-feather="map-pin" class="text-secondary h-5 w-5 mr-3 mt-1"></i>
+                            <p class="text-gray-400">123 Luxury Avenue<br>Makati City, Philippines</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i data-feather="phone" class="text-secondary h-5 w-5 mr-3"></i>
+                            <p class="text-gray-400">+63 2 1234 5678</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i data-feather="mail" class="text-secondary h-5 w-5 mr-3"></i>
+                            <p class="text-gray-400">info@solarahotel.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2024 Solara Hotel. All rights reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            loadRooms();
-            setInterval(loadRooms, 2 * 60 * 1000);
+            // Initialize Feather icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+            
+            // Initialize all gallery swipers
+            const gallerySwipers = document.querySelectorAll('.room-gallery-swiper');
+            gallerySwipers.forEach((swiperEl) => {
+                new Swiper(swiperEl, {
+                    loop: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: swiperEl.querySelector('.swiper-pagination'),
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: swiperEl.querySelector('.swiper-button-next'),
+                        prevEl: swiperEl.querySelector('.swiper-button-prev'),
+                    },
+                });
+            });
+        });
+        
+        // Room tab functionality
+        function showRoom(roomType) {
+            // Hide all room contents
+            const roomContents = document.querySelectorAll('.room-content');
+            roomContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.room-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.classList.add('bg-gray-100', 'hover:bg-gray-200');
+            });
+            
+            // Show selected room content
+            document.getElementById(roomType).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            event.target.classList.remove('bg-gray-100', 'hover:bg-gray-200');
+            
+            // Scroll to top of room section
+            document.querySelector('main').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // Fallback function to initialize feather icons if loaded later
+        function initFeatherIcons() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            } else {
+                setTimeout(initFeatherIcons, 100);
+            }
+        }
+        
+        // Try to initialize feather icons
+        initFeatherIcons();
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     </script>
 </body>
