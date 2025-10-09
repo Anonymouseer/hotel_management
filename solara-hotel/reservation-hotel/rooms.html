@@ -1,22 +1,240 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Status | Solara Hotel</title>
-
-    <link rel="stylesheet" href="reservation.css">
-    <link rel="shortcut icon" href="images/logo-header.png" type="image/x-icon">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
-        rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #c6a969;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .font-display { font-family: 'Playfair Display', serif; }
+        .text-primary { color: var(--primary); }
+        .bg-primary { background-color: var(--primary); }
+        .hover\:bg-primary:hover { background-color: var(--primary); }
+        
+        .gradient-primary {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+        }
+        
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-item:hover {
+            background-color: rgba(198, 169, 105, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.75rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
+        .room-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .room-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            transition: height 0.3s ease;
+        }
+
+        .room-card:hover::before {
+            height: 8px;
+        }
+
+        .room-card.available {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+        }
+
+        .room-card.available::before {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .room-card.occupied {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 2px solid #ef4444;
+        }
+
+        .room-card.occupied::before {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .room-card.maintenance {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px solid #f59e0b;
+        }
+
+        .room-card.maintenance::before {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .room-card.checkout {
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+            border: 2px solid #8b5cf6;
+        }
+
+        .room-card.checkout::before {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .room-number {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .room-type-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.75rem;
+        }
+
+        .available .status-icon {
+            background: #10b981;
+            color: white;
+        }
+
+        .occupied .status-icon {
+            background: #ef4444;
+            color: white;
+        }
+
+        .maintenance .status-icon {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .checkout .status-icon {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .floor-section {
+            margin-bottom: 2rem;
+        }
+
+        .floor-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .room-card {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
 </head>
-
 <body>
     <!-- Header -->
     <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
@@ -31,7 +249,7 @@
                         <p class="text-sm text-gray-600">Room Status Management</p>
                     </div>
                 </div>
-
+                
                 <div class="flex items-center space-x-4">
                     <div class="relative">
                         <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
@@ -39,7 +257,7 @@
                             <span class="notification-badge">3</span>
                         </button>
                     </div>
-
+                    
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
                             <p class="text-sm font-medium text-gray-900">Maria Santos</p>
@@ -59,48 +277,43 @@
         <div class="fixed left-0 top-20 h-full w-64 bg-white shadow-lg overflow-y-auto">
             <div class="p-6">
                 <nav class="space-y-2">
-                    <a href="frontdesk.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="frontdesk.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="home" class="h-5 w-5"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="checkin.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="checkin.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="log-in" class="h-5 w-5"></i>
                         <span>Check-in</span>
                     </a>
-                    <a href="checkout.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="checkout.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="log-out" class="h-5 w-5"></i>
                         <span>Check-out</span>
                     </a>
-                    <a href="reservation.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="reservation.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="calendar" class="h-5 w-5"></i>
                         <span>Reservations</span>
                     </a>
-                    <a href="rooms.html"
-                        class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium">
+                    <a href="rooms.html" class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium">
                         <i data-feather="key" class="h-5 w-5"></i>
                         <span>Room Status</span>
                     </a>
-                    <a href="guests.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="guests.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="users" class="h-5 w-5"></i>
                         <span>Guest Directory</span>
                     </a>
-                    <a href="#"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="credit-card" class="h-5 w-5"></i>
                         <span>Billing</span>
                     </a>
-                    <a href="reports.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="reports.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="bar-chart" class="h-5 w-5"></i>
                         <span>Reports</span>
                     </a>
-                    <a href="#"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="index.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="briefcase" class="h-5 w-5"></i>
+                        <span>Channel Management</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="tool" class="h-5 w-5"></i>
                         <span>Maintenance</span>
                     </a>
@@ -128,7 +341,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="card p-6 hover:shadow-lg transition-shadow">
                     <div class="flex items-center justify-between">
                         <div>
@@ -140,7 +353,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="card p-6 hover:shadow-lg transition-shadow">
                     <div class="flex items-center justify-between">
                         <div>
@@ -152,7 +365,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="card p-6 hover:shadow-lg transition-shadow">
                     <div class="flex items-center justify-between">
                         <div>
@@ -170,8 +383,7 @@
             <div class="card p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-semibold text-primary">Room Grid</h3>
-                    <button onclick="loadRooms()"
-                        class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
+                    <button onclick="loadRooms()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
                         <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
                         Refresh
                     </button>
@@ -213,11 +425,11 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
-
+            
             notification.className = `fixed top-24 right-6 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50`;
             notification.textContent = message;
             document.body.appendChild(notification);
-
+            
             setTimeout(() => {
                 notification.remove();
             }, 3000);
@@ -226,21 +438,21 @@
         async function loadRooms() {
             try {
                 const response = await fetch('get_rooms.php');
-
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
+                
                 const result = await response.json();
-
+                
                 if (result.success === false) {
                     throw new Error(result.error || 'Unknown error');
                 }
-
+                
                 roomsData = result.data || [];
                 displayRooms(roomsData);
                 updateCounts(roomsData);
-
+                
             } catch (error) {
                 console.error('Error loading rooms:', error);
                 document.getElementById('rooms-container').innerHTML = `
@@ -279,7 +491,7 @@
 
         function displayRooms(rooms) {
             const container = document.getElementById('rooms-container');
-
+            
             const roomsByFloor = {};
             rooms.forEach(room => {
                 if (!roomsByFloor[room.floor]) {
@@ -290,7 +502,7 @@
 
             let html = '';
             const floors = Object.keys(roomsByFloor).sort((a, b) => b - a);
-
+            
             floors.forEach(floor => {
                 html += `
                     <div class="floor-section">
@@ -303,24 +515,26 @@
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 `;
-
+                
                 roomsByFloor[floor].forEach(room => {
                     html += `
                         <div class="room-card ${room.status} p-4" onclick="showRoomDetails(${room.id})">
                             <div class="flex items-start justify-between mb-3">
                                 <div class="room-number">${room.room_number}</div>
-                                <span class="room-type-badge ${room.status === 'available' ? 'bg-green-200 text-green-800' :
-                            room.status === 'occupied' ? 'bg-red-200 text-red-800' :
-                                room.status === 'maintenance' ? 'bg-yellow-200 text-yellow-800' :
+                                <span class="room-type-badge ${
+                                    room.status === 'available' ? 'bg-green-200 text-green-800' :
+                                    room.status === 'occupied' ? 'bg-red-200 text-red-800' :
+                                    room.status === 'maintenance' ? 'bg-yellow-200 text-yellow-800' :
                                     'bg-purple-200 text-purple-800'
-                        }">${getRoomTypeShort(room.room_type)}</span>
+                                }">${getRoomTypeShort(room.room_type)}</span>
                             </div>
                             <div class="flex items-center justify-between">
-                                <div class="text-xs font-medium ${room.status === 'available' ? 'text-green-700' :
-                            room.status === 'occupied' ? 'text-red-700' :
-                                room.status === 'maintenance' ? 'text-yellow-700' :
+                                <div class="text-xs font-medium ${
+                                    room.status === 'available' ? 'text-green-700' :
+                                    room.status === 'occupied' ? 'text-red-700' :
+                                    room.status === 'maintenance' ? 'text-yellow-700' :
                                     'text-purple-700'
-                        }">${room.status.toUpperCase()}</div>
+                                }">${room.status.toUpperCase()}</div>
                                 <div class="status-icon">
                                     <i data-feather="${getStatusIcon(room.status)}" class="h-5 w-5"></i>
                                 </div>
@@ -328,13 +542,13 @@
                         </div>
                     `;
                 });
-
+                
                 html += `
                         </div>
                     </div>
                 `;
             });
-
+            
             container.innerHTML = html;
             feather.replace();
         }
@@ -346,11 +560,11 @@
                 checkout: 0,
                 maintenance: 0
             };
-
+            
             rooms.forEach(room => {
                 counts[room.status]++;
             });
-
+            
             document.getElementById('available-count').textContent = counts.available;
             document.getElementById('occupied-count').textContent = counts.occupied;
             document.getElementById('checkout-count').textContent = counts.checkout;
@@ -361,11 +575,11 @@
             try {
                 const response = await fetch(`get_room_details.php?id=${roomId}`);
                 const result = await response.json();
-
+                
                 if (!result.success) {
                     throw new Error(result.error);
                 }
-
+                
                 const room = result.data;
                 let content = `
                     <div class="space-y-4">
@@ -398,7 +612,7 @@
                             </div>
                         </div>
                 `;
-
+                
                 if (room.status === 'occupied' && room.guest_name) {
                     content += `
                         <hr class="my-4">
@@ -431,7 +645,7 @@
                         </div>
                     `;
                 }
-
+                
                 content += `
                         <hr class="my-4">
                         <div class="flex gap-2">
@@ -458,11 +672,11 @@
                         </div>
                     </div>
                 `;
-
+                
                 document.getElementById('modal-content').innerHTML = content;
                 document.getElementById('room-modal').classList.add('active');
                 feather.replace();
-
+                
             } catch (error) {
                 console.error('Error loading room details:', error);
                 showNotification('Error loading room details', 'error');
@@ -483,7 +697,7 @@
             try {
                 const response = await fetch(`get_room_details.php?id=${roomId}`);
                 const result = await response.json();
-
+                
                 if (result.success && result.data.guest_name) {
                     const guest = {
                         id: result.data.guest_id,
@@ -496,7 +710,7 @@
                         check_out: result.data.check_out,
                         total_price: result.data.total_price
                     };
-
+                    
                     sessionStorage.setItem('checkoutGuest', JSON.stringify(guest));
                     window.location.href = 'checkout.html';
                 } else {
@@ -517,9 +731,9 @@
                     },
                     body: `room_id=${roomId}&status=${newStatus}`
                 });
-
+                
                 const result = await response.json();
-
+                
                 if (result.success) {
                     showNotification('Room status updated successfully', 'success');
                     closeModal();
@@ -527,7 +741,7 @@
                 } else {
                     throw new Error(result.error);
                 }
-
+                
             } catch (error) {
                 console.error('Error updating room status:', error);
                 showNotification('Error updating room status', 'error');
@@ -538,17 +752,16 @@
             document.getElementById('room-modal').classList.remove('active');
         }
 
-        document.getElementById('room-modal').addEventListener('click', function (e) {
+        document.getElementById('room-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             loadRooms();
             setInterval(loadRooms, 2 * 60 * 1000);
         });
     </script>
 </body>
-
 </html>
