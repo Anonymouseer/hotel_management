@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solara Hotel | Login & Sign Up</title>
+  <link rel="icon" type="image/x-icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #c6a969;
+      --dark: #0f172a;
+      --light: #f8fafc;
+    }
+
+    body { font-family: 'Open Sans', sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    .gradient-primary { 
+      background: linear-gradient(to right, var(--secondary), var(--primary)); 
+    }
+    .gradient-primary:hover { 
+      background: linear-gradient(to right, var(--primary), var(--secondary)); 
+    }
+
+    .auth-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .input-field {
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 54, 93, 0.1);
+    }
+
+    .toggle-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+      position: relative;
+    }
+
+    .toggle-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+
+    .bg-overlay {
+      background: linear-gradient(135deg, rgba(26, 54, 93, 0.8) 0%, rgba(198, 169, 105, 0.6) 100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Background Image -->
+<div class="fixed inset-0 z-0">
+  <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+       alt="Luxury Hotel" class="w-full h-full object-cover">
+  <div class="absolute inset-0 bg-overlay"></div>
+</div>
+
+<!-- Auth Container -->
+<div class="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+  <div class="auth-container w-full max-w-md rounded-3xl shadow-2xl p-8 md:p-10">
+    
+    <!-- Logo & Header -->
+    <div class="text-center mb-8">
+      <div class="flex items-center justify-center mb-4">
+        <div class="w-12 h-12 gradient-primary rounded-full flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+      </div>
+      <h1 class="font-display text-3xl font-bold text-gray-800 mb-2">Solara Hotel</h1>
+      <p class="text-gray-600">Luxury Redefined</p>
+    </div>
+
+    <!-- Toggle Buttons -->
+    <div class="flex justify-center gap-8 mb-8 border-b border-gray-200 pb-2">
+      <button id="loginToggle" class="toggle-btn active text-lg pb-2">Login</button>
+      <button id="signupToggle" class="toggle-btn text-lg pb-2 text-gray-500">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="space-y-5 relative">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+        <input type="email" name="email" required
+               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+               placeholder="your@email.com">
+      </div>
+
+      <div class="relative">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+        <input type="password" name="password" required id="loginPassword"
+               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+               placeholder="••••••••">
+        <button type="button" id="toggleLoginPassword" 
+                class="absolute right-3 top-2/3 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5
+                   c4.477 0 8.268 2.943 9.542 7
+                   -1.274 4.057-5.065 7-9.542 7
+                   -4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between text-sm">
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-2 rounded">
+          <span class="text-gray-600">Remember me</span>
+        </label>
+        <a href="#" class="text-blue-900 hover:text-yellow-600 transition-colors">Forgot Password?</a>
+      </div>
+
+      <button type="submit" 
+              class="w-full gradient-primary text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+        Sign In
+      </button>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="space-y-5 hidden">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+          <input type="text" name="firstName" required
+                 class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+                 placeholder="First Name">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+          <input type="text" name="lastName" required
+                 class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+                 placeholder="Last Name">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+        <input type="email" name="email" required
+               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+               placeholder="your@email.com">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+        <input type="tel" name="phone"
+               class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+               placeholder="+63 XXX XXX XXXX">
+      </div>
+
+      <div class="relative">
+  <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+  <input type="password" name="password" required id="signupPassword"
+         class="input-field w-full pr-10 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+         placeholder="••••••••">
+  <button type="button" id="toggleSignupPassword" 
+          class="absolute right-3 top-2/3 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+    <!-- default eye open -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+               4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  </button>
+</div>
+
+<div class="relative">
+  <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+  <input type="password" name="confirmPassword" required id="confirmPassword"
+         class="input-field w-full pr-10 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+         placeholder="••••••••">
+  <button type="button" id="toggleConfirmPassword"
+          class="absolute right-3 top-2/3 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+               4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  </button>
+</div>
+
+      <div class="flex items-start">
+        <input type="checkbox" required class="mt-1 mr-2 rounded">
+        <span class="text-sm text-gray-600">I agree to the Terms of Service and Privacy Policy</span>
+      </div>
+
+      <button type="submit" 
+              class="w-full gradient-primary text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+        Create Account
+      </button>
+    </form>
+
+    <!-- Divider -->
+    <div class="mt-6 text-center">
+      <p class="text-sm text-gray-500">
+        <a href="webpage.php" class="text-blue-900 hover:text-yellow-600 transition-colors font-medium">
+          ← Back to Home
+        </a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const loginToggle = document.getElementById('loginToggle');
+  const signupToggle = document.getElementById('signupToggle');
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+
+  // Toggle between forms
+  loginToggle.addEventListener('click', () => {
+    loginToggle.classList.add('active');
+    signupToggle.classList.remove('active');
+    loginForm.classList.remove('hidden');
+    signupForm.classList.add('hidden');
+  });
+
+  signupToggle.addEventListener('click', () => {
+    signupToggle.classList.add('active');
+    loginToggle.classList.remove('active');
+    signupForm.classList.remove('hidden');
+    loginForm.classList.add('hidden');
+  });
+
+  // Handle Login Form
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+    try {
+      const response = await fetch('login.php', { method: 'POST', body: formData });
+      const data = await response.json();
+      if (data.success) {
+        window.location.href = 'booking.html';
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+      console.error('Login error:', error);
+    }
+  });
+
+  // Handle Signup Form
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const password = signupForm.password.value;
+    const confirmPassword = signupForm.confirmPassword.value;
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    const formData = new FormData(signupForm);
+    try {
+      const response = await fetch('register.php', { method: 'POST', body: formData });
+      const data = await response.json();
+      if (data.success) {
+        alert(data.message);
+        loginToggle.click();
+        loginForm.email.value = signupForm.email.value;
+        signupForm.reset();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+      console.error('Registration error:', error);
+    }
+  });
+
+  // Toggle password visibility with eye icon switch
+function setupPasswordToggle(inputId, buttonId) {
+  const input = document.getElementById(inputId);
+  const button = document.getElementById(buttonId);
+
+  const eyeOpen = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+               4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>`;
+
+  const eyeOff = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.964 
+               9.964 0 012.215-3.568M6.223 6.223A9.955 9.955 0 0112 5c4.477 0 8.268 
+               2.943 9.542 7a9.953 9.953 0 01-4.043 4.882M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 3l18 18" />
+    </svg>`;
+
+  button.addEventListener('click', () => {
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    button.innerHTML = show ? eyeOff : eyeOpen;
+  });
+}
+
+// Apply to both password fields
+setupPasswordToggle('signupPassword', 'toggleSignupPassword');
+setupPasswordToggle('confirmPassword', 'toggleConfirmPassword');
+setupPasswordToggle('loginPassword', 'toggleLoginPassword');
+
+
+</script>
+
+</body>
+</html>
