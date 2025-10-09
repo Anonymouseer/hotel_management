@@ -1,22 +1,227 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Check-in | Solara Hotel</title>
-
-    <link rel="stylesheet" href="reservation.css">
-    <link rel="shortcut icon" href="images/logo-header.png" type="image/x-icon">
-
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #c6a969;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .bg-primary {
+            background-color: var(--primary);
+        }
+        
+        .text-secondary {
+            color: var(--secondary);
+        }
+        
+        .bg-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .bg-dark {
+            background-color: var(--dark);
+        }
+        
+        .hover\:bg-primary:hover {
+            background-color: var(--primary);
+        }
+        
+        .hover\:text-primary:hover {
+            color: var(--primary);
+        }
+        
+        .hover\:text-secondary:hover {
+            color: var(--secondary);
+        }
+        
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+        }
+        
+        .gradient-primary:hover {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-item:hover {
+            background-color: rgba(198, 169, 105, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.75rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .pending-checkin {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .pricing-summary {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
 
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .popup-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .popup-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .popup-content::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .popup-content::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .pending-checkin-item {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .pending-checkin-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .pending-checkins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .room-option {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .room-option:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
-
 <body>
     <!-- Header -->
     <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
@@ -31,7 +236,7 @@
                         <p class="text-sm text-gray-600">Guest Check-in</p>
                     </div>
                 </div>
-
+                
                 <div class="flex items-center space-x-4">
                     <div class="relative">
                         <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
@@ -39,7 +244,7 @@
                             <span class="notification-badge">3</span>
                         </button>
                     </div>
-
+                    
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
                             <p class="text-sm font-medium text-gray-900">Maria Santos</p>
@@ -59,8 +264,7 @@
         <div class="fixed left-0 top-20 h-full w-64 bg-white shadow-lg overflow-y-auto z-40">
             <div class="p-6">
                 <nav class="space-y-2">
-                    <a href="frontdesk.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="frontdesk.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="home" class="h-5 w-5"></i>
                         <span>Dashboard</span>
                     </a>
@@ -68,38 +272,35 @@
                         <i data-feather="log-in" class="h-5 w-5"></i>
                         <span>Check-in</span>
                     </a>
-                    <a href="checkout.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="checkout.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="log-out" class="h-5 w-5"></i>
                         <span>Check-out</span>
                     </a>
-                    <a href="reservation.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="reservation.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="calendar" class="h-5 w-5"></i>
                         <span>Reservations</span>
                     </a>
-                    <a href="rooms.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="rooms.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="key" class="h-5 w-5"></i>
                         <span>Room Status</span>
                     </a>
-                    <a href="guests.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="guests.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="users" class="h-5 w-5"></i>
                         <span>Guest Directory</span>
                     </a>
-                    <a href="billing.php"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="billing.php" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="credit-card" class="h-5 w-5"></i>
                         <span>Billing</span>
                     </a>
-                    <a href="reports.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="reports.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="bar-chart" class="h-5 w-5"></i>
                         <span>Reports</span>
                     </a>
-                    <a href="maintenance.php"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="index.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="briefcase" class="h-5 w-5"></i>
+                        <span>Channel Management</span>
+                    </a>
+                    <a href="maintenance.php" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="tool" class="h-5 w-5"></i>
                         <span>Maintenance</span>
                     </a>
@@ -121,12 +322,11 @@
                         <h3 class="text-xl font-semibold text-primary">Pending Check-ins</h3>
                         <p class="text-sm text-gray-600">Today's expected arrivals</p>
                     </div>
-                    <button onclick="loadFromReservations()"
-                        class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                    <button onclick="loadFromReservations()" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
                         Load from Reservations
                     </button>
                 </div>
-
+                
                 <div id="pending-checkins">
                     <div class="text-center py-12 text-gray-500">
                         <i data-feather="clock" class="h-16 w-16 mx-auto mb-4 text-gray-300"></i>
@@ -170,50 +370,43 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <form class="space-y-6" id="checkin-form">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Confirmation Number</label>
-                            <input type="text" id="confirmation-number" placeholder="Enter confirmation #"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="text" id="confirmation-number" placeholder="Enter confirmation #" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Guest Name</label>
-                            <input type="text" id="guest-name" placeholder="Full name"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="text" id="guest-name" placeholder="Full name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                     </div>
-
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                            <input type="email" id="guest-email" placeholder="guest@email.com"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="email" id="guest-email" placeholder="guest@email.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                            <input type="tel" id="guest-phone" placeholder="+63 9XX XXX XXXX"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="tel" id="guest-phone" placeholder="+63 9XX XXX XXXX" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                     </div>
-
+                    
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Room Number <span id="room-loading" class="text-xs text-gray-500">(Loading...)</span>
                             </label>
-                            <select id="room-number"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                disabled>
+                            <select id="room-number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" disabled>
                                 <option value="">Select Room</option>
                             </select>
                             <p class="text-xs text-gray-500 mt-1" id="room-hint">Available rooms for selected type</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Number of Guests</label>
-                            <select id="guest-count"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <select id="guest-count" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                                 <option>1 Guest</option>
                                 <option>2 Guests</option>
                                 <option>3 Guests</option>
@@ -225,30 +418,23 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
-                            <input type="text" id="duration" placeholder="3 nights"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="text" id="duration" placeholder="3 nights" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                     </div>
-
+                    
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Special Requests</label>
-                        <textarea rows="3" id="special-requests" placeholder="Any special requests or notes..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+                        <textarea rows="3" id="special-requests" placeholder="Any special requests or notes..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
                     </div>
-
+                    
                     <div class="flex space-x-4 pt-4 border-t">
-                        <button type="submit"
-                            class="gradient-primary text-white px-8 py-3 rounded-lg font-medium transition-all transform hover:scale-105">
+                        <button type="submit" class="gradient-primary text-white px-8 py-3 rounded-lg font-medium transition-all transform hover:scale-105">
                             Complete Check-in
                         </button>
-                        <button type="button"
-                            class="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-50"
-                            onclick="clearForm()">
+                        <button type="button" class="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-50" onclick="clearForm()">
                             Clear Form
                         </button>
-                        <button type="button"
-                            class="bg-gray-500 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-600"
-                            onclick="closeGuestPopup()">
+                        <button type="button" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-600" onclick="closeGuestPopup()">
                             Cancel
                         </button>
                     </div>
@@ -269,14 +455,14 @@
             try {
                 const response = await fetch(`get_available_rooms.php?room_type=${encodeURIComponent(roomType)}`);
                 const result = await response.json();
-
+                
                 if (!result.success) {
                     throw new Error(result.error || 'Failed to load rooms');
                 }
-
+                
                 availableRooms = result.data || [];
                 updateRoomDropdown();
-
+                
             } catch (error) {
                 console.error('Error loading available rooms:', error);
                 alert('Error loading available rooms: ' + error.message);
@@ -288,9 +474,9 @@
             const roomSelect = document.getElementById('room-number');
             const roomLoading = document.getElementById('room-loading');
             const roomHint = document.getElementById('room-hint');
-
+            
             roomSelect.innerHTML = '<option value="">Select Room</option>';
-
+            
             if (availableRooms.length === 0) {
                 roomSelect.innerHTML += '<option value="" disabled>No rooms available</option>';
                 roomHint.textContent = 'No available rooms for this type';
@@ -304,31 +490,31 @@
                     option.dataset.roomId = room.id;
                     roomSelect.appendChild(option);
                 });
-
+                
                 roomHint.textContent = `${availableRooms.length} room${availableRooms.length !== 1 ? 's' : ''} available`;
                 roomHint.classList.remove('text-red-500');
                 roomSelect.disabled = false;
             }
-
+            
             roomLoading.style.display = 'none';
         }
 
         async function loadFromReservations() {
             try {
                 const response = await fetch('get_reservations.php');
-
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
+                
                 const result = await response.json();
-
+                
                 if (result.success === false) {
                     throw new Error(result.error || 'Unknown error from server');
                 }
-
+                
                 const data = result.data || result;
-
+                
                 if (!data || data.length === 0) {
                     console.log('No reservations found for today');
                     return;
@@ -336,7 +522,7 @@
 
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
-
+                
                 let todayReservations = data.filter(reservation => {
                     const checkInDate = new Date(reservation.check_in);
                     checkInDate.setHours(0, 0, 0, 0);
@@ -353,7 +539,7 @@
                 });
 
                 console.log(`Loaded ${todayReservations.length} pending check-ins for today`);
-
+                
             } catch (error) {
                 console.error('Error loading reservations:', error);
                 alert('Error loading reservations: ' + error.message);
@@ -362,9 +548,9 @@
 
         function createPendingCheckin(reservation) {
             console.log('Creating pending check-in for reservation:', reservation);
-
+            
             const pendingId = 'pending_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-
+            
             const checkIn = new Date(reservation.check_in);
             const checkOut = new Date(reservation.check_out);
             const diffTime = Math.abs(checkOut - checkIn);
@@ -384,26 +570,26 @@
                 total_price: reservation.total_price || '0.00',
                 special_requests: reservation.special_requests || ''
             };
-
+            
             pendingCheckIns.set(pendingId, reservationObj);
-
+            
             const pendingContainer = document.getElementById('pending-checkins');
-
+            
             if (!pendingContainer) {
                 console.error('Pending checkins container not found!');
                 return;
             }
-
+            
             const emptyMessage = pendingContainer.querySelector('.text-center.py-12');
             if (emptyMessage) {
                 emptyMessage.remove();
-
+                
                 const gridContainer = document.createElement('div');
                 gridContainer.className = 'pending-checkins-grid';
                 gridContainer.id = 'pending-checkins-grid';
                 pendingContainer.appendChild(gridContainer);
             }
-
+            
             let gridContainer = pendingContainer.querySelector('#pending-checkins-grid');
             if (!gridContainer) {
                 gridContainer = document.createElement('div');
@@ -411,11 +597,11 @@
                 gridContainer.id = 'pending-checkins-grid';
                 pendingContainer.appendChild(gridContainer);
             }
-
+            
             const reservationCard = document.createElement('div');
             reservationCard.classList.add('pending-checkin-item', 'pending-checkin');
             reservationCard.setAttribute('data-pending-id', pendingId);
-
+            
             reservationCard.innerHTML = `
                 <div class="flex justify-between items-start mb-3">
                     <h4 class="font-semibold text-gray-800">${reservationObj.guest_name}</h4>
@@ -440,7 +626,7 @@
             `;
 
             gridContainer.appendChild(reservationCard);
-
+            
             feather.replace();
         }
 
@@ -461,7 +647,7 @@
 
         async function editPendingCheckin(buttonElement, pendingId) {
             const reservation = pendingCheckIns.get(pendingId);
-
+            
             if (!reservation) {
                 console.error('Reservation data not found');
                 return;
@@ -480,7 +666,7 @@
             document.getElementById('summary-duration').textContent = reservation.duration || '-';
             document.getElementById('summary-guests').textContent = `${reservation.adults || 1} Adults + ${reservation.children || 0} Children`;
             document.getElementById('summary-total').textContent = `₱${reservation.total_price || '0.00'}`;
-
+            
             // Fill the form with reservation data
             document.getElementById('confirmation-number').value = reservation.confirmation || '';
             document.getElementById('guest-name').value = reservation.guest_name || '';
@@ -488,13 +674,13 @@
             document.getElementById('guest-phone').value = reservation.guest_phone || '';
             document.getElementById('duration').value = reservation.duration || '';
             document.getElementById('special-requests').value = reservation.special_requests || '';
-
+            
             // Set guest count
             const guestSelect = document.getElementById('guest-count');
             const totalGuests = parseInt(reservation.adults || 1) + parseInt(reservation.children || 0);
             let guestOption = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
             guestSelect.value = guestOption;
-
+            
             // Update guest breakdown
             document.getElementById('guest-breakdown').textContent = `${reservation.adults || 1} Adult${(reservation.adults || 1) > 1 ? 's' : ''} + ${reservation.children || 0} Child${(reservation.children || 0) !== 1 ? 'ren' : ''}`;
 
@@ -511,22 +697,22 @@
 
             const card = buttonElement.closest('.pending-checkin-item');
             const pendingId = card.getAttribute('data-pending-id');
-
+            
             if (pendingId) {
                 pendingCheckIns.delete(pendingId);
             }
-
+            
             card.style.transition = 'all 0.5s ease';
             card.style.opacity = '0';
             card.style.transform = 'translateX(20px)';
-
+            
             setTimeout(() => {
                 card.remove();
-
+                
                 const pendingContainer = document.getElementById('pending-checkins');
                 const gridContainer = pendingContainer.querySelector('#pending-checkins-grid');
                 const remainingCards = gridContainer ? gridContainer.querySelectorAll('.pending-checkin-item') : [];
-
+                
                 if (remainingCards.length === 0) {
                     if (gridContainer) {
                         gridContainer.remove();
@@ -564,13 +750,13 @@
                     },
                     body: JSON.stringify(formData)
                 });
-
+                
                 const result = await response.json();
-
+                
                 if (!result.success) {
                     throw new Error(result.error || 'Failed to process check-in');
                 }
-
+                
                 return true;
             } catch (error) {
                 console.error('Error processing check-in:', error);
@@ -582,18 +768,18 @@
             const card = document.querySelector(`[data-pending-id="${pendingId}"]`);
             if (card) {
                 pendingCheckIns.delete(pendingId);
-
+                
                 card.style.transition = 'all 0.5s ease';
                 card.style.opacity = '0';
                 card.style.transform = 'translateX(20px)';
-
+                
                 setTimeout(() => {
                     card.remove();
-
+                    
                     const pendingContainer = document.getElementById('pending-checkins');
                     const gridContainer = pendingContainer.querySelector('#pending-checkins-grid');
                     const remainingCards = gridContainer ? gridContainer.querySelectorAll('.pending-checkin-item') : [];
-
+                    
                     if (remainingCards.length === 0) {
                         if (gridContainer) {
                             gridContainer.remove();
@@ -612,22 +798,22 @@
             }
         }
 
-        document.getElementById('checkin-form').addEventListener('submit', async function (e) {
+        document.getElementById('checkin-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-
+            
             const roomSelect = document.getElementById('room-number');
             const selectedOption = roomSelect.options[roomSelect.selectedIndex];
             const roomId = selectedOption.dataset.roomId;
             const pendingId = this.dataset.pendingId;
-
+            
             if (!roomSelect.value) {
                 alert('Please select a room number');
                 return;
             }
-
+            
             // Get the reservation data to extract pricing info
             const reservation = pendingCheckIns.get(pendingId);
-
+            
             const formData = {
                 confirmation_number: document.getElementById('confirmation-number').value,
                 guest_name: document.getElementById('guest-name').value,
@@ -653,11 +839,11 @@
                 const success = await saveCheckIn(formData);
                 if (success) {
                     alert('Check-in completed successfully! Room ' + roomSelect.value + ' has been assigned.');
-
+                    
                     if (pendingId) {
                         removeCompletedCheckin(pendingId);
                     }
-
+                    
                     closeGuestPopup();
                 }
             } catch (error) {
@@ -665,13 +851,13 @@
             }
         });
 
-        document.getElementById('guestFormPopup').addEventListener('click', function (e) {
+        document.getElementById('guestFormPopup').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeGuestPopup();
             }
         });
 
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeGuestPopup();
             }
@@ -691,11 +877,10 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             feather.replace();
             checkForPendingReservation();
         });
     </script>
 </body>
-
 </html>
