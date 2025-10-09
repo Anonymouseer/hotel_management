@@ -1,22 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports | Solara Hotel</title>
-
-    <link rel="stylesheet" href="reservation.css">
-    <link rel="shortcut icon" href="images/logo-header.png" type="image/x-icon">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
-        rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #c6a969;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .bg-primary {
+            background-color: var(--primary);
+        }
+        
+        .hover\:bg-primary:hover {
+            background-color: var(--primary);
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+        }
+        
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-item:hover {
+            background-color: rgba(198, 169, 105, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.75rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 20px;
+        }
+    </style>
 </head>
-
 <body>
     <!-- Header -->
     <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
@@ -31,7 +121,7 @@
                         <p class="text-sm text-gray-600">Checkout Reports</p>
                     </div>
                 </div>
-
+                
                 <div class="flex items-center space-x-4">
                     <div class="relative">
                         <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
@@ -39,7 +129,7 @@
                             <span class="notification-badge">3</span>
                         </button>
                     </div>
-
+                    
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
                             <p class="text-sm font-medium text-gray-900">Maria Santos</p>
@@ -59,48 +149,43 @@
         <div class="fixed left-0 top-20 h-full w-64 bg-white shadow-lg overflow-y-auto">
             <div class="p-6">
                 <nav class="space-y-2">
-                    <a href="frontdesk.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="frontdesk.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="home" class="h-5 w-5"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="checkin.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="checkin.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="log-in" class="h-5 w-5"></i>
                         <span>Check-in</span>
                     </a>
-                    <a href="checkout.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="checkout.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="log-out" class="h-5 w-5"></i>
                         <span>Check-out</span>
                     </a>
-                    <a href="reservation.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="reservation.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="calendar" class="h-5 w-5"></i>
                         <span>Reservations</span>
                     </a>
-                    <a href="rooms.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="rooms.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="key" class="h-5 w-5"></i>
                         <span>Room Status</span>
                     </a>
-                    <a href="guests.html"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="guests.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="users" class="h-5 w-5"></i>
                         <span>Guest Directory</span>
                     </a>
-                    <a href="#"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="credit-card" class="h-5 w-5"></i>
                         <span>Billing</span>
                     </a>
-                    <a href="reports.html"
-                        class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium">
+                    <a href="reports.html" class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium">
                         <i data-feather="bar-chart" class="h-5 w-5"></i>
                         <span>Reports</span>
                     </a>
-                    <a href="#"
-                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                    <a href="index.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="briefcase" class="h-5 w-5"></i>
+                        <span>Channel Management</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
                         <i data-feather="tool" class="h-5 w-5"></i>
                         <span>Maintenance</span>
                     </a>
@@ -111,163 +196,82 @@
         <!-- Main Content -->
         <div class="flex-1 ml-64 p-8">
             <div class="mb-8">
-                <h1 class="text-3xl font-display font-bold text-primary mb-2">Reports Dashboard</h1>
-                <p class="text-gray-600">Generate and review hotel performance reports</p>
+                <h1 class="text-3xl font-display font-bold text-primary mb-2">Checkout Reports</h1>
+                <p class="text-gray-600">View checkout history and guest records</p>
             </div>
 
-            <!-- Report Tabs -->
-            <div class="mb-6">
-                <div class="border-b border-gray-200">
-                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                        <button onclick="showReport('checkout')"
-                            class="report-tab active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary text-primary">
-                            Checkout & Revenue
-                        </button>
-                        <button onclick="showReport('food_sales')"
-                            class="report-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Food Sales
-                        </button>
-                    </nav>
-                </div>
-            </div>
-
-            <!-- Checkout Report Content -->
-            <div id="checkout-report" class="report-content active">
-                <!-- Summary Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600">Total Checkouts</p>
-                                <p class="text-3xl font-bold text-primary" id="total-checkouts">0</p>
-                            </div>
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <i data-feather="check-circle" class="h-6 w-6 text-green-600"></i>
-                            </div>
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Total Checkouts</p>
+                            <p class="text-3xl font-bold text-primary" id="total-checkouts">0</p>
                         </div>
-                    </div>
-
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600">Today's Checkouts</p>
-                                <p class="text-3xl font-bold text-primary" id="today-checkouts">0</p>
-                            </div>
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <i data-feather="calendar" class="h-6 w-6 text-blue-600"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600">Total Revenue</p>
-                                <p class="text-3xl font-bold text-primary" id="total-revenue">₱0</p>
-                            </div>
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <i data-feather="dollar-sign" class="h-6 w-6 text-purple-600"></i>
-                            </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i data-feather="check-circle" class="h-6 w-6 text-green-600"></i>
                         </div>
                     </div>
                 </div>
-
-                <!-- Checkout History Table -->
-                <div class="card p-6 overflow-x-auto">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-primary">Checkout History</h3>
-                        <button onclick="loadCheckouts()"
-                            class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
-                            <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
-                            Refresh
-                        </button>
+                
+                <div class="card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Today's Checkouts</p>
+                            <p class="text-3xl font-bold text-primary" id="today-checkouts">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i data-feather="calendar" class="h-6 w-6 text-blue-600"></i>
+                        </div>
                     </div>
-                    <table class="w-full border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100 text-left text-sm">
-                                <th class="p-3">Guest Name</th>
-                                <th class="p-3">Room</th>
-                                <th class="p-3">Check-in</th>
-                                <th class="p-3">Check-out</th>
-                                <th class="p-3">Duration</th>
-                                <th class="p-3">Amount</th>
-                                <th class="p-3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="checkouts-table">
-                            <tr>
-                                <td colspan="7" class="p-6 text-center text-gray-500">
-                                    <div class="flex items-center justify-center">
-                                        <i data-feather="loader" class="animate-spin h-5 w-5 mr-2"></i>
-                                        Loading checkout reports...
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                </div>
+                
+                <div class="card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+                            <p class="text-3xl font-bold text-primary" id="total-revenue">₱0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i data-feather="dollar-sign" class="h-6 w-6 text-purple-600"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Food Sales Report Content (Placeholder) -->
-            <div id="food_sales-report" class="report-content" style="display: none;">
-                <!-- Summary Cards for Food Sales -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600">Total Sales Revenue</p>
-                                <p class="text-3xl font-bold text-primary" id="food-total-revenue">₱0</p>
-                            </div>
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <i data-feather="dollar-sign" class="h-6 w-6 text-green-600"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600">Total Items Sold</p>
-                                <p class="text-3xl font-bold text-primary" id="food-total-items">0</p>
-                            </div>
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <i data-feather="shopping-cart" class="h-6 w-6 text-blue-600"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600">Total Transactions</p>
-                                <p class="text-3xl font-bold text-primary" id="food-total-transactions">0</p>
-                            </div>
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <i data-feather="file-text" class="h-6 w-6 text-purple-600"></i>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Checkout History Table -->
+            <div class="card p-6 overflow-x-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-primary">Checkout History</h3>
+                    <button onclick="loadCheckouts()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
+                        <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
+                        Refresh
+                    </button>
                 </div>
-
-                <!-- Food Sales History Table -->
-                <div class="card p-6 overflow-x-auto">
-                    <h3 class="text-lg font-semibold text-primary mb-4">Sales History</h3>
-                    <table class="w-full border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100 text-left text-sm">
-                                <th class="p-3">Transaction ID</th>
-                                <th class="p-3">Customer/Room</th>
-                                <th class="p-3">Date</th>
-                                <th class="p-3">Items</th>
-                                <th class="p-3">Total Amount</th>
-                                <th class="p-3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="food-sales-table">
-                            <!-- Data will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-sm">
+                           <th class="p-3">Guest Name</th>
+                           <th class="p-3">Room</th>
+                           <th class="p-3">Check-in</th>
+                           <th class="p-3">Check-out</th>
+                           <th class="p-3">Duration</th>
+                           <th class="p-3">Amount</th>
+                           <th class="p-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="checkouts-table">
+                        <tr>
+                            <td colspan="7" class="p-6 text-center text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    <i data-feather="loader" class="animate-spin h-5 w-5 mr-2"></i>
+                                    Loading checkout reports...
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
         </div>
     </div>
 
@@ -349,6 +353,10 @@
                                 <span class="text-gray-600">Tax (12%)</span>
                                 <span class="font-medium" id="modal-tax">₱0.00</span>
                             </div>
+                            <div class="flex justify-between py-2 border-b">
+                                <span class="text-gray-600">AOTS Tax (15%)</span>
+                                <span class="font-medium" id="modal-aots-tax">₱0.00</span>
+                            </div>
                             <div class="flex justify-between py-2 bg-gray-50 rounded-lg px-3">
                                 <span class="font-bold text-primary">Total Amount</span>
                                 <span class="font-bold text-primary" id="modal-total">₱0.00</span>
@@ -376,29 +384,6 @@
     <script>
         feather.replace();
 
-        function showReport(reportId) {
-            // Hide all report content
-            document.querySelectorAll('.report-content').forEach(content => {
-                content.style.display = 'none';
-            });
-
-            // Deactivate all tabs
-            document.querySelectorAll('.report-tab').forEach(tab => {
-                tab.classList.remove('active', 'border-primary', 'text-primary');
-                tab.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-            });
-
-            // Show selected report and activate tab
-            document.getElementById(`${reportId}-report`).style.display = 'block';
-            const activeTab = event.target;
-            activeTab.classList.add('active', 'border-primary', 'text-primary');
-
-            // Load data for the selected report
-            if (reportId === 'food_sales') {
-                loadFoodSales();
-            }
-        }
-
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('en-US', {
@@ -408,159 +393,23 @@
             });
         }
 
-        function formatDateTime(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-
-        async function loadFoodSales() {
-            const tableBody = document.getElementById('food-sales-table');
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="p-6 text-center text-gray-500">
-                        <div class="flex items-center justify-center">
-                            <i data-feather="loader" class="animate-spin h-5 w-5 mr-2"></i>
-                            Loading food sales...
-                        </div>
-                    </td>
-                </tr>
-            `;
-            feather.replace();
-
-            try {
-                const response = await fetch('get_food_sales.php');
-                const result = await response.json();
-
-                if (!result.success) {
-                    throw new Error(result.error);
-                }
-
-                const sales = result.data;
-                const allItems = sales.flatMap(t => t.items);
-
-                // Update summary cards
-                const totalRevenue = allItems.reduce((sum, item) => sum + parseFloat(item.total_price), 0);
-                const totalItems = allItems.reduce((sum, item) => sum + parseInt(item.quantity), 0);
-                document.getElementById('food-total-revenue').textContent = `₱${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                document.getElementById('food-total-items').textContent = totalItems;
-                document.getElementById('food-total-transactions').textContent = sales.length;
-
-                if (sales.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">No food sales records found.</td></tr>`;
-                    return;
-                }
-
-                let rows = "";
-                sales.forEach(transaction => {
-                    const totalItemsInTransaction = transaction.items.reduce((sum, item) => sum + parseInt(item.quantity), 0);
-                    rows += `
-                        <tr class="border-b text-sm hover:bg-gray-50 transition-colors cursor-pointer" onclick='showFoodSaleDetails(${JSON.stringify(transaction).replace(/'/g, "&#39;")})'>
-                            <td class="p-3 font-medium text-primary">${transaction.transaction_id}</td>
-                            <td class="p-3">${transaction.customer_name || 'N/A'}</td>
-                            <td class="p-3">${formatDateTime(transaction.sale_date)}</td>
-                            <td class="p-3">${totalItemsInTransaction}</td>
-                            <td class="p-3 font-semibold">₱${parseFloat(transaction.total_transaction_price).toFixed(2)}</td>
-                            <td class="p-3">
-                                <button class="text-primary hover:text-opacity-80 transition-colors" onclick='event.stopPropagation(); showFoodSaleDetails(${JSON.stringify(transaction).replace(/'/g, "&#39;")})'>
-                                    <i data-feather="eye" class="h-4 w-4"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                tableBody.innerHTML = rows;
-                feather.replace();
-
-            } catch (error) {
-                console.error('Error loading food sales:', error);
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="p-6 text-center text-red-500">
-                            <div class="flex flex-col items-center">
-                                <i data-feather="alert-circle" class="h-8 w-8 mb-2"></i>
-                                <p class="font-medium">Error loading sales data</p>
-                                <p class="text-sm">${error.message}</p>
-                                <button onclick="loadFoodSales()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-xs">
-                                    Try Again
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                feather.replace();
-            }
-        }
-
-        function showFoodSaleDetails(transaction) {
-            // Use the existing detail modal and repurpose it
-            const modal = document.getElementById('detail-modal');
-            const modalHeader = modal.querySelector('.modal-content > div > .flex.justify-between');
-            modalHeader.querySelector('h2').textContent = 'Food Sale Details';
-
-            let itemsHtml = transaction.items.map(item => `
-                <div class="flex justify-between py-2 border-b">
-                    <span>${item.item_name} (x${item.quantity})</span>
-                    <span class="font-medium">₱${parseFloat(item.total_price).toFixed(2)}</span>
-                </div>
-            `).join('');
-
-            const modalContent = `
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-lg font-semibold text-primary mb-3">Transaction Information</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><p class="text-sm text-gray-600">Transaction ID</p><p class="font-medium">${transaction.transaction_id}</p></div>
-                            <div><p class="text-sm text-gray-600">Customer</p><p class="font-medium">${transaction.customer_name}</p></div>
-                            <div><p class="text-sm text-gray-600">Date</p><p class="font-medium">${formatDateTime(transaction.sale_date)}</p></div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-primary mb-3">Items Ordered</h3>
-                        <div class="space-y-2">
-                            ${itemsHtml}
-                            <div class="flex justify-between py-2 bg-gray-50 rounded-lg px-3 mt-2">
-                                <span class="font-bold text-primary">Total Amount</span>
-                                <span class="font-bold text-primary">₱${parseFloat(transaction.total_transaction_price).toFixed(2)}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Find the content area (the div with class 'space-y-6') and replace its content
-            const contentArea = modal.querySelector('.space-y-6');
-            if (contentArea) {
-                contentArea.innerHTML = modalContent;
-            }
-
-            modal.classList.add('active');
-            feather.replace();
-        }
-
         async function loadCheckouts() {
             try {
                 const response = await fetch('get_checkout_history.php');
-
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
+                
                 const result = await response.json();
                 const tableBody = document.getElementById('checkouts-table');
-
+                
                 if (result.success === false) {
                     throw new Error(result.error || 'Unknown error from server');
                 }
-
+                
                 const data = result.data || result;
-
+                
                 if (!data || data.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
@@ -579,11 +428,11 @@
 
                 // Update summary cards
                 document.getElementById('total-checkouts').textContent = data.length;
-
+                
                 const today = new Date().toDateString();
                 const todayCount = data.filter(c => new Date(c.checkout_date || c.check_out).toDateString() === today).length;
                 document.getElementById('today-checkouts').textContent = todayCount;
-
+                
                 const totalRevenue = data.reduce((sum, c) => sum + parseFloat(c.total_price || 0), 0);
                 document.getElementById('total-revenue').textContent = `₱${totalRevenue.toFixed(2)}`;
 
@@ -622,7 +471,7 @@
 
                 tableBody.innerHTML = rows;
                 feather.replace();
-
+                
             } catch (error) {
                 console.error('Error loading checkouts:', error);
                 document.getElementById('checkouts-table').innerHTML = `
@@ -644,54 +493,6 @@
         }
 
         function showDetails(checkout) {
-            // Restore the original modal structure for checkout details
-            const modal = document.getElementById('detail-modal');
-            modal.querySelector('h2').textContent = 'Checkout Details';
-            const contentWrapper = modal.querySelector('.modal-content > div');
-            contentWrapper.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-display font-bold text-primary">Checkout Details</h2>
-                    <button onclick="closeModal()" class="text-gray-600 hover:text-gray-900">
-                        <i data-feather="x" class="h-6 w-6"></i>
-                    </button>
-                </div>
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-lg font-semibold text-primary mb-3">Guest Information</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><p class="text-sm text-gray-600">Name</p><p class="font-medium" id="modal-name">-</p></div>
-                            <div><p class="text-sm text-gray-600">Confirmation</p><p class="font-medium" id="modal-confirmation">-</p></div>
-                            <div><p class="text-sm text-gray-600">Email</p><p class="font-medium" id="modal-email">-</p></div>
-                            <div><p class="text-sm text-gray-600">Phone</p><p class="font-medium" id="modal-phone">-</p></div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-primary mb-3">Stay Details</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><p class="text-sm text-gray-600">Room Type</p><p class="font-medium" id="modal-room-type">-</p></div>
-                            <div><p class="text-sm text-gray-600">Room Number</p><p class="font-medium" id="modal-room-number">-</p></div>
-                            <div><p class="text-sm text-gray-600">Check-in Date</p><p class="font-medium" id="modal-checkin">-</p></div>
-                            <div><p class="text-sm text-gray-600">Check-out Date</p><p class="font-medium" id="modal-checkout">-</p></div>
-                            <div><p class="text-sm text-gray-600">Duration</p><p class="font-medium" id="modal-duration">-</p></div>
-                            <div><p class="text-sm text-gray-600">Guests</p><p class="font-medium" id="modal-guests">-</p></div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-primary mb-3">Billing Summary</h3>
-                        <div class="space-y-2">
-                            <div class="flex justify-between py-2 border-b"><span class="text-gray-600">Room Charges</span><span class="font-medium" id="modal-charges">₱0.00</span></div>
-                            <div class="flex justify-between py-2 border-b"><span class="text-gray-600">Tax (12%)</span><span class="font-medium" id="modal-tax">₱0.00</span></div>
-                            <div class="flex justify-between py-2 bg-gray-50 rounded-lg px-3"><span class="font-bold text-primary">Total Amount</span><span class="font-bold text-primary" id="modal-total">₱0.00</span></div>
-                            <div class="flex justify-between py-2"><span class="text-gray-600">Payment Method</span><span class="font-medium" id="modal-payment">-</span></div>
-                        </div>
-                    </div>
-                    <div id="modal-notes-section" style="display: none;">
-                        <h3 class="text-lg font-semibold text-primary mb-3">Checkout Notes</h3>
-                        <div class="p-3 bg-gray-50 rounded-lg"><p id="modal-notes" class="text-sm text-gray-700">-</p></div>
-                    </div>
-                </div>
-            `;
-
             document.getElementById('modal-name').textContent = checkout.guest_name;
             document.getElementById('modal-confirmation').textContent = `SOL${checkout.id}`;
             document.getElementById('modal-email').textContent = checkout.guest_email || 'N/A';
@@ -700,33 +501,35 @@
             document.getElementById('modal-room-number').textContent = checkout.room_number || 'N/A';
             document.getElementById('modal-checkin').textContent = formatDate(checkout.check_in);
             document.getElementById('modal-checkout').textContent = formatDate(checkout.check_out);
-
+            
             const checkIn = new Date(checkout.check_in);
             const checkOut = new Date(checkout.check_out);
             const diffTime = Math.abs(checkOut - checkIn);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             document.getElementById('modal-duration').textContent = `${diffDays} night${diffDays > 1 ? 's' : ''}`;
-
+            
             const adults = checkout.adults || 1;
             const children = checkout.children || 0;
             document.getElementById('modal-guests').textContent = `${adults} Adult${adults > 1 ? 's' : ''}, ${children} Child${children !== 1 ? 'ren' : ''}`;
-
+            
             const charges = parseFloat(checkout.total_price || 0);
-            const tax = charges * 0.12;
-            const total = charges + tax;
-
+            const regularTax = charges * 0.12;
+            const aotsTax = charges * 0.15;
+            const total = charges + regularTax + aotsTax;
+            
             document.getElementById('modal-charges').textContent = `₱${charges.toFixed(2)}`;
-            document.getElementById('modal-tax').textContent = `₱${tax.toFixed(2)}`;
+            document.getElementById('modal-tax').textContent = `₱${regularTax.toFixed(2)}`;
+            document.getElementById('modal-aots-tax').textContent = `₱${aotsTax.toFixed(2)}`;
             document.getElementById('modal-total').textContent = `₱${total.toFixed(2)}`;
             document.getElementById('modal-payment').textContent = checkout.payment_method || 'N/A';
-
+            
             if (checkout.checkout_notes) {
                 document.getElementById('modal-notes-section').style.display = 'block';
                 document.getElementById('modal-notes').textContent = checkout.checkout_notes;
             } else {
                 document.getElementById('modal-notes-section').style.display = 'none';
             }
-
+            
             document.getElementById('detail-modal').classList.add('active');
             feather.replace();
         }
@@ -735,18 +538,17 @@
             document.getElementById('detail-modal').classList.remove('active');
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             loadCheckouts();
             setInterval(loadCheckouts, 5 * 60 * 1000);
         });
 
         // Close modal when clicking outside
-        document.getElementById('detail-modal').addEventListener('click', function (e) {
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
     </script>
 </body>
-
 </html>
