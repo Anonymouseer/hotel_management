@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Solara Hotel POS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+
+    <link rel="shortcut icon" href="foodimg/logo-header.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="background-blur"></div>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>Solara Hotel</h1>
+                    <p>Point of Sale System</p>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="navigation">
+                <ul>
+                    <li class="active"><a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i>
+                            <span>Dashboard</span></a></li>
+                    <li><a href="index.html" class="nav-item"><i class="fas fa-cash-register"></i> <span>Point of
+                                Sale</span></a></li>
+                    <li><a href="../customer_kiosk/index.html" target="_blank" class="nav-item"><i
+                                class="fas fa-tablet-alt"></i> <span>Customer Kiosk</span></a></li>
+                    <li><a href="../customer_display/index.html" target="_blank" class="nav-item"><i
+                                class="fas fa-desktop"></i> <span>Customer Display</span></a></li>
+                    <li><a href="settings/index.html" class="nav-item"><i class="fas fa-cog"></i>
+                            <span>Settings</span></a></li>
+                    <li><a href="help.html" target="_blank" class="nav-item"><i class="fas fa-question-circle"></i>
+                            <span>Help center</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="account-section">
+                <!-- Account section content from index.html -->
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="main-header-controls">
+                <button class="dark-mode-toggle" id="dark-mode-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+
+            <div class="main-header">
+                <h1>Dashboard</h1>
+                <p>Today's overview of your restaurant's performance.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon value"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-content">
+                        <h3 id="dashboard-total-revenue">₱0</h3>
+                        <p>Today's Revenue</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="stat-content">
+                        <h3 id="dashboard-total-orders">0</h3>
+                        <p>Today's Orders</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon low-stock"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stat-content">
+                        <h3 id="dashboard-low-stock">0</h3>
+                        <p>Low Stock Items</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon out-of-stock"><i class="fas fa-times-circle"></i></div>
+                    <div class="stat-content">
+                        <h3 id="dashboard-out-of-stock">0</h3>
+                        <p>Out of Stock Items</p>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Top Selling Items (Today)</h3>
+                    </div>
+                    <div class="list-container" id="dashboard-top-items">
+                        <div class="empty-state">
+                            <p>No sales data for today yet.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <div class="activity-list" id="dashboard-activity-feed">
+                        <div class="empty-state">
+                            <p>No recent activities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

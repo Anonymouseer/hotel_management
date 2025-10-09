@@ -1,0 +1,182 @@
+/* === Menu Management Specific Styles === */
+.main-header {
+    margin-bottom: 1rem;
+}
+
+.main-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.main-header p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.page-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-actions .search-input {
+    max-width: 350px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--surface-solid);
+}
+
+.data-table .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-sm {
+    padding: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.875rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background: var(--surface-solid);
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn-sm.edit:hover { color: var(--primary-color); }
+.btn-sm.delete:hover { color: var(--danger-color); }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label { font-weight: 500; font-size: 0.875rem; }
+.form-group input, .form-group textarea { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--background-color); }
+
+/* Fix for 3-column layout on pages without a right sidebar */
+.main-container > .main-content {
+    grid-column: 2 / 4;
+}
+
+.management-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+
+/* Product Image in Table */
+.data-table td.product-image-cell {
+    width: 80px;
+    padding: 0.5rem;
+}
+
+.data-table td.product-image-cell img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+/* Pagination Styles */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.pagination-btn {
+    background: var(--surface-solid);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination-btn:hover {
+    background: var(--background-color);
+}
+
+.pagination-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Status colors from main style.css */
+.order-status.in-stock {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--accent-color);
+}
+.order-status.low-stock {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+.order-status.out-of-stock {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+/* Sortable Table Header Styles */
+.data-table th.sortable {
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.data-table th.sortable:hover {
+    background-color: var(--background-color);
+}
+
+.data-table th.sortable::after {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f0dc"; /* fa-sort */
+    position: absolute;
+    right: 1rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.data-table th.sortable.sorted-asc::after { content: "\f0de"; /* fa-sort-up */ }
+.data-table th.sortable.sorted-desc::after { content: "\f0dd"; /* fa-sort-down */ }
+
+.management-grid .card {
+    background: var(--surface-solid);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+}
+.management-grid .card-header { padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+.management-grid .card-header h3 { font-size: 1.125rem; font-weight: 600; }
+
+.category-form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.category-form input { flex-grow: 1; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); }
+.category-form button { width: 2.25rem; height: 2.25rem; flex-shrink: 0; }
+
+.category-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0; }
+.category-list-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: var(--background-color); border-radius: var(--radius-sm); }
+.category-list-item .delete-category-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; }
+.category-list-item .delete-category-btn:hover { color: var(--danger-color); }

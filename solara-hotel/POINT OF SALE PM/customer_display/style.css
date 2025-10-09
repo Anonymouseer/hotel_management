@@ -1,0 +1,126 @@
+:root {
+    --primary-color: #2563eb;
+    --delivering-color: #8b5cf6;
+    --accent-color: #10b981;
+    --warning-color: #f59e0b;
+    --background-color: #f1f5f9;
+    --surface-color: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --radius-lg: 0.75rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.logo p {
+    color: var(--text-secondary);
+}
+
+.header-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.queue-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    height: calc(100vh - 120px);
+}
+
+.queue-column {
+    background-color: var(--surface-color);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+.queue-header {
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    text-align: center;
+}
+
+.queue-header h2 {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.queue-header.cooking { color: var(--warning-color); }
+.queue-header.delivering { color: var(--delivering-color); }
+.queue-header.ready { color: var(--accent-color); }
+
+.queue-list {
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-content: start;
+}
+
+.queue-card {
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+}
+
+.queue-card.ready-card {
+    animation: pulse 1.5s infinite;
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

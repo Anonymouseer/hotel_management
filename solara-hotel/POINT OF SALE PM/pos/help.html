@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Solara Hotel POS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="help.css">
+
+    <link rel="shortcut icon" href="foodimg/logo-header.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to POS</a>
+        <h1><i class="fas fa-question-circle"></i> Help Center</h1>
+
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="help-search" placeholder="Search for a topic...">
+        </div>
+        <div id="no-results">
+            <p>No topics found matching your search.</p>
+        </div>
+
+        <div class="topic">
+            <h2><i class="fas fa-cash-register"></i> Order Management</h2>
+            <h3>How to take a manual order?</h3>
+            <p>On the right sidebar, select the order type (Dine-in, Takeaway, Delivery). Enter the customer's name and
+                table/room number. Add items from the product list in the main content area.</p>
+
+            <h3>How to handle new orders from the Kiosk?</h3>
+            <p>New orders from the customer kiosk will automatically appear in the "Order Queues" tab. They will have a
+                "pending" status. Click on the order to view details.</p>
+        </div>
+
+        <div class="topic">
+            <h2><i class="fas fa-headset"></i> Customer Assistance</h2>
+            <h3>What to do when a "Help Request" notification appears?</h3>
+            <p>A notification will appear on the bottom-right of the screen indicating which customer or room needs
+                help. Please attend to them immediately.</p>
+        </div>
+
+        <div class="topic">
+            <h2><i class="fas fa-tasks"></i> System Management</h2>
+            <h3>How to manage products and inventory?</h3>
+            <p>Go to the "Management" tab in the POS. From there, you can access "Menu Management" to add or edit
+                products, and "Inventory" to update stock levels.</p>
+
+            <h3>How to view sales reports?</h3>
+            <p>In the "Management" tab, click on "Sales Reports". You can select a date range and generate a report to
+                see total revenue, top-selling items, and more.</p>
+        </div>
+
+        <div class="topic">
+            <h2><i class="fas fa-wrench"></i> Troubleshooting</h2>
+            <h3>The kiosk is not showing the menu.</h3>
+            <p>This usually means the product list in the POS is empty or has not been saved. Ensure that products are
+                correctly set up in the POS system.</p>
+        </div>
+
+        <div class="topic">
+            <h2><i class="fas fa-desktop"></i> Interface & Features</h2>
+            <h3>How to apply a discount?</h3>
+            <p>In the cart details on the right, you can enter a percentage in the "Discount (%)" field. Alternatively,
+                you can enter a valid promo code in the promo code section and click "Apply".</p>
+
+            <h3>How to enable Dark Mode?</h3>
+            <p>Click the moon/sun icon at the top right of the main content area to toggle between light and dark modes.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('help-search');
+            const topics = document.querySelectorAll('.topic');
+            const noResults = document.getElementById('no-results');
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                let visibleTopics = 0;
+
+                topics.forEach(topic => {
+                    const topicText = topic.textContent.toLowerCase();
+                    if (topicText.includes(searchTerm)) {
+                        topic.style.display = 'block';
+                        visibleTopics++;
+                    } else {
+                        topic.style.display = 'none';
+                    }
+                });
+
+                noResults.style.display = visibleTopics === 0 ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>

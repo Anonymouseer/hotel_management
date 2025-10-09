@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Check-in | Solara Hotel</title>
+
+    <link rel="stylesheet" href="reservation.css">
+    <link rel="shortcut icon" href="images/logo-header.png" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
+        <div class="px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+                        <i data-feather="home" class="text-white h-6 w-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-display text-2xl font-bold text-primary">Solara Hotel</span>
+                        <p class="text-sm text-gray-600">Guest Check-in</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-feather="bell" class="h-6 w-6 text-gray-600"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-gray-900">Maria Santos</p>
+                            <p class="text-xs text-gray-500">Front Desk Manager</p>
+                        </div>
+                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-white font-semibold">MS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex pt-20">
+        <!-- Sidebar -->
+        <div class="fixed left-0 top-20 h-full w-64 bg-white shadow-lg overflow-y-auto z-40">
+            <div class="p-6">
+                <nav class="space-y-2">
+                    <a href="frontdesk.html"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="home" class="h-5 w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium">
+                        <i data-feather="log-in" class="h-5 w-5"></i>
+                        <span>Check-in</span>
+                    </a>
+                    <a href="checkout.html"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="log-out" class="h-5 w-5"></i>
+                        <span>Check-out</span>
+                    </a>
+                    <a href="reservation.html"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="calendar" class="h-5 w-5"></i>
+                        <span>Reservations</span>
+                    </a>
+                    <a href="rooms.html"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="key" class="h-5 w-5"></i>
+                        <span>Room Status</span>
+                    </a>
+                    <a href="guests.html"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="users" class="h-5 w-5"></i>
+                        <span>Guest Directory</span>
+                    </a>
+                    <a href="billing.php"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="credit-card" class="h-5 w-5"></i>
+                        <span>Billing</span>
+                    </a>
+                    <a href="reports.html"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="bar-chart" class="h-5 w-5"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="maintenance.php"
+                        class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="tool" class="h-5 w-5"></i>
+                        <span>Maintenance</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 ml-64 p-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-display font-bold text-primary mb-2">Guest Check-in</h1>
+                <p class="text-gray-600">Process guest arrivals and room assignments</p>
+            </div>
+
+            <!-- Pending Check-ins in Main Area -->
+            <div class="card p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-xl font-semibold text-primary">Pending Check-ins</h3>
+                        <p class="text-sm text-gray-600">Today's expected arrivals</p>
+                    </div>
+                    <button onclick="loadFromReservations()"
+                        class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                        Load from Reservations
+                    </button>
+                </div>
+
+                <div id="pending-checkins">
+                    <div class="text-center py-12 text-gray-500">
+                        <i data-feather="clock" class="h-16 w-16 mx-auto mb-4 text-gray-300"></i>
+                        <p class="font-medium text-lg">No Pending Check-ins</p>
+                        <p class="text-sm">Click "Load from Reservations" to import today's arrivals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Overlay for Guest Information Form -->
+    <div class="popup-overlay" id="guestFormPopup">
+        <div class="popup-content">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <h3 class="text-xl font-semibold text-primary">Guest Check-in Details</h3>
+                    <button onclick="closeGuestPopup()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <i data-feather="x" class="h-5 w-5 text-gray-500"></i>
+                    </button>
+                </div>
+
+                <div class="pricing-summary" id="pricing-summary">
+                    <h4 class="font-semibold text-gray-800 mb-3">Booking Summary</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-gray-600">Room Type:</p>
+                            <p class="font-medium" id="summary-room-type">-</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Duration:</p>
+                            <p class="font-medium" id="summary-duration">-</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Guests:</p>
+                            <p class="font-medium" id="summary-guests">-</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Total Price:</p>
+                            <p class="font-bold text-primary text-lg" id="summary-total">₱0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="space-y-6" id="checkin-form">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirmation Number</label>
+                            <input type="text" id="confirmation-number" placeholder="Enter confirmation #"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Guest Name</label>
+                            <input type="text" id="guest-name" placeholder="Full name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="guest-email" placeholder="guest@email.com"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" id="guest-phone" placeholder="+63 9XX XXX XXXX"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Room Number <span id="room-loading" class="text-xs text-gray-500">(Loading...)</span>
+                            </label>
+                            <select id="room-number"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                disabled>
+                                <option value="">Select Room</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1" id="room-hint">Available rooms for selected type</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Number of Guests</label>
+                            <select id="guest-count"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option>1 Guest</option>
+                                <option>2 Guests</option>
+                                <option>3 Guests</option>
+                                <option>4 Guests</option>
+                                <option>5 Guests</option>
+                                <option>6 Guests</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1" id="guest-breakdown"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                            <input type="text" id="duration" placeholder="3 nights"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Special Requests</label>
+                        <textarea rows="3" id="special-requests" placeholder="Any special requests or notes..."
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+                    </div>
+
+                    <div class="flex space-x-4 pt-4 border-t">
+                        <button type="submit"
+                            class="gradient-primary text-white px-8 py-3 rounded-lg font-medium transition-all transform hover:scale-105">
+                            Complete Check-in
+                        </button>
+                        <button type="button"
+                            class="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-50"
+                            onclick="clearForm()">
+                            Clear Form
+                        </button>
+                        <button type="button"
+                            class="bg-gray-500 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-600"
+                            onclick="closeGuestPopup()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        feather.replace();
+
+        let pendingCheckIns = new Map();
+        let availableRooms = [];
+        let currentReservationRoomType = null;
+
+        // Load available rooms by room type
+        async function loadAvailableRooms(roomType) {
+            try {
+                const response = await fetch(`get_available_rooms.php?room_type=${encodeURIComponent(roomType)}`);
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to load rooms');
+                }
+
+                availableRooms = result.data || [];
+                updateRoomDropdown();
+
+            } catch (error) {
+                console.error('Error loading available rooms:', error);
+                alert('Error loading available rooms: ' + error.message);
+            }
+        }
+
+        // Update room dropdown with available rooms
+        function updateRoomDropdown() {
+            const roomSelect = document.getElementById('room-number');
+            const roomLoading = document.getElementById('room-loading');
+            const roomHint = document.getElementById('room-hint');
+
+            roomSelect.innerHTML = '<option value="">Select Room</option>';
+
+            if (availableRooms.length === 0) {
+                roomSelect.innerHTML += '<option value="" disabled>No rooms available</option>';
+                roomHint.textContent = 'No available rooms for this type';
+                roomHint.classList.add('text-red-500');
+                roomSelect.disabled = true;
+            } else {
+                availableRooms.forEach(room => {
+                    const option = document.createElement('option');
+                    option.value = room.room_number;
+                    option.textContent = `Room ${room.room_number} (Floor ${room.floor})`;
+                    option.dataset.roomId = room.id;
+                    roomSelect.appendChild(option);
+                });
+
+                roomHint.textContent = `${availableRooms.length} room${availableRooms.length !== 1 ? 's' : ''} available`;
+                roomHint.classList.remove('text-red-500');
+                roomSelect.disabled = false;
+            }
+
+            roomLoading.style.display = 'none';
+        }
+
+        async function loadFromReservations() {
+            try {
+                const response = await fetch('get_reservations.php');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success === false) {
+                    throw new Error(result.error || 'Unknown error from server');
+                }
+
+                const data = result.data || result;
+
+                if (!data || data.length === 0) {
+                    console.log('No reservations found for today');
+                    return;
+                }
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                let todayReservations = data.filter(reservation => {
+                    const checkInDate = new Date(reservation.check_in);
+                    checkInDate.setHours(0, 0, 0, 0);
+                    return checkInDate.getTime() === today.getTime();
+                });
+
+                if (todayReservations.length === 0) {
+                    console.log('No check-ins scheduled for today');
+                    return;
+                }
+
+                todayReservations.forEach(reservation => {
+                    createPendingCheckin(reservation);
+                });
+
+                console.log(`Loaded ${todayReservations.length} pending check-ins for today`);
+
+            } catch (error) {
+                console.error('Error loading reservations:', error);
+                alert('Error loading reservations: ' + error.message);
+            }
+        }
+
+        function createPendingCheckin(reservation) {
+            console.log('Creating pending check-in for reservation:', reservation);
+
+            const pendingId = 'pending_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+            const checkIn = new Date(reservation.check_in);
+            const checkOut = new Date(reservation.check_out);
+            const diffTime = Math.abs(checkOut - checkIn);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const duration = `${diffDays} night${diffDays > 1 ? 's' : ''}`;
+
+            const reservationObj = {
+                id: reservation.id,
+                confirmation: reservation.confirmation || `SOL${reservation.id}`,
+                guest_name: reservation.guest_name || 'Unknown Guest',
+                guest_email: reservation.guest_email || '',
+                guest_phone: reservation.guest_phone || '',
+                room_type: reservation.room_type || 'Regular Suite',
+                adults: reservation.adults || 1,
+                children: reservation.children || 0,
+                duration: reservation.duration || duration,
+                total_price: reservation.total_price || '0.00',
+                special_requests: reservation.special_requests || ''
+            };
+
+            pendingCheckIns.set(pendingId, reservationObj);
+
+            const pendingContainer = document.getElementById('pending-checkins');
+
+            if (!pendingContainer) {
+                console.error('Pending checkins container not found!');
+                return;
+            }
+
+            const emptyMessage = pendingContainer.querySelector('.text-center.py-12');
+            if (emptyMessage) {
+                emptyMessage.remove();
+
+                const gridContainer = document.createElement('div');
+                gridContainer.className = 'pending-checkins-grid';
+                gridContainer.id = 'pending-checkins-grid';
+                pendingContainer.appendChild(gridContainer);
+            }
+
+            let gridContainer = pendingContainer.querySelector('#pending-checkins-grid');
+            if (!gridContainer) {
+                gridContainer = document.createElement('div');
+                gridContainer.className = 'pending-checkins-grid';
+                gridContainer.id = 'pending-checkins-grid';
+                pendingContainer.appendChild(gridContainer);
+            }
+
+            const reservationCard = document.createElement('div');
+            reservationCard.classList.add('pending-checkin-item', 'pending-checkin');
+            reservationCard.setAttribute('data-pending-id', pendingId);
+
+            reservationCard.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-semibold text-gray-800">${reservationObj.guest_name}</h4>
+                    <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">Expected</span>
+                </div>
+                <div class="space-y-1 text-sm text-gray-600 mb-4">
+                    <p><span class="font-medium">Conf:</span> #${reservationObj.confirmation}</p>
+                    <p><span class="font-medium">Room Type:</span> ${reservationObj.room_type}</p>
+                    <p><span class="font-medium">Duration:</span> ${reservationObj.duration}</p>
+                    <p><span class="font-medium">Guests:</span> ${reservationObj.adults}A + ${reservationObj.children}C</p>
+                    <p><span class="font-medium">Total:</span> ₱${reservationObj.total_price}</p>
+                    ${reservationObj.special_requests ? `<p class="text-xs italic text-amber-700">"${reservationObj.special_requests}"</p>` : ''}
+                </div>
+                <div class="flex space-x-2">
+                    <button class="flex-1 bg-blue-500 text-white py-2 px-3 rounded-lg text-sm hover:bg-blue-600 transition-colors" onclick="editPendingCheckin(this, '${pendingId}')">
+                        Assign Room
+                    </button>
+                    <button class="bg-red-500 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-600 transition-colors" onclick="deletePendingCheckin(this)">
+                        <i data-feather="trash-2" class="h-4 w-4"></i>
+                    </button>
+                </div>
+            `;
+
+            gridContainer.appendChild(reservationCard);
+
+            feather.replace();
+        }
+
+        function openGuestPopup() {
+            const popup = document.getElementById('guestFormPopup');
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGuestPopup() {
+            const popup = document.getElementById('guestFormPopup');
+            popup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            clearForm();
+            currentReservationRoomType = null;
+            availableRooms = [];
+        }
+
+        async function editPendingCheckin(buttonElement, pendingId) {
+            const reservation = pendingCheckIns.get(pendingId);
+
+            if (!reservation) {
+                console.error('Reservation data not found');
+                return;
+            }
+
+            // Store the room type for this reservation
+            currentReservationRoomType = reservation.room_type;
+
+            // Load available rooms for this room type
+            document.getElementById('room-loading').style.display = 'inline';
+            document.getElementById('room-number').disabled = true;
+            await loadAvailableRooms(reservation.room_type);
+
+            // Fill the pricing summary
+            document.getElementById('summary-room-type').textContent = reservation.room_type || '-';
+            document.getElementById('summary-duration').textContent = reservation.duration || '-';
+            document.getElementById('summary-guests').textContent = `${reservation.adults || 1} Adults + ${reservation.children || 0} Children`;
+            document.getElementById('summary-total').textContent = `₱${reservation.total_price || '0.00'}`;
+
+            // Fill the form with reservation data
+            document.getElementById('confirmation-number').value = reservation.confirmation || '';
+            document.getElementById('guest-name').value = reservation.guest_name || '';
+            document.getElementById('guest-email').value = reservation.guest_email || '';
+            document.getElementById('guest-phone').value = reservation.guest_phone || '';
+            document.getElementById('duration').value = reservation.duration || '';
+            document.getElementById('special-requests').value = reservation.special_requests || '';
+
+            // Set guest count
+            const guestSelect = document.getElementById('guest-count');
+            const totalGuests = parseInt(reservation.adults || 1) + parseInt(reservation.children || 0);
+            let guestOption = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
+            guestSelect.value = guestOption;
+
+            // Update guest breakdown
+            document.getElementById('guest-breakdown').textContent = `${reservation.adults || 1} Adult${(reservation.adults || 1) > 1 ? 's' : ''} + ${reservation.children || 0} Child${(reservation.children || 0) !== 1 ? 'ren' : ''}`;
+
+            // Store the pending ID in the form for later use
+            document.getElementById('checkin-form').dataset.pendingId = pendingId;
+
+            openGuestPopup();
+        }
+
+        function deletePendingCheckin(buttonElement) {
+            if (!confirm('Are you sure you want to delete this pending check-in?')) {
+                return;
+            }
+
+            const card = buttonElement.closest('.pending-checkin-item');
+            const pendingId = card.getAttribute('data-pending-id');
+
+            if (pendingId) {
+                pendingCheckIns.delete(pendingId);
+            }
+
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '0';
+            card.style.transform = 'translateX(20px)';
+
+            setTimeout(() => {
+                card.remove();
+
+                const pendingContainer = document.getElementById('pending-checkins');
+                const gridContainer = pendingContainer.querySelector('#pending-checkins-grid');
+                const remainingCards = gridContainer ? gridContainer.querySelectorAll('.pending-checkin-item') : [];
+
+                if (remainingCards.length === 0) {
+                    if (gridContainer) {
+                        gridContainer.remove();
+                    }
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'text-center py-12 text-gray-500';
+                    emptyMessage.innerHTML = `
+                        <i data-feather="clock" class="h-16 w-16 mx-auto mb-4 text-gray-300"></i>
+                        <p class="font-medium text-lg">No Pending Check-ins</p>
+                        <p class="text-sm">All guests have been processed</p>
+                    `;
+                    pendingContainer.appendChild(emptyMessage);
+                    feather.replace();
+                }
+            }, 500);
+        }
+
+        function clearForm() {
+            document.getElementById('checkin-form').reset();
+            document.getElementById('guest-breakdown').textContent = '';
+            document.getElementById('summary-room-type').textContent = '-';
+            document.getElementById('summary-duration').textContent = '-';
+            document.getElementById('summary-guests').textContent = '-';
+            document.getElementById('summary-total').textContent = '₱0.00';
+            document.getElementById('room-number').innerHTML = '<option value="">Select Room</option>';
+            delete document.getElementById('checkin-form').dataset.pendingId;
+        }
+
+        async function saveCheckIn(formData) {
+            try {
+                const response = await fetch('checkin_guest.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to process check-in');
+                }
+
+                return true;
+            } catch (error) {
+                console.error('Error processing check-in:', error);
+                throw error;
+            }
+        }
+
+        function removeCompletedCheckin(pendingId) {
+            const card = document.querySelector(`[data-pending-id="${pendingId}"]`);
+            if (card) {
+                pendingCheckIns.delete(pendingId);
+
+                card.style.transition = 'all 0.5s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(20px)';
+
+                setTimeout(() => {
+                    card.remove();
+
+                    const pendingContainer = document.getElementById('pending-checkins');
+                    const gridContainer = pendingContainer.querySelector('#pending-checkins-grid');
+                    const remainingCards = gridContainer ? gridContainer.querySelectorAll('.pending-checkin-item') : [];
+
+                    if (remainingCards.length === 0) {
+                        if (gridContainer) {
+                            gridContainer.remove();
+                        }
+                        const emptyMessage = document.createElement('div');
+                        emptyMessage.className = 'text-center py-12 text-gray-500';
+                        emptyMessage.innerHTML = `
+                            <i data-feather="clock" class="h-16 w-16 mx-auto mb-4 text-gray-300"></i>
+                            <p class="font-medium text-lg">No Pending Check-ins</p>
+                            <p class="text-sm">All guests have been processed</p>
+                        `;
+                        pendingContainer.appendChild(emptyMessage);
+                        feather.replace();
+                    }
+                }, 500);
+            }
+        }
+
+        document.getElementById('checkin-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const roomSelect = document.getElementById('room-number');
+            const selectedOption = roomSelect.options[roomSelect.selectedIndex];
+            const roomId = selectedOption.dataset.roomId;
+            const pendingId = this.dataset.pendingId;
+
+            if (!roomSelect.value) {
+                alert('Please select a room number');
+                return;
+            }
+
+            // Get the reservation data to extract pricing info
+            const reservation = pendingCheckIns.get(pendingId);
+
+            const formData = {
+                confirmation_number: document.getElementById('confirmation-number').value,
+                guest_name: document.getElementById('guest-name').value,
+                guest_email: document.getElementById('guest-email').value,
+                guest_phone: document.getElementById('guest-phone').value,
+                room_number: roomSelect.value,
+                room_id: roomId,
+                room_type: currentReservationRoomType,
+                guest_count: document.getElementById('guest-count').value,
+                duration: document.getElementById('duration').value,
+                special_requests: document.getElementById('special-requests').value,
+                checkin_time: new Date().toISOString(),
+                // Extract data from reservation
+                adults: reservation ? reservation.adults : 1,
+                children: reservation ? reservation.children : 0,
+                rooms: reservation ? (reservation.rooms || 1) : 1,
+                total_price: reservation ? reservation.total_price : 0,
+                reservation_id: reservation ? reservation.id : null,
+                check_out: reservation ? reservation.check_out : null
+            };
+
+            try {
+                const success = await saveCheckIn(formData);
+                if (success) {
+                    alert('Check-in completed successfully! Room ' + roomSelect.value + ' has been assigned.');
+
+                    if (pendingId) {
+                        removeCompletedCheckin(pendingId);
+                    }
+
+                    closeGuestPopup();
+                }
+            } catch (error) {
+                alert('Error processing check-in: ' + error.message);
+            }
+        });
+
+        document.getElementById('guestFormPopup').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeGuestPopup();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeGuestPopup();
+            }
+        });
+
+        function checkForPendingReservation() {
+            const pendingReservation = sessionStorage.getItem('pendingReservation');
+            if (pendingReservation) {
+                try {
+                    const reservation = JSON.parse(pendingReservation);
+                    createPendingCheckin(reservation);
+                    sessionStorage.removeItem('pendingReservation');
+                } catch (error) {
+                    console.error('Error loading pending reservation:', error);
+                    sessionStorage.removeItem('pendingReservation');
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            feather.replace();
+            checkForPendingReservation();
+        });
+    </script>
+</body>
+
+</html>

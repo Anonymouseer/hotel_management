@@ -1,0 +1,134 @@
+:root {
+  --primary: #1a365d;
+  --secondary: #c6a969;
+  --dark: #0f172a;
+  --light: #f8fafc;
+}
+
+header {
+  transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+header.bg-transparent {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+header.scrolled {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+header.scrolled .font-display,
+header.scrolled .text-white {
+  color: var(--primary);
+}
+
+header.scrolled nav a {
+  color: var(--primary);
+}
+
+header.scrolled .gradient-primary {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+header.scrolled .container {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+.font-display {
+  font-family: "Playfair Display", serif;
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 54, 93, 0.7) 0%,
+    rgba(198, 169, 105, 0.3) 100%
+  );
+}
+
+.amenity-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.amenity-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.testimonial-card {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.room-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(26, 54, 93, 0.9) 0%,
+    rgba(26, 54, 93, 0.3) 70%,
+    transparent 100%
+  );
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+.room-card:hover .room-overlay {
+  opacity: 1;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--secondary);
+}
+
+.gradient-primary {
+  background: linear-gradient(to right, var(--secondary), var(--primary));
+}
+
+.gradient-primary:hover {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.bg-secondary {
+  background: var(--secondary);
+}
+
+.bg-dark {
+  background: var(--dark);
+}

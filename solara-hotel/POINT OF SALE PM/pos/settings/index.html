@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Solara Hotel POS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <div class="background-blur"></div>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>Solara Hotel</h1>
+                    <p>Point of Sale System</p>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="../dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> <span>Dashboard</span></a></li>
+                    <li><a href="../index.html" class="nav-item"><i class="fas fa-cash-register"></i> <span>Point of Sale</span></a></li>
+                    <li><a href="../management/menu.html" class="nav-item"><i class="fas fa-utensils"></i> <span>Menu Management</span></a></li>
+                    <li><a href="../../inventory/inventory.html" class="nav-item"><i class="fas fa-boxes"></i> <span>Inventory</span></a></li>
+                    <li class="active"><a href="index.html" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+                    <li><a href="../help.html" target="_blank" class="nav-item"><i class="fas fa-question-circle"></i> <span>Help center</span></a></li>
+                </ul>
+            </nav>
+            <div class="account-section"></div>
+        </aside>
+        
+        <main class="main-content">
+            <div class="main-header-controls">
+                <button class="dark-mode-toggle" id="dark-mode-toggle"><i class="fas fa-moon"></i></button>
+            </div>
+
+            <div class="main-header">
+                <h1>Settings</h1>
+                <p>Configure your POS system and application data.</p>
+            </div>
+
+            <div class="settings-grid">
+                <!-- General Settings -->
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-cogs"></i> General Settings</h3></div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="setting-restaurant-name">Restaurant Name</label>
+                            <input type="text" id="setting-restaurant-name" placeholder="e.g., Solara Hotel">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-tax-rate">Default Tax Rate (%)</label>
+                            <input type="number" id="setting-tax-rate" min="0" step="0.1" placeholder="e.g., 2.6">
+                        </div>
+                        <button id="save-general-settings" class="btn-primary">Save General Settings</button>
+                    </div>
+                </div>
+
+                <!-- Table Management -->
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-chair"></i> Table Management</h3></div>
+                    <div class="card-body">
+                        <form id="add-table-form" class="inline-form">
+                            <input type="text" id="new-table-name" placeholder="Add new table (e.g., T5, R102)" required>
+                            <button type="submit" class="btn-primary btn-sm"><i class="fas fa-plus"></i></button>
+                        </form>
+                        <ul id="table-list" class="item-list">
+                            <!-- Tables will be rendered here -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Promo Code Management -->
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-tags"></i> Promo Codes</h3></div>
+                    <div class="card-body">
+                        <form id="add-promo-form" class="inline-form">
+                            <input type="text" id="new-promo-code" placeholder="Code (e.g., SAVE10)" required>
+                            <input type="number" id="new-promo-value" placeholder="Discount %" required min="1" max="100">
+                            <button type="submit" class="btn-primary btn-sm"><i class="fas fa-plus"></i></button>
+                        </form>
+                        <ul id="promo-list" class="item-list">
+                            <!-- Promo codes will be rendered here -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="card danger-zone">
+                    <div class="card-header"><h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3></div>
+                    <div class="card-body">
+                        <p>These actions are irreversible. Please be certain before proceeding.</p>
+                        <div class="danger-actions">
+                            <button id="clear-order-history-btn" class="btn-danger">Clear All Order History</button>
+                            <button id="clear-products-btn" class="btn-danger">Reset All Products</button>
+                            <button id="clear-all-data-btn" class="btn-danger">Clear All Local Data</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

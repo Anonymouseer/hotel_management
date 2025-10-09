@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay | Solara Hotel</title>
+
+    <link rel="shortcut icon" href="images/logo-header.png" type="image/x-icon">
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <link rel="stylesheet" href="reservation.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+                        <i data-feather="home" class="text-white h-6 w-6"></i>
+                    </div>
+                    <span class="font-display text-2xl font-bold text-primary">Solara Hotel</span>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="webpage.html"
+                        class="text-gray-700 hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="room_details.html"
+                        class="text-gray-700 hover:text-primary transition-colors duration-300">Rooms</a>
+                    <a href="webpage.html"
+                        class="text-gray-700 hover:text-primary transition-colors duration-300">Amenities</a>
+                    <a href="webpage.html"
+                        class="text-gray-700 hover:text-primary transition-colors duration-300">Contact</a>
+                </nav>
+
+                <button
+                    class="gradient-primary text-white px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg">
+                    My Bookings
+                </button>
+
+                <button class="md:hidden focus:outline-none">
+                    <i data-feather="menu" class="h-6 w-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Content -->
+                <div class="lg:col-span-2">
+                    <!-- Breadcrumb -->
+                    <div class="flex items-center space-x-2 text-sm text-gray-600 mb-6">
+                        <a href="index.html" class="hover:text-primary">Home</a>
+                        <i data-feather="chevron-right" class="h-4 w-4"></i>
+                        <a href="rooms.html" class="hover:text-primary">Bookings</a>
+                        <i data-feather="chevron-right" class="h-4 w-4"></i>
+                        <span class="text-primary">Solara Hotel</span>
+                    </div>
+
+                    <!-- Hotel Title & Rating -->
+                    <div class="mb-6">
+                        <h1 class="text-3xl md:text-4xl font-display font-bold text-primary mb-3">Solara Hotel - Luxury
+                            Stay Experience</h1>
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i data-feather="star" class="h-5 w-5 fill-current"></i>
+                                    <i data-feather="star" class="h-5 w-5 fill-current"></i>
+                                    <i data-feather="star" class="h-5 w-5 fill-current"></i>
+                                    <i data-feather="star" class="h-5 w-5 fill-current"></i>
+                                    <i data-feather="star" class="h-5 w-5 fill-current"></i>
+                                </div>
+                                <span class="text-gray-700 font-semibold">4.8</span>
+                                <span class="text-gray-500 ml-2">(2,456 reviews)</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-6 text-gray-600">
+                            <div class="flex items-center">
+                                <i data-feather="map-pin" class="h-5 w-5 mr-2 text-secondary"></i>
+                                <span>Paradise Island, Solora Bay</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-feather="clock" class="h-5 w-5 mr-2 text-secondary"></i>
+                                <span>24/7 Service</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Gallery -->
+                    <div class="mb-8">
+                        <div class="swiper hotel-gallery-swiper rounded-2xl shadow-xl">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Hotel Exterior" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Hotel Lobby" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Hotel Pool" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Hotel Restaurant" class="w-full h-96 object-cover">
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- Highlights -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg mb-8">
+                        <h2 class="text-2xl font-display font-bold text-primary mb-4">Why Choose Solara Hotel</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <i data-feather="award" class="h-6 w-6 feature-badge mr-3"></i>
+                                <span class="font-medium">5-Star Luxury Experience</span>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <i data-feather="map-pin" class="h-6 w-6 feature-badge mr-3"></i>
+                                <span class="font-medium">Prime Paradise Location</span>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <i data-feather="wifi" class="h-6 w-6 feature-badge mr-3"></i>
+                                <span class="font-medium">Complimentary High-Speed WiFi</span>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <i data-feather="car" class="h-6 w-6 feature-badge mr-3"></i>
+                                <span class="font-medium">Free Continental Breakfast</span>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <i data-feather="droplets" class="h-6 w-6 feature-badge mr-3"></i>
+                                <span class="font-medium">Rooftop Pool & Spa</span>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <i data-feather="utensils" class="h-6 w-6 feature-badge mr-3"></i>
+                                <span class="font-medium">Award-Winning Restaurant</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg mb-8">
+                        <h2 class="text-2xl font-display font-bold text-primary mb-4">About Solara Hotel</h2>
+                        <div class="prose text-gray-700 leading-relaxed">
+                            <p class="mb-4">
+                                Experience unparalleled luxury at Solara Hotel, where sophistication meets comfort in
+                                the heart of Makati's business district. Our elegantly designed accommodations offer
+                                panoramic city views, world-class amenities, and personalized service that exceeds
+                                expectations.
+                            </p>
+                            <p class="mb-4">
+                                From our meticulously appointed suites to our exclusive penthouse villas, each space is
+                                thoughtfully crafted to provide the ultimate in comfort and style. Enjoy access to our
+                                rooftop infinity pool, state-of-the-art fitness center, and award-winning dining
+                                establishments.
+                            </p>
+                            <p>
+                                Whether you're traveling for business or leisure, Solara Hotel provides the perfect
+                                sanctuary in the vibrant heart of Metro Manila, with easy access to shopping, dining,
+                                and entertainment destinations.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Facilities -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg mb-8">
+                        <h2 class="text-2xl font-display font-bold text-primary mb-6">Hotel Facilities</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <h3 class="font-semibold text-gray-800 mb-3">Recreation</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Infinity Pool</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Fitness Center</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Spa & Wellness</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Various Courts</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800 mb-3">Dining</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Fine Dining Restaurant</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Rooftop Bar</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Café & Lounge</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Room Service 24/7</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800 mb-3">Business</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Business Center</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Meeting Rooms</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>Event Ballroom</li>
+                                    <li class="flex items-center"><i data-feather="check"
+                                            class="h-4 w-4 text-green-500 mr-2"></i>High-Speed WiFi</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Section -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h2 class="text-2xl font-display font-bold text-primary mb-6">Guest Reviews</h2>
+                        <div class="space-y-6">
+                            <div class="border-b border-gray-200 pb-6">
+                                <div class="flex items-start space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                        M
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-gray-800">Maria Santos</h4>
+                                            <div class="flex text-yellow-400">
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-gray-600 mb-2">"Exceptional service and beautiful rooms. The
+                                            rooftop pool has amazing city views. Staff went above and beyond to make our
+                                            stay memorable."</p>
+                                        <span class="text-sm text-gray-400">2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-b border-gray-200 pb-6">
+                                <div class="flex items-start space-x-4">
+                                    <div
+                                        class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-semibold">
+                                        J
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-gray-800">James Wilson</h4>
+                                            <div class="flex text-yellow-400">
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                                <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-gray-600 mb-2">"Perfect location for business travel. Clean,
+                                            modern, and the breakfast was outstanding. Will definitely book again."</p>
+                                        <span class="text-sm text-gray-400">1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="mt-4 text-primary hover:text-secondary font-medium transition-colors">
+                            View all 2,456 reviews
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar - Booking Card -->
+                <div class="lg:col-span-1">
+                    <div class="booking-card bg-white rounded-2xl p-6 shadow-xl">
+                        <h3 class="text-xl font-display font-bold text-primary mb-6">Book Your Stay</h3>
+
+                        <!-- FORM START -->
+                        <form action="save_reservation.php" method="POST">
+
+                            <!-- Room Selection -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-3">Choose Room Type</label>
+                                <div class="space-y-3">
+                                    <div class="room-option p-4 border rounded-lg cursor-pointer transition-all selected"
+                                        onclick="selectRoom(this, 'Regular Suite', 499)">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-semibold text-gray-800">Regular Suite</h4>
+                                                <p class="text-sm text-gray-600">35 sqm • 2 Adults</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-primary">₱499</p>
+                                                <p class="text-xs text-gray-500">/night</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="room-option p-4 border rounded-lg cursor-pointer transition-all"
+                                        onclick="selectRoom(this, 'Twin Bed Penthouse', 899)">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-semibold text-gray-800">Twin Bed Penthouse</h4>
+                                                <p class="text-sm text-gray-600">45 sqm • 2 Adults</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-primary">₱899</p>
+                                                <p class="text-xs text-gray-500">/night</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="room-option p-4 border rounded-lg cursor-pointer transition-all"
+                                        onclick="selectRoom(this, 'Skyline Suite', 1099)">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-semibold text-gray-800">Skyline Suite</h4>
+                                                <p class="text-sm text-gray-600">65 sqm • 3 Adults</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-primary">₱1,099</p>
+                                                <p class="text-xs text-gray-500">/night</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="room-option p-4 border rounded-lg cursor-pointer transition-all"
+                                        onclick="selectRoom(this, 'Deluxe Villa', 1299)">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-semibold text-gray-800">Deluxe Villa</h4>
+                                                <p class="text-sm text-gray-600">120 sqm • 4 Adults</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-primary">₱1,299</p>
+                                                <p class="text-xs text-gray-500">/night</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Date Selection -->
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Check-in</label>
+                                    <input type="date" name="check_in" id="checkin" required
+                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                                        onchange="calculateTotal()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Check-out</label>
+                                    <input type="date" name="check_out" id="checkout" required
+                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                                        onchange="calculateTotal()">
+                                </div>
+                            </div>
+
+                            <!-- Guest Selection -->
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Adults</label>
+                                    <select name="adults" id="adults"
+                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                        <option value="1">1 Adult</option>
+                                        <option value="2">2 Adults</option>
+                                        <option value="3">3 Adults</option>
+                                        <option value="4">4 Adults</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Children</label>
+                                    <select name="children" id="children"
+                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Number of Rooms -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">Number of Rooms</label>
+                                <input type="number" name="rooms" id="rooms" min="1" value="1"
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                                    onchange="calculateTotal()">
+                            </div>
+
+                            <!-- Special Requests -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">Special Requests</label>
+                                <textarea name="special_requests"
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                                    rows="2" placeholder="e.g., High floor, late check-in, extra pillows"></textarea>
+                            </div>
+
+                            <!-- Price Summary -->
+                            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600">Room Rate</span>
+                                    <span class="font-medium" id="room-rate">₱499 × 1 night</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600">Service Fee</span>
+                                    <span class="font-medium" id="service-fee">₱50</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600">Taxes</span>
+                                    <span class="font-medium" id="taxes">₱75</span>
+                                </div>
+                                <hr class="my-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-lg">Total</span>
+                                    <span class="font-bold text-lg text-primary" id="total-price">₱624</span>
+                                </div>
+                            </div>
+
+
+                            <!-- Guest Info -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">Full Name</label>
+                                <input type="text" name="guest_name" id="guest-name" required
+                                    placeholder="Enter your name"
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" name="guest_email" id="guest-email" required
+                                    placeholder="example@email.com"
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                                <input type="tel" name="guest_phone" id="guest-phone" required
+                                    placeholder="+63 900 000 0000"
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">Payment Method</label>
+                                <select name="payment_method"
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <option value="Card">Credit/Debit Card</option>
+                                    <option value="PayPal">PayPal</option>
+                                    <option value="GCash">GCash</option>
+                                    <option value="Pay at Hotel">Pay at Hotel</option>
+                                </select>
+                            </div>
+
+                            <input type="hidden" name="room_type" id="room_type" value="Regular Suite">
+                            <input type="hidden" name="price_per_night" id="price_per_night" value="499">
+                            <input type="hidden" name="total_price" id="total_price_input" value="624">
+
+
+                            <!-- Book Button -->
+                            <button type="submit"
+                                class="w-full gradient-primary text-white py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105 shadow-lg mb-4">
+                                Book Now
+                            </button>
+                        </form>
+                        <!-- FORM END -->
+
+                        <!-- Additional Info -->
+                        <div class="text-center text-sm text-gray-600">
+                            <p class="mb-2">Free cancellation up to 24 hours before check-in</p>
+                            <p class="flex items-center justify-center">
+                                <i data-feather="shield-check" class="h-4 w-4 mr-1 text-green-500"></i>
+                                Secure booking guaranteed
+                            </p>
+                        </div>
+                    </div>
+                </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-16">
+        <!-- Full-width background -->
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+                            <i data-feather="home" class="text-white h-6 w-6"></i>
+                        </div>
+                        <span class="font-display text-2xl font-bold">Solara Hotel</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">
+                        Experience luxury redefined at our world-class hotel, where every moment is crafted to
+                        perfection.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-semibold text-lg mb-6">Room Types</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Regular Suite</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Twin Bed
+                                Penthouse</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Skyline Suite</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Deluxe Villa</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-semibold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="webpage.html" class="text-gray-400 hover:text-secondary transition-colors">Home</a>
+                        </li>
+                        <li><a href="webpage.html"
+                                class="text-gray-400 hover:text-secondary transition-colors">Amenities</a></li>
+                        <li><a href="#room_details.html"
+                                class="text-gray-400 hover:text-secondary transition-colors">Rooms</a></li>
+                        <li><a href="webpage.html"
+                                class="text-gray-400 hover:text-secondary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-semibold text-lg mb-6">Contact Info</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i data-feather="map-pin" class="text-secondary h-5 w-5 mr-3 mt-1"></i>
+                            <p class="text-gray-400">123 Luxury Avenue<br>Paradise Island, Philippines</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i data-feather="phone" class="text-secondary h-5 w-5 mr-3"></i>
+                            <p class="text-gray-400">+63 2 1234 5678</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i data-feather="mail" class="text-secondary h-5 w-5 mr-3"></i>
+                            <p class="text-gray-400">info@solarahotel.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2024 Solara Hotel. All rights reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Privacy
+                            Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Terms of
+                            Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- JavaScript -->
+    <script>
+        let currentRoomType = "Regular Suite";
+        let currentRoomPrice = 499;
+
+        // Select room
+        function selectRoom(el, roomName, price) {
+            // Remove selection from all
+            document.querySelectorAll('.room-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+
+            // Update current selection
+            currentRoomType = roomName;
+            currentRoomPrice = price;
+
+            // Update hidden inputs (this is key for form submission)
+            document.getElementById('room_type').value = currentRoomType;
+            document.getElementById('price_per_night').value = currentRoomPrice;
+
+            // Recalculate total
+            calculateTotal();
+        }
+
+
+        // Calculate total
+        function calculateTotal() {
+            const checkin = new Date(document.getElementById('checkin').value);
+            const checkout = new Date(document.getElementById('checkout').value);
+            const rooms = parseInt(document.getElementById('rooms').value) || 1;
+
+            let nights = 1;
+            if (checkout > checkin) {
+                nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+            }
+
+            const roomTotal = currentRoomPrice * nights * rooms;
+            const serviceFee = 50;
+            const taxes = Math.round(roomTotal * 0.15);
+            const total = roomTotal + serviceFee + taxes;
+
+            // Update visible price
+            document.getElementById('room-rate').textContent = `₱${currentRoomPrice} × ${nights} night${nights > 1 ? 's' : ''}`;
+            document.getElementById('service-fee').textContent = `₱${serviceFee}`;
+            document.getElementById('taxes').textContent = `₱${taxes}`;
+            document.getElementById('total-price').textContent = `₱${total.toLocaleString()}`;
+
+            // Update hidden input for DB
+            document.getElementById('total_price_input').value = total.toFixed(2);
+        }
+
+
+        // Proceed to booking
+        function proceedToBooking() {
+            const checkinDate = document.getElementById('checkin').value;
+            const checkoutDate = document.getElementById('checkout').value;
+
+            if (!checkinDate || !checkoutDate) {
+                alert('Please select check-in and check-out dates.');
+                return;
+            }
+
+            if (new Date(checkoutDate) <= new Date(checkinDate)) {
+                alert('Check-out date must be after check-in date.');
+                return;
+            }
+
+            alert(`Proceeding to book ${currentRoomType} from ${checkinDate} to ${checkoutDate}. Total: ${document.getElementById('total-price').textContent}`);
+        }
+
+        // Fallback Feather init
+        function initFeatherIcons() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            } else {
+                setTimeout(initFeatherIcons, 100);
+            }
+        }
+
+        // DOM ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Feather icons
+            if (typeof feather !== 'undefined') feather.replace();
+
+            // Default dates
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+
+            document.getElementById('checkin').value = today.toISOString().split('T')[0];
+            document.getElementById('checkout').value = tomorrow.toISOString().split('T')[0];
+
+            // Swiper
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.hotel-gallery-swiper', {
+                    loop: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+            }
+
+            // Initial calc
+            calculateTotal();
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+
+        // Try Feather again (if loaded later)
+        initFeatherIcons();
+    </script>
+
+</body>
+
+</html>
