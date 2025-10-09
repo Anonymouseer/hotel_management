@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solara Hotel | Authentication Required</title>
+  <link rel="icon" type="image/x-icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #c6a969;
+      --dark: #0f172a;
+      --light: #f8fafc;
+    }
+
+    body { font-family: 'Open Sans', sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    .gradient-primary { 
+      background: linear-gradient(to right, var(--secondary), var(--primary)); 
+    }
+    .gradient-primary:hover { 
+      background: linear-gradient(to right, var(--primary), var(--secondary)); 
+    }
+
+    .auth-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .bg-overlay {
+      background: linear-gradient(135deg, rgba(26, 54, 93, 0.8) 0%, rgba(198, 169, 105, 0.6) 100%);
+    }
+
+    .icon-bounce {
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Background Image -->
+<div class="fixed inset-0 z-0">
+  <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+       alt="Luxury Hotel Lobby" class="w-full h-full object-cover">
+  <div class="absolute inset-0 bg-overlay"></div>
+</div>
+
+<!-- Auth Required Container -->
+<div class="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+  <div class="auth-container w-full max-w-lg rounded-3xl shadow-2xl p-8 md:p-12 text-center fade-in">
+    
+    <!-- Lock Icon -->
+    <div class="flex justify-center mb-6">
+      <div class="w-20 h-20 gradient-primary rounded-full flex items-center justify-center icon-bounce">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <h1 class="font-display text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+      Authentication Required
+    </h1>
+    <p class="text-gray-600 text-lg mb-8">
+      Please sign in to access this page
+    </p>
+
+    <!-- Message Box -->
+    <div class="bg-blue-50 border-l-4 border-blue-900 p-4 mb-8 text-left">
+      <div class="flex items-start">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-900 mt-0.5 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <p class="text-sm text-gray-700 font-medium mb-1">Access Restricted</p>
+          <p class="text-sm text-gray-600">
+            You must be logged in to view this content. If you don't have an account, you can create one in seconds.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="space-y-4">
+      <a href="log-sign.html" 
+         class="block w-full gradient-primary text-white py-4 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+        Sign In / Create Account
+      </a>
+
+      <a href="webpage.php" 
+         class="block w-full bg-white border-2 border-gray-300 text-gray-700 py-4 rounded-lg font-semibold transition-all hover:border-gray-400 hover:bg-gray-50">
+        Return to Homepage
+      </a>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <p class="text-sm text-gray-500 mb-3">Why do I need to sign in?</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+        <div class="flex items-start">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-xs text-gray-600">Secure bookings</span>
+        </div>
+        <div class="flex items-start">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-xs text-gray-600">Manage reservations</span>
+        </div>
+        <div class="flex items-start">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-xs text-gray-600">Exclusive offers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8">
+      <p class="text-xs text-gray-500">
+        Need help? Contact us at 
+        <a href="mailto:support@solarahotel.com" class="text-blue-900 hover:text-yellow-600 transition-colors">
+          support@solarahotel.com
+        </a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
