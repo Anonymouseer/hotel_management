@@ -1,25 +1,110 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Details | Solara Hotel</title>
-
-    <link rel="stylesheet" href="reservation.css">
-    <link rel="shortcut icon" href="images/logo-header.png" type="image/x-icon">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
-        rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #c6a969;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .bg-primary {
+            background-color: var(--primary);
+        }
+        
+        .text-secondary {
+            color: var(--secondary);
+        }
+        
+        .bg-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .bg-dark {
+            background-color: var(--dark);
+        }
+        
+        .hover\:bg-primary:hover {
+            background-color: var(--primary);
+        }
+        
+        .hover\:text-primary:hover {
+            color: var(--primary);
+        }
+        
+        .hover\:text-secondary:hover {
+            color: var(--secondary);
+        }
+        
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+        }
+        
+        .gradient-primary:hover {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .room-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .room-content {
+            display: none;
+        }
+        
+        .room-content.active {
+            display: block;
+        }
+        
+        .feature-item {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: var(--secondary);
+        }
+        
+        .amenity-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
 </head>
-
 <body class="bg-gray-50 text-gray-900">
     <!-- Header -->
     <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
@@ -31,23 +116,20 @@
                     </div>
                     <span class="font-display text-2xl font-bold text-primary">Solara Hotel</span>
                 </div>
-
+                
                 <nav class="hidden md:flex space-x-8">
-                    <a href="webpage.html"
-                        class="text-gray-700 hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="webpage.php" class="text-gray-700 hover:text-primary transition-colors duration-300">Home</a>
                     <a href="#rooms" class="text-primary font-semibold transition-colors duration-300">Rooms</a>
-                    <a href="index.html#amenities"
-                        class="text-gray-700 hover:text-primary transition-colors duration-300">Amenities</a>
-                    <a href="index.html#contact"
-                        class="text-gray-700 hover:text-primary transition-colors duration-300">Contact</a>
+                    <a href="webpage.php" class="text-gray-700 hover:text-primary transition-colors duration-300">Amenities</a>
+                    <a href="webpage.php" class="text-gray-700 hover:text-primary transition-colors duration-300">Contact</a>
                 </nav>
-
-                <a href="booking.html"
-                    class="gradient-primary text-white px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg">
-                    Book Now
+                
+                <a href="booking.html" 
+                   class="gradient-primary text-white px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg">
+                     Book Now
                 </a>
 
-
+                
                 <button class="md:hidden focus:outline-none">
                     <i data-feather="menu" class="h-6 w-6"></i>
                 </button>
@@ -60,8 +142,7 @@
         <div class="container mx-auto px-6">
             <div class="text-center">
                 <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">Our Luxurious Accommodations</h1>
-                <p class="text-xl text-white/90 max-w-3xl mx-auto">Discover the perfect sanctuary for your stay, from
-                    comfortable elegance to ultimate luxury</p>
+                <p class="text-xl text-white/90 max-w-3xl mx-auto">Discover the perfect sanctuary for your stay, from comfortable elegance to ultimate luxury</p>
             </div>
         </div>
     </section>
@@ -70,14 +151,10 @@
     <section class="py-8 bg-white shadow-sm sticky top-20 z-40">
         <div class="container mx-auto px-6">
             <div class="flex flex-wrap justify-center gap-4">
-                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all active"
-                    onclick="showRoom('regular')">Regular Suite</button>
-                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200"
-                    onclick="showRoom('twin')">Twin Bed Penthouse</button>
-                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200"
-                    onclick="showRoom('skyline')">Skyline Suite</button>
-                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200"
-                    onclick="showRoom('deluxe')">Deluxe Villa</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all active" onclick="showRoom('regular')">Regular Suite</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200" onclick="showRoom('twin')">Twin Bed Penthouse</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200" onclick="showRoom('skyline')">Skyline Suite</button>
+                <button class="room-tab px-6 py-3 rounded-full font-medium transition-all bg-gray-100 hover:bg-gray-200" onclick="showRoom('deluxe')">Deluxe Villa</button>
             </div>
         </div>
     </section>
@@ -92,16 +169,13 @@
                         <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                                        alt="Regular Suite" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Regular Suite" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                                        alt="Regular Suite Bathroom" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Regular Suite Bathroom" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1590490359854-dfba19688d70?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Regular Suite View" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1590490359854-dfba19688d70?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Regular Suite View" class="w-full h-96 object-cover">
                                 </div>
                             </div>
                             <div class="swiper-pagination"></div>
@@ -109,14 +183,12 @@
                             <div class="swiper-button-prev"></div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h2 class="text-4xl font-display font-bold text-primary mb-4">Regular Suite</h2>
                         <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱499/night</p>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Experience comfort and elegance in our
-                            well-appointed Regular Suite, featuring modern amenities and thoughtful design elements that
-                            ensure a relaxing stay.</p>
-
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Experience comfort and elegance in our well-appointed Regular Suite, featuring modern amenities and thoughtful design elements that ensure a relaxing stay.</p>
+                        
                         <div class="grid grid-cols-2 gap-4 mb-8">
                             <div class="text-center p-4 bg-gray-50 rounded-lg">
                                 <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
@@ -129,14 +201,13 @@
                                 <p class="text-gray-600">35 sqm</p>
                             </div>
                         </div>
-
-                        <button
-                            class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
                             Book Regular Suite
                         </button>
                     </div>
                 </div>
-
+                
                 <!-- Amenities and Inclusions -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
@@ -164,7 +235,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h3 class="text-2xl font-display font-bold text-primary mb-6">Included Services</h3>
                         <div class="space-y-4">
@@ -202,16 +273,13 @@
                         <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1630999295881-e00725e1de45?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Twin Bed Penthouse" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1630999295881-e00725e1de45?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twin Bed Penthouse" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1680210851458-b7dc5685e06e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Twin Bed Penthouse Bathroom" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1680210851458-b7dc5685e06e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twin Bed Penthouse Bathroom" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1605346576608-92f1346b67d6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Twin Bed Penthouse Balcony" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1605346576608-92f1346b67d6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twin Bed Penthouse Balcony" class="w-full h-96 object-cover">
                                 </div>
                             </div>
                             <div class="swiper-pagination"></div>
@@ -219,14 +287,12 @@
                             <div class="swiper-button-prev"></div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h2 class="text-4xl font-display font-bold text-primary mb-4">Twin Bed Penthouse</h2>
                         <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱899/night</p>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Perfect for friends or colleagues, our
-                            Twin Bed Penthouse offers separate sleeping areas with premium amenities and stunning
-                            elevated views of the surrounding landscape.</p>
-
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Perfect for friends or colleagues, our Twin Bed Penthouse offers separate sleeping areas with premium amenities and stunning elevated views of the surrounding landscape.</p>
+                        
                         <div class="grid grid-cols-2 gap-4 mb-8">
                             <div class="text-center p-4 bg-gray-50 rounded-lg">
                                 <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
@@ -239,14 +305,13 @@
                                 <p class="text-gray-600">45 sqm</p>
                             </div>
                         </div>
-
-                        <button
-                            class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
                             Book Twin Bed Penthouse
                         </button>
                     </div>
                 </div>
-
+                
                 <!-- Amenities and Inclusions -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
@@ -274,7 +339,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h3 class="text-2xl font-display font-bold text-primary mb-6">Included Services</h3>
                         <div class="space-y-4">
@@ -312,16 +377,13 @@
                         <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1740324351912-b9189685ab1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Skyline Suite" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1740324351912-b9189685ab1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1690935986319-c11e6cae84f7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Skyline Suite Living Area" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1690935986319-c11e6cae84f7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite Living Area" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1568495248636-6432b97bd949?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Skyline Suite View" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1568495248636-6432b97bd949?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite View" class="w-full h-96 object-cover">
                                 </div>
                             </div>
                             <div class="swiper-pagination"></div>
@@ -329,14 +391,12 @@
                             <div class="swiper-button-prev"></div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h2 class="text-4xl font-display font-bold text-primary mb-4">Skyline Suite</h2>
                         <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱1,099/night</p>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Embrace breathtaking panoramic views from
-                            our premium Skyline Suite, featuring floor-to-ceiling windows, separate living area, and
-                            luxury appointments throughout.</p>
-
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">Embrace breathtaking panoramic views from our premium Skyline Suite, featuring floor-to-ceiling windows, separate living area, and luxury appointments throughout.</p>
+                        
                         <div class="grid grid-cols-2 gap-4 mb-8">
                             <div class="text-center p-4 bg-gray-50 rounded-lg">
                                 <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
@@ -349,14 +409,13 @@
                                 <p class="text-gray-600">65 sqm</p>
                             </div>
                         </div>
-
-                        <button
-                            class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
                             Book Skyline Suite
                         </button>
                     </div>
                 </div>
-
+                
                 <!-- Amenities and Inclusions -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
@@ -384,7 +443,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h3 class="text-2xl font-display font-bold text-primary mb-6">Premium Inclusions</h3>
                         <div class="space-y-4">
@@ -422,16 +481,13 @@
                         <div class="swiper room-gallery-swiper rounded-2xl shadow-xl">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1647336811715-d7c7837c50d9?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Deluxe Villa Pool" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1647336811715-d7c7837c50d9?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Deluxe Villa Pool" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1731336478850-6bce7235e320?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Deluxe Villa Terrace" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1731336478850-6bce7235e320?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Deluxe Villa Terrace" class="w-full h-96 object-cover">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                                        alt="Deluxe Villa Interior" class="w-full h-96 object-cover">
+                                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Deluxe Villa Interior" class="w-full h-96 object-cover">
                                 </div>
                             </div>
                             <div class="swiper-pagination"></div>
@@ -439,14 +495,12 @@
                             <div class="swiper-button-prev"></div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h2 class="text-4xl font-display font-bold text-primary mb-4">Deluxe Villa</h2>
                         <p class="text-2xl text-secondary font-semibold mb-6">Starting from ₱1,299/night</p>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">The ultimate in luxury accommodation, our
-                            Deluxe Villa offers a private sanctuary with exclusive amenities, personal pool, and
-                            unparalleled service for the most discerning guests.</p>
-
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">The ultimate in luxury accommodation, our Deluxe Villa offers a private sanctuary with exclusive amenities, personal pool, and unparalleled service for the most discerning guests.</p>
+                        
                         <div class="grid grid-cols-2 gap-4 mb-8">
                             <div class="text-center p-4 bg-gray-50 rounded-lg">
                                 <i data-feather="users" class="h-8 w-8 text-primary mx-auto mb-2"></i>
@@ -459,14 +513,13 @@
                                 <p class="text-gray-600">120 sqm</p>
                             </div>
                         </div>
-
-                        <button
-                            class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                        
+                        <button class="gradient-primary text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
                             Book Deluxe Villa
                         </button>
                     </div>
                 </div>
-
+                
                 <!-- Amenities and Inclusions -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
@@ -494,7 +547,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h3 class="text-2xl font-display font-bold text-primary mb-6">VIP Services Included</h3>
                         <div class="space-y-4">
@@ -529,15 +582,12 @@
     <section class="py-16 bg-primary text-white">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready to Experience Luxury?</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Contact our reservations team to book your perfect accommodation
-                or customize your stay.</p>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Contact our reservations team to book your perfect accommodation or customize your stay.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                    class="bg-secondary hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105">
+                <button class="bg-secondary hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-medium text-lg transition-all transform hover:scale-105">
                     Book Now
                 </button>
-                <a href="index.html#contact"
-                    class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-full font-medium text-lg transition-all">
+                <a href="index.html#contact" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-full font-medium text-lg transition-all">
                     Contact Us
                 </a>
             </div>
@@ -555,42 +605,29 @@
                         </div>
                         <span class="font-display text-2xl font-bold">Solara Hotel</span>
                     </div>
-                    <p class="text-gray-400 leading-relaxed">Experience luxury redefined at our world-class hotel, where
-                        every moment is crafted to perfection.</p>
+                    <p class="text-gray-400 leading-relaxed">Experience luxury redefined at our world-class hotel, where every moment is crafted to perfection.</p>
                 </div>
-
+                
                 <div>
                     <h4 class="font-display font-semibold text-lg mb-6">Room Types</h4>
                     <ul class="space-y-3">
-                        <li><button onclick="showRoom('regular')"
-                                class="text-gray-400 hover:text-secondary transition-colors text-left">Regular
-                                Suite</button></li>
-                        <li><button onclick="showRoom('twin')"
-                                class="text-gray-400 hover:text-secondary transition-colors text-left">Twin Bed
-                                Penthouse</button></li>
-                        <li><button onclick="showRoom('skyline')"
-                                class="text-gray-400 hover:text-secondary transition-colors text-left">Skyline
-                                Suite</button></li>
-                        <li><button onclick="showRoom('deluxe')"
-                                class="text-gray-400 hover:text-secondary transition-colors text-left">Deluxe
-                                Villa</button></li>
+                        <li><button onclick="showRoom('regular')" class="text-gray-400 hover:text-secondary transition-colors text-left">Regular Suite</button></li>
+                        <li><button onclick="showRoom('twin')" class="text-gray-400 hover:text-secondary transition-colors text-left">Twin Bed Penthouse</button></li>
+                        <li><button onclick="showRoom('skyline')" class="text-gray-400 hover:text-secondary transition-colors text-left">Skyline Suite</button></li>
+                        <li><button onclick="showRoom('deluxe')" class="text-gray-400 hover:text-secondary transition-colors text-left">Deluxe Villa</button></li>
                     </ul>
                 </div>
-
+                
                 <div>
                     <h4 class="font-display font-semibold text-lg mb-6">Quick Links</h4>
                     <ul class="space-y-3">
-                        <li><a href="index.html" class="text-gray-400 hover:text-secondary transition-colors">Home</a>
-                        </li>
-                        <li><a href="index.html#amenities"
-                                class="text-gray-400 hover:text-secondary transition-colors">Amenities</a></li>
-                        <li><a href="index.html#dining"
-                                class="text-gray-400 hover:text-secondary transition-colors">Dining</a></li>
-                        <li><a href="index.html#contact"
-                                class="text-gray-400 hover:text-secondary transition-colors">Contact</a></li>
+                        <li><a href="index.html" class="text-gray-400 hover:text-secondary transition-colors">Home</a></li>
+                        <li><a href="index.html#amenities" class="text-gray-400 hover:text-secondary transition-colors">Amenities</a></li>
+                        <li><a href="index.html#dining" class="text-gray-400 hover:text-secondary transition-colors">Dining</a></li>
+                        <li><a href="index.html#contact" class="text-gray-400 hover:text-secondary transition-colors">Contact</a></li>
                     </ul>
                 </div>
-
+                
                 <div>
                     <h4 class="font-display font-semibold text-lg mb-6">Contact Info</h4>
                     <div class="space-y-3">
@@ -609,15 +646,13 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="border-t border-gray-800 pt-8">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-gray-400 text-sm">© 2024 Solara Hotel. All rights reserved.</p>
                     <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Privacy
-                            Policy</a>
-                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Terms of
-                            Service</a>
+                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>
@@ -627,12 +662,12 @@
     <!-- JavaScript -->
     <script>
         // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Initialize Feather icons
             if (typeof feather !== 'undefined') {
                 feather.replace();
             }
-
+            
             // Initialize all gallery swipers
             const gallerySwipers = document.querySelectorAll('.room-gallery-swiper');
             gallerySwipers.forEach((swiperEl) => {
@@ -653,7 +688,7 @@
                 });
             });
         });
-
+        
         // Room tab functionality
         function showRoom(roomType) {
             // Hide all room contents
@@ -661,28 +696,28 @@
             roomContents.forEach(content => {
                 content.classList.remove('active');
             });
-
+            
             // Remove active class from all tabs
             const tabs = document.querySelectorAll('.room-tab');
             tabs.forEach(tab => {
                 tab.classList.remove('active');
                 tab.classList.add('bg-gray-100', 'hover:bg-gray-200');
             });
-
+            
             // Show selected room content
             document.getElementById(roomType).classList.add('active');
-
+            
             // Add active class to clicked tab
             event.target.classList.add('active');
             event.target.classList.remove('bg-gray-100', 'hover:bg-gray-200');
-
+            
             // Scroll to top of room section
             document.querySelector('main').scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
         }
-
+        
         // Fallback function to initialize feather icons if loaded later
         function initFeatherIcons() {
             if (typeof feather !== 'undefined') {
@@ -691,10 +726,10 @@
                 setTimeout(initFeatherIcons, 100);
             }
         }
-
+        
         // Try to initialize feather icons
         initFeatherIcons();
-
+        
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -710,5 +745,4 @@
         });
     </script>
 </body>
-
 </html>
