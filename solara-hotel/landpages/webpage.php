@@ -1,0 +1,800 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $isLoggedIn ? $_SESSION['first_name'] : '';
+?>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solara Hotel | Luxury Redefined</title>
+  <link rel="icon" type="image/x-icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+
+  <!-- Tailwind (play CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #c6a969;
+      --dark: #0f172a;
+      --light: #f8fafc;
+    }
+
+    
+    header {
+       transition: background-color 0.3s ease, padding 0.3s ease;
+    }
+
+
+    header.bg-transparent {
+       background-color: rgba(255, 255, 255, 0); 
+    }
+
+
+    header.scrolled {
+       background-color: rgba(255, 255, 255, 0.8); 
+    }
+
+    header.scrolled .font-display, header.scrolled .text-white {
+       color: var(--primary); 
+    }
+
+    header.scrolled nav a {
+    color: var(--primary); 
+    }
+
+    header.scrolled .gradient-primary {
+       background: linear-gradient(to right, var(--primary), var(--secondary)); 
+    }
+
+
+    header.scrolled .container {
+       padding-top: 12px; 
+       padding-bottom: 12px;
+    }
+
+
+    body { font-family: 'Open Sans', sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(26, 54, 93, 0.7) 0%, rgba(198, 169, 105, 0.3) 100%);
+    }
+
+    .amenity-card { transition: all 0.4s cubic-bezier(.4,0,.2,1); }
+    .amenity-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+
+    .testimonial-card {
+      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .room-overlay {
+      background: linear-gradient(to top, rgba(26,54,93,0.9) 0%, rgba(26,54,93,0.3) 70%, transparent 100%);
+      transition: opacity .4s ease;
+      opacity: 0;
+    }
+    .room-card:hover .room-overlay { opacity: 1; }
+
+    .fade-in { animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+
+    .swiper-pagination-bullet { background: rgba(255,255,255,.7); }
+    .swiper-pagination-bullet-active { background: var(--secondary); }
+
+    .gradient-primary { background: linear-gradient(to right, var(--secondary), var(--primary)); }
+    .gradient-primary:hover { background: linear-gradient(to right, var(--primary), var(--secondary)); }
+
+    /* small helpers */
+    .text-primary { color: var(--primary); }
+    .bg-primary { background: var(--primary); }
+    .text-secondary { color: var(--secondary); }
+    .bg-secondary { background: var(--secondary); }
+    .bg-dark { background: var(--dark); }
+
+    /* User Dropdown */
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      min-width: 200px;
+      overflow: hidden;
+    }
+    .user-dropdown.active {
+      display: block;
+      animation: dropdownFade 0.3s ease-out;
+    }
+    @keyframes dropdownFade {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Fully Transparent Header -->
+<header class="fixed top-0 left-0 w-full z-50 bg-transparent">
+  <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <div class="flex items-center">
+      <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+        <i data-feather="sun" class="text-white h-5 w-5"></i>
+      </div>
+      <span class="font-display text-2xl font-bold text-white">Solara Hotel</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="mainNav" class="hidden md:flex space-x-8">
+      <a href="#home" class="text-white hover:text-yellow-400 transition-colors">Home</a>
+      <a href="#rooms" class="text-white hover:text-yellow-400 transition-colors">Rooms</a>
+      <a href="#amenities" class="text-white hover:text-yellow-400 transition-colors">Amenities</a>
+      <a href="#contact" class="text-white hover:text-yellow-400 transition-colors">Contact</a>
+    </nav>
+
+    <!-- Buttons -->
+    <div class="flex items-center space-x-4">
+      <!-- Book Now Button -->
+      <?php if ($isLoggedIn): ?>
+        <a href="booking.html" 
+           class="gradient-primary text-white px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg">
+          Book Now
+        </a>
+      <?php else: ?>
+        <button 
+          id="bookNowBtn"
+          class="gradient-primary text-white px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg">
+          Book Now
+        </button>
+      <?php endif; ?>
+
+      <!-- Login / User Menu -->
+      <?php if ($isLoggedIn): ?>
+        <div class="relative">
+          <button id="userMenuBtn" class="flex items-center space-x-2 text-white hover:text-yellow-400 transition-colors font-medium">
+            <i data-feather="user" class="h-5 w-5"></i>
+            <span><?php echo htmlspecialchars($userName); ?></span>
+            <i data-feather="chevron-down" class="h-4 w-4"></i>
+          </button>
+          <div id="userDropdown" class="user-dropdown">
+            <a href="booking.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors">
+              <i data-feather="calendar" class="h-4 w-4 inline mr-2"></i>
+              My Bookings
+            </a>
+            <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors">
+              <i data-feather="user" class="h-4 w-4 inline mr-2"></i>
+              Profile
+            </a>
+            <a href="logout.php" class="block px-4 py-3 text-red-600 hover:bg-gray-100 transition-colors border-t">
+              <i data-feather="log-out" class="h-4 w-4 inline mr-2"></i>
+              Logout
+            </a>
+          </div>
+        </div>
+      <?php else: ?>
+        <a href="log-sign.html" class="text-white hover:text-yellow-400 transition-colors font-medium">Login</a>
+      <?php endif; ?>
+
+      <!-- Mobile menu button -->
+      <button id="mobileMenuBtn" class="md:hidden p-2 rounded-md bg-black/20">
+        <i data-feather="menu" class="h-5 w-5 text-white"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Slider -->
+<section id="home" class="relative">
+  <div class="swiper hero-slider h-screen">
+    <div class="swiper-wrapper">
+
+      <!-- Slide 1 -->
+      <div class="swiper-slide relative">
+        <div class="absolute inset-0 hero-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          alt="Hotel exterior" class="w-full h-full object-cover">
+        <div class="absolute inset-0 flex items-center justify-center text-center px-6">
+          <div class="max-w-5xl fade-in">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 leading-tight">
+              Experience Unmatched <span class="text-secondary">Luxury</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Indulge in world-class hospitality where every moment is crafted to perfection
+            </p>
+            <div class="flex justify-center gap-4">
+              <a href="#rooms" class="gradient-primary text-white px-8 py-3 rounded-full font-medium">View Rooms</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="swiper-slide relative">
+        <div class="absolute inset-0 hero-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1756285058055-d32ff635b875?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Skyline view from luxury room" class="w-full h-full object-cover">
+        <div class="absolute inset-0 flex items-center justify-center text-center px-6">
+          <div class="max-w-5xl fade-in">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 leading-tight">
+              Stunning <span class="text-secondary">Skyline Views</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Wake up to breathtaking cityscapes right from your suite
+            </p>
+            <div class="flex justify-center gap-4">
+              <a href="#rooms" class="gradient-primary text-white px-8 py-3 rounded-full font-medium">Explore Suites</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="swiper-slide relative">
+        <div class="absolute inset-0 hero-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1758448721149-aa0ce8e1b2c9?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Elegant hotel lobby" class="w-full h-full object-cover">
+        <div class="absolute inset-0 flex items-center justify-center text-center px-6">
+          <div class="max-w-5xl fade-in">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 leading-tight">
+              Welcome to <span class="text-secondary">Elegance</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Step into a sophisticated lobby designed to impress from the first moment
+            </p>
+            <div class="flex justify-center gap-4">
+              <a href="#amenities" class="gradient-primary text-white px-8 py-3 rounded-full font-medium">View Amenities</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- pagination for hero -->
+    <div class="swiper-pagination hero-pagination absolute bottom-8 left-0 right-0 z-20"></div>
+  </div>
+</section>
+
+  <!-- Featured Amenities -->
+  <section id="amenities" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-primary mb-6">Our Signature Amenities</h2>
+        <p class="max-w-3xl mx-auto text-gray-600 text-lg">Every detail meticulously crafted for your comfort, pleasure, and unforgettable memories</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="amenity-card bg-white p-8 rounded-2xl shadow-lg text-center group">
+          <div class="bg-gradient-to-br from-blue-50 to-yellow-50 w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6">
+            <i data-feather="umbrella" class="text-primary h-12 w-12"></i>
+          </div>
+          <h3 class="text-xl font-display font-semibold mb-4 text-primary">Private Pool Access</h3>
+          <p class="text-gray-600 leading-relaxed">Take a refreshing dip in our crystal-clear infinity pool, complete with private cabanas and attentive poolside service.</p>
+        </div>
+
+        <div class="amenity-card bg-white p-8 rounded-2xl shadow-lg text-center group">
+          <div class="bg-gradient-to-br from-blue-50 to-yellow-50 w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6">
+            <i data-feather="heart" class="text-primary h-12 w-12"></i>
+          </div>
+          <h3 class="text-xl font-display font-semibold mb-4 text-primary">World-Class Spa</h3>
+          <p class="text-gray-600 leading-relaxed">Rejuvenating treatments using only the finest organic ingredients and ancient wellness techniques</p>
+        </div>
+
+        <div class="amenity-card bg-white p-8 rounded-2xl shadow-lg text-center group">
+          <div class="bg-gradient-to-br from-blue-50 to-yellow-50 w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6">
+            <i data-feather="coffee" class="text-primary h-12 w-12"></i>
+          </div>
+          <h3 class="text-xl font-display font-semibold mb-4 text-primary">Gourmet Dining</h3>
+          <p class="text-gray-600 leading-relaxed">Five distinctive restaurants featuring internationally acclaimed chefs and locally sourced ingredients</p>
+        </div>
+
+        <div class="amenity-card bg-white p-8 rounded-2xl shadow-lg text-center group">
+          <div class="bg-gradient-to-br from-blue-50 to-yellow-50 w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6">
+            <i data-feather="wifi" class="text-primary h-12 w-12"></i>
+          </div>
+          <h3 class="text-xl font-display font-semibold mb-4 text-primary">Premium Connectivity</h3>
+          <p class="text-gray-600 leading-relaxed">Complimentary high-speed WiFi throughout the resort with dedicated business center facilities</p>
+        </div>
+
+        <div class="amenity-card bg-white p-8 rounded-2xl shadow-lg text-center group">
+          <div class="bg-gradient-to-br from-blue-50 to-yellow-50 w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6">
+            <i data-feather="activity" class="text-primary h-12 w-12"></i>
+          </div>
+          <h3 class="text-xl font-display font-semibold mb-4 text-primary">Fitness & Recreation</h3>
+          <p class="text-gray-600 leading-relaxed">State-of-the-art fitness center, tennis courts, and curated adventure experiences</p>
+        </div>
+
+        <div class="amenity-card bg-white p-8 rounded-2xl shadow-lg text-center group">
+          <div class="bg-gradient-to-br from-blue-50 to-yellow-50 w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6">
+            <i data-feather="users" class="text-primary h-12 w-12"></i>
+          </div>
+          <h3 class="text-xl font-display font-semibold mb-4 text-primary">Concierge Services</h3>
+          <p class="text-gray-600 leading-relaxed">24/7 personal concierge service to fulfill every request and create bespoke experiences</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Room Showcase -->
+  <section id="rooms" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-primary mb-6">Luxurious Accommodations</h2>
+        <p class="max-w-3xl mx-auto text-gray-600 text-lg">Select your perfect sanctuary from our collection of meticulously designed suites and villas</p>
+      </div>
+
+      <div class="swiper room-swiper">
+        <div class="swiper-wrapper pb-16">
+          <!-- Regular Suite -->
+          <div class="swiper-slide">
+            <div class="room-card relative overflow-hidden rounded-2xl h-96 shadow-xl">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Regular Suite" class="w-full h-full object-cover">
+              <div class="absolute inset-0 room-overlay flex flex-col justify-end p-8">
+                <h3 class="text-2xl font-display font-bold text-white mb-2">Regular Suite</h3>
+                <p class="text-white/90 mb-4">Starting from <span class="text-secondary font-semibold">₱499</span>/night</p>
+                  <a href="room_details.html" 
+                   class="bg-secondary hover:bg-primary text-white px-6 py-3 rounded-full font-medium w-fit transition-all transform hover:scale-105">
+                    View Details
+                  </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Twin Room -->
+          <div class="swiper-slide">
+            <div class="room-card relative overflow-hidden rounded-2xl h-96 shadow-xl">
+              <img src="https://images.unsplash.com/photo-1630999295881-e00725e1de45?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Twinbed Penthouse" class="w-full h-full object-cover">
+              <div class="absolute inset-0 room-overlay flex flex-col justify-end p-8">
+                <h3 class="text-2xl font-display font-bold text-white mb-2">Twin Bed Penthouse</h3>
+                <p class="text-white/90 mb-4">Starting from <span class="text-secondary font-semibold">₱899</span>/night</p>
+                   <a href="room_details.html" 
+                    class="bg-secondary hover:bg-primary text-white px-6 py-3 rounded-full font-medium w-fit transition-all transform hover:scale-105">
+                     View Details
+                   </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skyline Suite -->
+          <div class="swiper-slide">
+            <div class="room-card relative overflow-hidden rounded-2xl h-96 shadow-xl">
+              <img src="https://images.unsplash.com/photo-1740324351912-b9189685ab1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Skyline Suite" class="w-full h-full object-cover">
+              <div class="absolute inset-0 room-overlay flex flex-col justify-end p-8">
+                <h3 class="text-2xl font-display font-bold text-white mb-2">Skyline Suite</h3>
+                <p class="text-white/90 mb-4">Starting from <span class="text-secondary font-semibold">₱1,499</span>/night</p>
+                   <a href="room_details.html" 
+                    class="bg-secondary hover:bg-primary text-white px-6 py-3 rounded-full font-medium w-fit transition-all transform hover:scale-105">
+                     View Details
+                   </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deluxe Suite -->
+          <div class="swiper-slide">
+            <div class="room-card relative overflow-hidden rounded-2xl h-96 shadow-xl">
+              <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Deluxe Suite" class="w-full h-full object-cover">
+              <div class="absolute inset-0 room-overlay flex flex-col justify-end p-8">
+                <h3 class="text-2xl font-display font-bold text-white mb-2">Deluxe Villa</h3>
+                <p class="text-white/90 mb-4">Starting from <span class="text-secondary font-semibold">₱1,299</span>/night</p>
+                   <a href="room_details.html" 
+                    class="bg-secondary hover:bg-primary text-white px-6 py-3 rounded-full font-medium w-fit transition-all transform hover:scale-105">
+                     View Details
+                   </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- pagination for rooms -->
+        <div class="swiper-pagination room-pagination"></div>
+      </div>
+
+      <div class="text-center mt-12">
+        <button class="bg-primary hover:bg-gray-800 text-white px-10 py-4 rounded-full font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+          View All Rooms
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-20 bg-primary text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 opacity-90"></div>
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">Guest Experiences</h2>
+        <p class="max-w-3xl mx-auto text-white/80 text-lg">What our distinguished guests say about their unforgettable stay</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="testimonial-card p-8 rounded-2xl">
+          <div class="flex items-center mb-6">
+            <img src="https://images.unsplash.com/photo-1581403341630-a6e0b9d2d257?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sarah Johnson"
+              class="w-14 h-14 rounded-full border-2 border-white/30">
+            <div class="ml-4">
+              <h4 class="font-display font-semibold text-lg">Sarah Johnson</h4>
+              <div class="flex text-secondary mt-1">
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </div>
+          <p class="italic text-white/90 leading-relaxed">"The attention to detail at Solara Hotel is absolutely unparalleled. From the moment we arrived, every need was anticipated and exceeded. The spa treatments were truly transformative!"</p>
+        </div>
+
+        <div class="testimonial-card p-8 rounded-2xl">
+          <div class="flex items-center mb-6">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Michael Chen"
+              class="w-14 h-14 rounded-full border-2 border-white/30">
+            <div class="ml-4">
+              <h4 class="font-display font-semibold text-lg">Michael Chen</h4>
+              <div class="flex text-secondary mt-1">
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </div>
+          <p class="italic text-white/90 leading-relaxed">"The Executive Penthouse was worth every penny. The panoramic ocean views, the personalized butler service, and the exquisite amenities - we've never experienced hospitality at this extraordinary level."</p>
+        </div>
+
+        <div class="testimonial-card p-8 rounded-2xl">
+          <div class="flex items-center mb-6">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Elena Rodriguez"
+              class="w-14 h-14 rounded-full border-2 border-white/30">
+            <div class="ml-4">
+              <h4 class="font-display font-semibold text-lg">Elena Rodriguez</h4>
+              <div class="flex text-secondary mt-1">
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+                <i data-feather="star" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </div>
+          <p class="italic text-white/90 leading-relaxed">"We celebrated our anniversary here and it was absolutely magical. The sunset dinner by the infinity pool, the romantic suite setup, and the impeccable service made it an unforgettable milestone."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-primary mb-6">Contact Us</h2>
+        <p class="max-w-3xl mx-auto text-gray-600 text-lg">Ready to experience luxury redefined? Get in touch with our reservation specialists</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <h3 class="text-2xl font-display font-semibold text-primary mb-6">Get in Touch</h3>
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <i data-feather="map-pin" class="text-secondary h-6 w-6 mr-4"></i>
+              <p class="text-gray-700">123 Paradise Island, Solara Bay</p>
+            </div>
+            <div class="flex items-center">
+              <i data-feather="phone" class="text-secondary h-6 w-6 mr-4"></i>
+              <p class="text-gray-700">+960 123 4567</p>
+            </div>
+            <div class="flex items-center">
+              <i data-feather="mail" class="text-secondary h-6 w-6 mr-4"></i>
+              <p class="text-gray-700">reservations@solarahotel.com</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <h3 class="text-2xl font-display font-semibold text-primary mb-6">Quick Reservation</h3>
+          <form id="reservationForm" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="date" name="checkin" placeholder="Check-in Date" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary" required>
+              <input type="date" name="checkout" placeholder="Check-out Date" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary" required>
+            </div>
+
+            <select name="room" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary" required>
+              <option value="">Select Room Type</option>
+              <option>Deluxe Suite</option>
+              <option>Executive Penthouse</option>
+              <option>Presidential Suite</option>
+              <option>Ocean View Villa</option>
+            </select>
+
+            <button type="submit" class="w-full gradient-primary text-white px-6 py-3 rounded-lg font-medium transition-all transform hover:scale-105">
+              Check Availability
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div>
+          <div class="flex items-center mb-6">
+            <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+              <i data-feather="sun" class="text-white h-5 w-5"></i>
+            </div>
+            <span class="font-display text-2xl font-bold">Solara Hotel</span>
+          </div>
+          <p class="text-gray-400 leading-relaxed">Experience luxury redefined at our world-class resort, where every moment is crafted to perfection.</p>
+          <div class="flex space-x-4 mt-6">
+            <a href="#" class="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+              <i data-feather="facebook" class="h-5 w-5"></i>
+            </a>
+            <a href="#" class="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+              <i data-feather="instagram" class="h-5 w-5"></i>
+            </a>
+            <a href="#" class="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+              <i data-feather="twitter" class="h-5 w-5"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-display font-semibold text-lg mb-6">Quick Links</h4>
+          <ul class="space-y-3">
+            <li><a href="#home" class="text-gray-400 hover:text-secondary transition-colors">Home</a></li>
+            <li><a href="#rooms" class="text-gray-400 hover:text-secondary transition-colors">Rooms & Suites</a></li>
+            <li><a href="#amenities" class="text-gray-400 hover:text-secondary transition-colors">Amenities</a></li>
+            <li><a href="#contact" class="text-gray-400 hover:text-secondary transition-colors">Contact</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Spa & Wellness</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-display font-semibold text-lg mb-6">Services</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Concierge</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Room Service</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Airport Transfer</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Business Center</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Event Planning</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-display font-semibold text-lg mb-6">Contact Info</h4>
+          <div class="space-y-3 text-gray-400">
+            <div class="flex items-start">
+              <i data-feather="map-pin" class="text-secondary h-5 w-5 mr-3 mt-1"></i>
+              <p>123 Paradise Island<br>Solara Bay</p>
+            </div>
+            <div class="flex items-center">
+              <i data-feather="phone" class="text-secondary h-5 w-5 mr-3"></i>
+              <p>+960 123 4567</p>
+            </div>
+            <div class="flex items-center">
+              <i data-feather="mail" class="text-secondary h-5 w-5 mr-3"></i>
+              <p>info@solarahotel.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm">© <span id="currentYear"></span> Solara Hotel. All rights reserved.</p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-secondary text-sm transition-colors">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- External scripts loaded at the end for performance -->
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- App JS -->
+  <script>
+    // Wait for DOM content so feather is available & DOM elements exist
+    document.addEventListener('DOMContentLoaded', function () {
+      // Feather icons
+      if (typeof feather !== 'undefined') {
+        feather.replace();
+      } else {
+        console.warn('feather-icons not loaded');
+      }
+
+      // Update copyright year
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      // Hero Swiper
+      const heroSwiper = new Swiper('.hero-slider', {
+        loop: true,
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
+        autoplay: { delay: 6000, disableOnInteraction: false },
+        pagination: {
+          el: '.hero-pagination',
+          clickable: true
+        }
+      });
+
+      // Room Swiper
+      const roomSwiper = new Swiper('.room-swiper', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 24,
+        autoplay: { delay: 4500, disableOnInteraction: false },
+        pagination: {
+          el: '.room-pagination',
+          clickable: true
+        },
+        breakpoints: {
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 }
+        }
+      });
+
+      // Intersection observer for simple fade-in of amenity/testimonial cards
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.amenity-card, .testimonial-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+      });
+
+      // Mobile nav toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mainNav = document.getElementById('mainNav');
+
+      mobileBtn.addEventListener('click', () => {
+        if (mainNav.classList.contains('hidden')) {
+          mainNav.classList.remove('hidden');
+          mainNav.classList.add('flex', 'flex-col', 'absolute', 'left-0', 'right-0', 'top-20', 'bg-white', 'p-4', 'shadow-lg', 'z-40');
+        } else {
+          // hide for mobile
+          mainNav.classList.add('hidden');
+          mainNav.classList.remove('flex', 'flex-col', 'absolute', 'left-0', 'right-0', 'top-20', 'bg-white', 'p-4', 'shadow-lg', 'z-40');
+        }
+      });
+
+      // Check if user is logged in
+      const isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
+
+      // Book Now button functionality (for non-logged in users)
+      <?php if (!$isLoggedIn): ?>
+      const bookNowBtn = document.getElementById('bookNowBtn');
+      if (bookNowBtn) {
+        bookNowBtn.addEventListener('click', () => {
+          alert('Please login or create an account to make a booking.');
+          window.location.href = 'log-sign.html';
+        });
+      }
+      <?php endif; ?>
+
+      // User dropdown toggle (if logged in)
+      <?php if ($isLoggedIn): ?>
+      const userMenuBtn = document.getElementById('userMenuBtn');
+      const userDropdown = document.getElementById('userDropdown');
+      
+      userMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown.classList.toggle('active');
+        feather.replace();
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        userDropdown.classList.remove('active');
+      });
+
+      userDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+      <?php endif; ?>
+
+      // Reservation form - basic client-side validation / fake submit
+      const reservationForm = document.getElementById('reservationForm');
+      if (reservationForm) {
+        reservationForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          // Grab values (simple check)
+          const checkin = reservationForm.checkin.value;
+          const checkout = reservationForm.checkout.value;
+          const room = reservationForm.room.value;
+
+          if (!checkin || !checkout || !room) {
+            alert('Please fill check-in/check-out dates and choose a room type.');
+            return;
+          }
+
+          // Simulate success
+          alert('Thanks! We received your availability request. Our reservations team will contact you shortly.');
+          reservationForm.reset();
+        });
+      }
+
+      // Smooth scroll for local anchors
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const targetSelector = this.getAttribute('href');
+          if (targetSelector.length > 1) {
+            const target = document.querySelector(targetSelector);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+
+      // Image fade-in on load
+      document.querySelectorAll('img').forEach(img => {
+        img.style.opacity = '0';
+        img.style.transition = 'opacity .35s ease, transform .35s ease';
+        if (img.complete) {
+          img.style.opacity = '1';
+        } else {
+          img.addEventListener('load', function () { this.style.opacity = '1'; });
+        }
+      });
+
+      // Header shadow toggle on scroll
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+          header.classList.add('shadow-xl');
+        } else {
+          header.classList.remove('shadow-xl');
+        }
+      });
+    });
+
+    // JavaScript to handle the scroll effect
+    window.addEventListener('scroll', function () {
+      const header = document.querySelector('header');
+      
+      // If scroll distance is greater than 100px, add the 'scrolled' class
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled'); // Add the scrolled class
+      } else {
+        header.classList.remove('scrolled'); // Remove it when scrolled back to the top
+      }
+    });
+
+  </script>
+</body>
+</html>
