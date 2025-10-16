@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Half Image Section with Arrows</title>
+
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+      <!-- Swiper JS -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+      <!-- Tailwind -->
+      <script src="https://cdn.tailwindcss.com"></script>
+      <script src="js/script.js" defer></script>
+      <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+      <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+<style>
+      /* Swiper slide container */
+      .swiper-slide {
+            height: 600px;
+            position: relative;
+      }
+
+      /* Half background image */
+      .half-bg {
+            display: flex;
+            width: 100%;
+            height: 100%;
+      }
+
+      .half-bg .image {
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+      }
+
+      /* Swiper arrows */
+      .swiper-button-next,
+      .swiper-button-prev {
+            color: #848484;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: transparent;
+      }
+
+      .swiper-button-next::after,
+      .swiper-button-prev::after {
+            font-size: 20px;
+      }
+
+      /* Pagination bullets */
+      .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            opacity: 0.5;
+            border-radius: 9999px;
+            margin: 0 8px !important;
+      }
+
+      .swiper-pagination-bullet-active {
+            background-color: black;
+            opacity: 1;
+      }
+
+      .swiper-pagination {
+            bottom: 80px !important;
+      }
+
+      /* Elementor (centered title box) */
+      .elementor {
+            position: absolute;
+            top: 97%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 29px;
+            background-color: white;
+            padding: 20px 80px;
+            z-index: 1;
+            text-align: center;
+      }
+</style>
+
+<body class="bg-gray-100">
+
+      <!-- Header -->
+      <header class="fixed top-0 left-0 w-full z-50 bg-transparent">
+            <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center">
+                        <div class="w-16 h-16 gradient-primary rounded-full flex items-center justify-center mr-3">
+                              <img src="images/logo-header.png" alt="" class="images-slides">
+                        </div>
+                        <span class="font-display text-2xl font-bold text-white">Solara Hotel</span>
+                  </div>
+                  <nav id="mainNav" class="hidden md:flex space-x-8">
+                        <a href="webpage.php" class="text-white hover:text-yellow-400 transition-colors">Home</a>
+                        <a href="webpage.php" class="text-white hover:text-yellow-400 transition-colors">Rooms</a>
+                        <a href="webpage.php" class="text-white hover:text-yellow-400 transition-colors">Amenities</a>
+                        <div class="relative group">
+                              <a href="events.html"
+                                    class="text-white hover:text-yellow-400 transition-colors">Events</a>
+                              <div
+                                    class="absolute hidden group-hover:block bg-white text-primary mt-2 rounded-lg shadow-lg w-48">
+                                    <a href="meeting-conference.html"
+                                          class="block px-4 py-2 w-full hover:bg-[#1a365d] hover:text-white rounded-md">
+                                          Meetings and Conference
+                                    </a>
+                                    <a href="debut.html"
+                                          class="block px-4 py-2 w-full hover:bg-[#1a365d] hover:text-white rounded-md">
+                                          Debuts
+                                    </a>
+                              </div>
+                        </div>
+                        <a href="webpage.php" class="text-white hover:text-yellow-400 transition-colors">Contact</a>
+                  </nav>
+
+                  <div class="flex items-center space-x-4">
+                        <button id="bookBtn"
+                              class="hidden sm:inline-block gradient-primary text-white px-5 py-2 rounded-full font-medium transition-transform transform hover:scale-105 shadow-lg">
+                              Book Now
+                        </button>
+                        <button id="mobileMenuBtn" class="md:hidden p-2 rounded-md bg-black/20">
+                              <i data-feather="menu" class="h-5 w-5 text-white"></i>
+                        </button>
+                  </div>
+            </div>
+      </header>
+
+      <!-- Swiper Container -->
+      <div class="swiper mySwiper w-full">
+            <div class="swiper-wrapper">
+
+                  <!-- Slide 1 -->
+                  <div class="swiper-slide">
+                        <div class="half-bg">
+                              <div class="image"
+                                    style="background-image: url('https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                              </div>
+                        </div>
+                        <div class="elementor">
+                              <h1>Meetings</h1>
+                        </div>
+                  </div>
+
+                  <!-- Slide 2 -->
+                  <div class="swiper-slide">
+                        <div class="half-bg">
+                              <div class="image"
+                                    style="background-image: url('https://images.unsplash.com/photo-1631246957572-0c49e4ee6ff4?q=80&w=1162&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                              </div>
+                        </div>
+                        <div class="elementor">
+                              <h1>Conferences</h1>
+                        </div>
+                  </div>
+
+                  <!-- Slide 3 -->
+                  <div class="swiper-slide">
+                        <div class="half-bg">
+                              <div class="image"
+                                    style="background-image: url('https://images.unsplash.com/photo-1677129662571-f8a93e03af85?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                              </div>
+                        </div>
+                        <div class="elementor">
+                              <h1>Debuts</h1>
+                        </div>
+                  </div>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Navigation Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+      </div>
+
+      <section class="max-w-5xl mx-auto px-6 py-12">
+            <!-- Breadcrumb -->
+            <p class="text-sm text-gray-600 mb-6">
+                  <a href="webpage.php" class="text-[#8B5E2E] hover:underline">Home</a> &gt; <span
+                        class="text-gray-800">Events</span>
+            </p>
+
+            <!-- Intro -->
+            <h2 class="text-2xl font-bold text-center text-[#8B5E2E] mb-4">
+                  Start planning your event here!
+            </h2>
+            <p class="text-center text-gray-700 max-w-2xl mx-auto mb-8">
+                  Entrust us with the details, so you can focus on the celebration. We specialize in discerning the
+                  perfect setting and crafting a completely personalized experience, ensuring your event is as
+                  effortless as it is unforgettable.
+            </p>
+
+      </section>
+
+      <section class="py-12 bg-gray-50">
+            <div
+                  class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 rounded-xl overflow-hidden shadow-lg">
+
+                  <!-- Debut Image -->
+                  <div class="h-58 bg-cover bg-center"
+                        style="background-image: url('https://plus.unsplash.com/premium_photo-1661337152210-70d60c6c9710?q=80&w=1740&auto=format&fit=crop');">
+                  </div>
+
+                  <!-- Debut Text -->
+                  <div
+                        class="flex flex-col items-center justify-center bg-white p-6 text-center group hover:bg-[#1a365d] hover:text-white transition duration-500">
+                        <div class="text-3xl mb-3">Debut</div>
+                        <h3 class="font-semibold text-lg">From stunning setups to personalized themes, we’ll turn your
+                              dream debut into reality.</h3>
+                        <a href="debut.html"
+                              class="mt-4 px-4 py-2 border border-[#1a365d] text-[#1a365d] font-medium rounded-full transition duration-300 group-hover:border-white group-hover:text-white hover:scale-105">
+                              See Details
+                        </a>
+                  </div>
+
+                  <!-- Meeting Image -->
+                  <div class="h-58 bg-cover bg-center"
+                        style="background-image: url('https://officebanao.com/wp-content/uploads/2023/08/Conference-Table_-1536x864.webp');">
+                  </div>
+
+                  <!-- Meeting Text -->
+                  <div
+                        class="flex flex-col items-center justify-center bg-white p-6 text-center group hover:bg-[#1a365d] hover:text-white transition duration-500">
+                        <div class="text-3xl mb-3">Meeting</div>
+                        <h3 class="font-semibold text-lg">Experience a professional atmosphere with state-of-the-art
+                              facilities tailored for business success.</h3>
+                        <a href="meeting-conference.html"
+                              class="mt-4 px-4 py-2 border border-[#1a365d] text-[#1a365d] font-medium rounded-full transition duration-300 group-hover:border-white group-hover:text-white hover:scale-105">
+                              See Details
+                        </a>
+                  </div>
+
+                  <!-- Conference Image -->
+                  <div class="h-58 bg-cover bg-center"
+                        style="background-image: url('https://www.metroparkhotelcebu.com/wp-content/uploads/mph-104-debut-function-room.jpg');">
+                  </div>
+
+                  <!-- Conference Text -->
+                  <div
+                        class="flex flex-col items-center justify-center bg-white p-6 text-center group hover:bg-[#1a365d] hover:text-white transition duration-500">
+                        <div class="text-3xl mb-3">Conference</div>
+                        <h3 class="font-semibold text-lg">Host impactful conferences in our spacious halls, where ideas
+                              and innovation thrive.</h3>
+                        <a href="meeting-conference.html"
+                              class="mt-4 px-4 py-2 border border-[#1a365d] text-[#1a365d] font-medium rounded-full transition duration-300 group-hover:border-white group-hover:text-white hover:scale-105">
+                              See Details
+                        </a>
+                  </div>
+
+            </div>
+      </section>
+
+      <section id="contact" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                  <div class="text-center mb-16">
+                        <h2 class="text-4xl md:text-5xl font-display font-bold text-primary mb-6">Contact Us</h2>
+                        <p class="max-w-3xl mx-auto text-gray-600 text-lg">Ready to experience luxury redefined? Get in
+                              touch with our reservation specialists</p>
+                  </div>
+
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                        <div class="bg-white p-8 rounded-2xl shadow-lg">
+                              <h3 class="text-2xl font-display font-semibold text-primary mb-6">Get in Touch</h3>
+                              <div class="space-y-4">
+                                    <div class="flex items-center">
+                                          <i data-feather="map-pin" class="text-secondary h-6 w-6 mr-4"></i>
+                                          <p class="text-gray-700">123 Paradise Island, Solara Bay</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                          <i data-feather="phone" class="text-secondary h-6 w-6 mr-4"></i>
+                                          <p class="text-gray-700">+960 123 4567</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                          <i data-feather="mail" class="text-secondary h-6 w-6 mr-4"></i>
+                                          <p class="text-gray-700">reservations@solarahotel.com</p>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-lg">
+                              <h3 class="text-2xl font-display font-semibold text-primary mb-6">Quick Reservation</h3>
+                              <form id="reservationForm" class="space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                          <input type="date" name="checkin" placeholder="Check-in Date"
+                                                class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary"
+                                                required>
+                                          <input type="date" name="checkout" placeholder="Check-out Date"
+                                                class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary"
+                                                required>
+                                    </div>
+
+                                    <select name="room"
+                                          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary"
+                                          required>
+                                          <option value="">Select Room Type</option>
+                                          <option>Deluxe Suite</option>
+                                          <option>Executive Penthouse</option>
+                                          <option>Presidential Suite</option>
+                                          <option>Ocean View Villa</option>
+                                    </select>
+
+                                    <button type="submit"
+                                          class="w-full gradient-primary text-white px-6 py-3 rounded-lg font-medium transition-all transform hover:scale-105">
+                                          Check Availability
+                                    </button>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </section>
+
+
+      <footer class="bg-dark text-white py-16">
+            <div class="container mx-auto px-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                        <div>
+                              <div class="flex items-center mb-6">
+                                    <div
+                                          class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+                                          <i data-feather="sun" class="text-white h-5 w-5"></i>
+                                    </div>
+                                    <span class="font-display text-2xl font-bold">Solara Hotel</span>
+                              </div>
+                              <p class="text-gray-400 leading-relaxed">Experience luxury redefined at our world-class
+                                    resort, where every
+                                    moment is crafted to perfection.</p>
+                              <div class="flex space-x-4 mt-6">
+                                    <a href="#"
+                                          class="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+                                          <i data-feather="facebook" class="h-5 w-5"></i>
+                                    </a>
+                                    <a href="#"
+                                          class="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+                                          <i data-feather="instagram" class="h-5 w-5"></i>
+                                    </a>
+                                    <a href="#"
+                                          class="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+                                          <i data-feather="twitter" class="h-5 w-5"></i>
+                                    </a>
+                              </div>
+                        </div>
+
+                        <div>
+                              <h4 class="font-display font-semibold text-lg mb-6">Quick Links</h4>
+                              <ul class="space-y-3">
+                                    <li>
+                                          <a href="#home"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Home</a>
+                                    </li>
+                                    <li>
+                                          <a href="#rooms"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Rooms &
+                                                Suites</a>
+                                    </li>
+                                    <li>
+                                          <a href="#amenities"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Amenities</a>
+                                    </li>
+                                    <li>
+                                          <a href="#contact"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Contact</a>
+                                    </li>
+                                    <li><a href="events.html"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Events</a>
+                                    </li>
+                                    <li>
+                                          <a href="#" class="text-gray-400 hover:text-secondary transition-colors">Spa &
+                                                Wellness</a>
+                                    </li>
+                              </ul>
+                        </div>
+
+                        <div>
+                              <h4 class="font-display font-semibold text-lg mb-6">Services</h4>
+                              <ul class="space-y-3">
+                                    <li>
+                                          <a href="#"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Concierge</a>
+                                    </li>
+                                    <li>
+                                          <a href="#" class="text-gray-400 hover:text-secondary transition-colors">Room
+                                                Service</a>
+                                    </li>
+                                    <li><a href="#" class="text-gray-400 hover:text-secondary transition-colors">Airport
+                                                Transfer</a></li>
+                                    <li>
+                                          <a href="#"
+                                                class="text-gray-400 hover:text-secondary transition-colors">Business
+                                                Center</a>
+                                    </li>
+                                    <li>
+                                          <a href="#" class="text-gray-400 hover:text-secondary transition-colors">Event
+                                                Planning</a>
+                                    </li>
+                              </ul>
+                        </div>
+
+                        <div>
+                              <h4 class="font-display font-semibold text-lg mb-6">Contact Info</h4>
+                              <div class="space-y-3 text-gray-400">
+                                    <div class="flex items-start">
+                                          <i data-feather="map-pin" class="text-secondary h-5 w-5 mr-3 mt-1"></i>
+                                          <p>123 Paradise Island<br>Solara Bay</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                          <i data-feather="phone" class="text-secondary h-5 w-5 mr-3"></i>
+                                          <p>+960 123 4567</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                          <i data-feather="mail" class="text-secondary h-5 w-5 mr-3"></i>
+                                          <p>info@solarahotel.com</p>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+
+                  <div class="border-t border-gray-800 pt-8">
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                              <p class="text-gray-400 text-sm">© <span id="currentYear"></span> Solara Hotel. All rights
+                                    reserved.</p>
+                              <div class="flex space-x-6 mt-4 md:mt-0">
+                                    <a href="#"
+                                          class="text-gray-400 hover:text-secondary text-sm transition-colors">Privacy
+                                          Policy</a>
+                                    <a href="#"
+                                          class="text-gray-400 hover:text-secondary text-sm transition-colors">Terms of
+                                          Service</a>
+                                    <a href="#"
+                                          class="text-gray-400 hover:text-secondary text-sm transition-colors">Cookie
+                                          Policy</a>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </footer>
+</body>
+
+</html>

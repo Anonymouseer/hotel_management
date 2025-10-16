@@ -1,0 +1,78 @@
+/* === Settings Specific Styles === */
+.main-header {
+    margin-bottom: 2rem;
+}
+
+.main-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.main-header p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: var(--surface-solid);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.settings-grid .card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-grid .card-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group label { font-weight: 500; font-size: 0.875rem; }
+.form-group input { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--background-color); }
+
+.inline-form { display: flex; gap: 0.5rem; }
+.inline-form input { flex-grow: 1; }
+
+.item-list {
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+}
+
+.item-list li { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); }
+.item-list li:hover { background-color: var(--background-color); }
+.item-list .delete-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; }
+.item-list .delete-btn:hover { color: var(--danger-color); }
+
+.danger-zone { border-color: var(--danger-color); }
+.danger-zone .card-header { color: var(--danger-color); }
+.danger-zone p { font-size: 0.875rem; color: var(--text-secondary); }
+.danger-actions { display: flex; flex-direction: column; gap: 1rem; }
+.btn-danger { background-color: var(--danger-color); color: white; border: none; padding: 0.75rem; border-radius: var(--radius-md); cursor: pointer; }
+
+.main-container > .main-content { grid-column: 2 / 4; }

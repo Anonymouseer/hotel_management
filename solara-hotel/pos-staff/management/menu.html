@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Management - Solara Hotel POS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="menu.css">
+</head>
+
+<body>
+    <div class="background-blur"></div>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>Solara Hotel</h1>
+                    <p>Point of Sale System</p>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="../dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i>
+                            <span>Dashboard</span></a></li>
+                    <li><a href="/solara-hotel/point-of-sale/index.html" class="nav-item"><i
+                                class="fas fa-cash-register"></i>
+                            <span>Point of
+                                Sale</span></a></li>
+                    <li class="active"><a href="menu.html" class="nav-item"><i class="fas fa-utensils"></i> <span>Menu
+                                Management</span></a></li>
+                    <li><a href="/solara-hotel/admin-panel/pos-admin/inventory.html" class="nav-item"><i
+                                class="fas fa-boxes"></i>
+                            <span>Inventory</span></a></li>
+                    <li><a href="../settings/index.html" class="nav-item"><i class="fas fa-cog"></i>
+                            <span>Settings</span></a></li>
+                    <li><a href="../help.html" target="_blank" class="nav-item"><i class="fas fa-question-circle"></i>
+                            <span>Help center</span></a></li>
+                </ul>
+            </nav>
+            <div class="account-section"></div>
+        </aside>
+
+        <main class="main-content">
+            <div class="main-header-controls">
+                <button class="dark-mode-toggle" id="dark-mode-toggle"><i class="fas fa-moon"></i></button>
+            </div>
+
+            <div class="main-header">
+                <h1>Menu Management</h1>
+                <p>Add, edit, and organize your restaurant's products.</p>
+            </div>
+
+            <div class="page-actions">
+                <input type="text" id="product-search" placeholder="Search products..." class="search-input">
+                <button id="add-product-btn" class="btn-primary"><i class="fas fa-plus"></i> Add New Product</button>
+            </div>
+
+            <div class="management-grid">
+                <div class="table-container card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th class="sortable" data-sort="name">Product Name</th>
+                                <th class="sortable" data-sort="category">Category</th>
+                                <th class="sortable" data-sort="price">Price</th>
+                                <th class="sortable" data-sort="stock">Stock</th>
+                                <th class="sortable" data-sort="status">Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Products will be rendered here by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div class="pagination-controls" id="pagination-controls"></div>
+                </div>
+
+                <div class="card" id="category-management-card">
+                    <div class="card-header">
+                        <h3>Categories</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="category-form" class="category-form">
+                            <input type="text" id="category-name-input" placeholder="Add new category..." required>
+                            <button type="submit" class="btn-primary btn-sm"><i class="fas fa-plus"></i></button>
+                        </form>
+                        <ul id="category-list-ul" class="category-list">
+                            <!-- Categories will be rendered here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Product</h3>
+                <button class="close-btn" id="close-product-modal-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="product-form">
+                <div class="modal-body">
+                    <input type="hidden" id="product-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-category">Category</label>
+                            <input type="text" id="product-category" required list="category-list">
+                            <datalist id="category-list"></datalist>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Price</label>
+                            <input type="number" id="product-price" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-prep-time">Prep Time (e.g., 15 min)</label>
+                            <input type="text" id="product-prep-time">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-stock">Current Stock</label>
+                            <input type="number" id="product-stock" min="0" value="99">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-min-stock">Minimum Stock (for alerts)</label>
+                            <input type="number" id="product-min-stock" min="0" value="10">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="product-description">Description</label>
+                            <textarea id="product-description" rows="2"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="product-image">Image URL</label>
+                            <input type="text" id="product-image">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-variants">Variants (comma-separated)</label>
+                            <input type="text" id="product-variants" placeholder="e.g., Small,Medium,Large">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-additions">Additions (comma-separated)</label>
+                            <input type="text" id="product-additions" placeholder="e.g., Extra Spice,Lemon">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-popularity">Popularity Tag</label>
+                            <input type="text" id="product-popularity" placeholder="e.g., hot, new, popular">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+</body>
+
+</html>

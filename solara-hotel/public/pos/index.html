@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status - Solara Hotel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo">
+                <h1>Solara Hotel</h1>
+                <p>Live Order Tracking</p>
+            </div>
+            <div class="header-title">
+                <h2><i class="fas fa-stream"></i> Live Queue</h2>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="queue-container">
+                <div class="queue-column">
+                    <div class="queue-header cooking">
+                        <h2><i class="fas fa-utensils"></i> In The Kitchen</h2>
+                    </div>
+                    <div class="queue-list" id="cooking-queue"></div>
+                </div>
+                <div class="queue-column">
+                    <div class="queue-header delivering">
+                        <h2><i class="fas fa-truck"></i> For Delivery</h2>
+                    </div>
+                    <div class="queue-list" id="delivering-queue"></div>
+                </div>
+                <div class="queue-column">
+                    <div class="queue-header ready">
+                        <h2><i class="fas fa-bell"></i> Ready for Pickup</h2>
+                    </div>
+                    <div class="queue-list" id="ready-queue"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

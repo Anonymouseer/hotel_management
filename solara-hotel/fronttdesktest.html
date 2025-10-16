@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front Desk Dashboard | Solara Hotel</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #c6a969;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .bg-primary {
+            background-color: var(--primary);
+        }
+        
+        .text-secondary {
+            color: var(--secondary);
+        }
+        
+        .bg-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .bg-dark {
+            background-color: var(--dark);
+        }
+        
+        .hover\:bg-primary:hover {
+            background-color: var(--primary);
+        }
+        
+        .hover\:text-primary:hover {
+            color: var(--primary);
+        }
+        
+        .hover\:text-secondary:hover {
+            color: var(--secondary);
+        }
+        
+        .hover\:bg-secondary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+        }
+        
+        .gradient-primary:hover {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-item:hover {
+            background-color: rgba(198, 169, 105, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.75rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .status-occupied {
+            background-color: #fecaca;
+            color: #991b1b;
+        }
+        
+        .status-available {
+            background-color: #bbf7d0;
+            color: #166534;
+        }
+        
+        .status-maintenance {
+            background-color: #fde68a;
+            color: #92400e;
+        }
+        
+        .status-checkout {
+            background-color: #ddd6fe;
+            color: #5b21b6;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg">
+        <div class="px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3">
+                        <i data-feather="home" class="text-white h-6 w-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-display text-2xl font-bold text-primary">Solara Hotel</span>
+                        <p class="text-sm text-gray-600">Front Desk Dashboard</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-feather="bell" class="h-6 w-6 text-gray-600"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    
+                    <!-- User Profile -->
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-gray-900">Maria Santos</p>
+                            <p class="text-xs text-gray-500">Front Desk Manager</p>
+                        </div>
+                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-white font-semibold">MS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex pt-20">
+        <!-- Sidebar -->
+        <div class="fixed left-0 top-20 h-full w-64 bg-white shadow-lg overflow-y-auto">
+            <div class="p-6">
+                <nav class="space-y-2">
+                    <a href="#" class="sidebar-item active flex items-center space-x-3 px-4 py-3 text-sm font-medium" onclick="showTab('dashboard')">
+                        <i data-feather="home" class="h-5 w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="checkin.html" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700">
+                        <i data-feather="log-in" class="h-5 w-5"></i>
+                        <span>Check-in</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('checkout')">
+                        <i data-feather="log-out" class="h-5 w-5"></i>
+                        <span>Check-out</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('reservations')">
+                        <i data-feather="calendar" class="h-5 w-5"></i>
+                        <span>Reservations</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('rooms')">
+                        <i data-feather="key" class="h-5 w-5"></i>
+                        <span>Room Status</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('guests')">
+                        <i data-feather="users" class="h-5 w-5"></i>
+                        <span>Guest Directory</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('billing')">
+                        <i data-feather="credit-card" class="h-5 w-5"></i>
+                        <span>Billing</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('reports')">
+                        <i data-feather="bar-chart" class="h-5 w-5"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700" onclick="showTab('maintenance')">
+                        <i data-feather="tool" class="h-5 w-5"></i>
+                        <span>Maintenance</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 ml-64 p-8">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Dashboard Overview</h1>
+                    <p class="text-gray-600">Welcome back! Here's what's happening at Solara Hotel today.</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Occupied Rooms</p>
+                                <p class="text-3xl font-bold text-primary">87</p>
+                                <p class="text-xs text-green-600">↑ 12% from yesterday</p>
+                            </div>
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i data-feather="home" class="h-6 w-6 text-red-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Available Rooms</p>
+                                <p class="text-3xl font-bold text-primary">23</p>
+                                <p class="text-xs text-gray-500">Total: 110 rooms</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i data-feather="key" class="h-6 w-6 text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Check-ins Today</p>
+                                <p class="text-3xl font-bold text-primary">15</p>
+                                <p class="text-xs text-blue-600">8 completed, 7 pending</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i data-feather="log-in" class="h-6 w-6 text-blue-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Check-outs Today</p>
+                                <p class="text-3xl font-bold text-primary">12</p>
+                                <p class="text-xs text-purple-600">3 pending checkout</p>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i data-feather="log-out" class="h-6 w-6 text-purple-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div class="card p-6">
+                        <h3 class="text-xl font-display font-bold text-primary mb-4">Today's Check-ins</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium">John Anderson</p>
+                                    <p class="text-sm text-gray-600">Room 501 • Regular Suite</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-blue-600">11:30 AM</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Pending</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium">Sarah Johnson</p>
+                                    <p class="text-sm text-gray-600">Room 304 • Skyline Suite</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-green-600">Completed</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Checked In</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium">Michael Chen</p>
+                                    <p class="text-sm text-gray-600">Room 702 • Deluxe Villa</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-blue-600">2:00 PM</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h3 class="text-xl font-display font-bold text-primary mb-4">Today's Check-outs</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium">Emma Wilson</p>
+                                    <p class="text-sm text-gray-600">Room 205 • Twin Penthouse</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-green-600">Completed</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Checked Out</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium">David Brown</p>
+                                    <p class="text-sm text-gray-600">Room 403 • Regular Suite</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-orange-600">11:00 AM</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full">Overdue</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium">Lisa Garcia</p>
+                                    <p class="text-sm text-gray-600">Room 608 • Skyline Suite</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-blue-600">1:00 PM</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Upcoming</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Status Overview -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-display font-bold text-primary mb-4">Room Status Overview</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 status-occupied rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">87</span>
+                            </div>
+                            <p class="text-sm font-medium">Occupied</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 status-available rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">23</span>
+                            </div>
+                            <p class="text-sm font-medium">Available</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 status-checkout rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">8</span>
+                            </div>
+                            <p class="text-sm font-medium">Checkout</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 status-maintenance rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">2</span>
+                            </div>
+                            <p class="text-sm font-medium">Maintenance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Tab -->
+            <div id="checkout" class="tab-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Guest Check-out</h1>
+                    <p class="text-gray-600">Process guest departures and final billing</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-gray-500">Check-out processing interface would be here...</p>
+                </div>
+            </div>
+
+            <!-- Reservations Tab -->
+            <div id="reservations" class="tab-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Reservations Management</h1>
+                    <p class="text-gray-600">View and manage hotel reservations</p>
+                </div>
+                <div class="card p-6 overflow-x-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-primary">Current Reservations</h3>
+                        <button onclick="refreshReservations()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
+                            <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-left text-sm">
+                               <th class="p-3">Guest</th>
+                               <th class="p-3">Room Type</th>
+                               <th class="p-3">Check-in</th>
+                               <th class="p-3">Check-out</th>
+                               <th class="p-3">Status</th>
+                               <th class="p-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservations-table">
+                            <!-- Data will be loaded from get_reservations.php -->
+                            <tr>
+                                <td colspan="6" class="p-6 text-center text-gray-500">
+                                    <div class="flex items-center justify-center">
+                                        <i data-feather="loader" class="animate-spin h-5 w-5 mr-2"></i>
+                                        Loading reservations...
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Other placeholder tabs -->
+            <div id="rooms" class="tab-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Room Status</h1>
+                    <p class="text-gray-600">Monitor and update room availability</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-gray-500">Room status management interface would be here...</p>
+                </div>
+            </div>
+
+<div id="guests" class="tab-content">
+    <div class="mb-8">
+        <h1 class="text-3xl font-display font-bold text-primary mb-2">Guest Directory</h1>
+        <p class="text-gray-600">Currently checked-in guests</p>
+    </div>
+    <div class="card p-6 overflow-x-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-primary">Checked-In Guests</h3>
+            <button onclick="loadGuests()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition-colors flex items-center">
+                <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
+                Refresh
+            </button>
+        </div>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-100 text-left text-sm">
+                   <th class="p-3">Guest Name</th>
+                   <th class="p-3">Room</th>
+                   <th class="p-3">Check-in Date</th>
+                   <th class="p-3">Check-out Date</th>
+                   <th class="p-3">Duration</th>
+                   <th class="p-3">Contact</th>
+                   <th class="p-3">Action</th>
+                </tr>
+            </thead>
+            <tbody id="guests-table">
+                <tr>
+                    <td colspan="7" class="p-6 text-center text-gray-500">
+                        <div class="flex items-center justify-center">
+                            <i data-feather="loader" class="animate-spin h-5 w-5 mr-2"></i>
+                            Loading guests...
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+            <div id="billing" class="tab-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Billing & Payments</h1>
+                    <p class="text-gray-600">Process payments and manage invoices</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-gray-500">Billing interface would be here...</p>
+                </div>
+            </div>
+
+            <div id="reports" class="tab-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Reports</h1>
+                    <p class="text-gray-600">Generate and review performance reports</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-gray-500">Reports interface would be here...</p>
+                </div>
+            </div>
+
+            <div id="maintenance" class="tab-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-display font-bold text-primary mb-2">Maintenance</h1>
+                    <p class="text-gray-600">Track and schedule room maintenance</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-gray-500">Maintenance interface would be here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Feather Icons
+        feather.replace();
+
+        // Tab switching
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            // Sidebar active state
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active', 'text-white');
+                item.classList.add('text-gray-700');
+            });
+            event.target.closest('.sidebar-item').classList.add('active');
+            event.target.closest('.sidebar-item').classList.remove('text-gray-700');
+        }
+
+async function redirectToCheckin(reservation) {
+    try {
+        // Store reservation data in sessionStorage to pass to check-in page
+        sessionStorage.setItem('pendingReservation', JSON.stringify(reservation));
+        
+        // Move the reservation to guest directory (checked-in guests)
+        const response = await fetch('checkin_guest.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reservation)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to process check-in');
+        }
+        
+        // Remove the row from the table immediately with animation
+        const row = document.getElementById(`reservation-${reservation.id}`);
+        if (row) {
+            row.style.transition = 'all 0.3s ease';
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(-20px)';
+        }
+        
+        // Show notification
+        showNotification('Processing check-in...', 'success');
+        
+        // Redirect to check-in page after a short delay
+        setTimeout(() => {
+            window.location.href = 'checkin.html';
+        }, 500);
+        
+    } catch (error) {
+        console.error('Error processing check-in:', error);
+        showNotification('Error processing check-in. Please try again.', 'error');
+    }
+}
+
+        // Show notifications
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            
+            notification.className = `fixed top-24 right-6 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Load reservations from PHP backend
+        async function loadReservations() {
+            try {
+                const response = await fetch('get_reservations.php');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                const tableBody = document.getElementById('reservations-table');
+                
+                // Handle error response from PHP
+                if (result.success === false) {
+                    throw new Error(result.error || 'Unknown error from server');
+                }
+                
+                // Handle both old format (direct array) and new format (with success/data)
+                const data = result.data || result;
+                
+                if (!data || data.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="p-6 text-center text-gray-500">
+                                <div class="flex flex-col items-center">
+                                    <i data-feather="calendar" class="h-8 w-8 mb-2"></i>
+                                    <p class="font-medium">No reservations found</p>
+                                    <p class="text-sm">New bookings will appear here</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    feather.replace();
+                    return;
+                }
+
+                console.log('Loaded reservations:', data); // Debug log
+                
+                let rows = "";
+                data.forEach(reservation => {
+                    // Calculate duration from your database dates
+                    const checkIn = new Date(reservation.check_in);
+                    const checkOut = new Date(reservation.check_out);
+                    const diffTime = Math.abs(checkOut - checkIn);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    const duration = `${diffDays} night${diffDays > 1 ? 's' : ''}`;
+
+                    // Determine status (since your table might not have status column)
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Reset time for accurate comparison
+                    const checkInDate = new Date(reservation.check_in);
+                    checkInDate.setHours(0, 0, 0, 0);
+                    
+                    let status = 'Confirmed';
+                    let statusClass = 'bg-green-100 text-green-800';
+                    
+                    // If check-in date has passed, might be checked in or overdue
+                    if (checkInDate < today) {
+                        status = 'Overdue Check-in';
+                        statusClass = 'bg-red-100 text-red-800';
+                    } else if (checkInDate.getTime() === today.getTime()) {
+                        status = 'Today Check-in';
+                        statusClass = 'bg-blue-100 text-blue-800';
+                    }
+                    
+                    const reservationObj = {
+                        id: reservation.id,
+                        guest_name: reservation.guest_name || 'Unknown Guest',
+                        guest_email: reservation.guest_email || '',
+                        guest_phone: reservation.guest_phone || '',
+                        room_type: reservation.room_type || 'Standard Room',
+                        room_number: reservation.room_number || generateRoomNumber(reservation.room_type),
+                        check_in: reservation.check_in,
+                        check_out: reservation.check_out,
+                        confirmation: `SOL${reservation.id}`,
+                        duration: duration,
+                        guests: `${(reservation.adults || 1) + (reservation.children || 0)}`,
+                        adults: reservation.adults || 1,
+                        children: reservation.children || 0,
+                        rooms: reservation.rooms || 1,
+                        total_price: reservation.total_price || '0.00',
+                        special_requests: reservation.special_requests || '',
+                        status: status
+                    };
+
+                    rows += `
+                        <tr class="border-b text-sm hover:bg-gray-50 transition-colors" id="reservation-${reservation.id}">
+                            <td class="p-3">
+                                <span class="font-medium">${reservationObj.guest_name}</span><br>
+                                <span class="text-gray-500 text-xs">${reservationObj.guest_email}</span>
+                                ${reservationObj.guest_phone ? `<br><span class="text-gray-500 text-xs">${reservationObj.guest_phone}</span>` : ''}
+                            </td>
+                            <td class="p-3">
+                                <div class="font-medium">${reservationObj.room_type}</div>
+                                <div class="text-xs text-gray-500">${reservationObj.rooms} room${reservationObj.rooms > 1 ? 's' : ''}</div>
+                                <div class="text-xs text-gray-500">${reservationObj.adults}A + ${reservationObj.children}C</div>
+                            </td>
+                            <td class="p-3">
+                                <div class="font-medium">${formatDate(reservationObj.check_in)}</div>
+                            </td>
+                            <td class="p-3">
+                                <div class="font-medium">${formatDate(reservationObj.check_out)}</div>
+                                <div class="text-xs text-gray-500">${reservationObj.duration}</div>
+                            </td>
+                            <td class="p-3">
+                                <span class="inline-block px-2 py-1 text-xs ${statusClass} rounded-full">${reservationObj.status}</span>
+                                <div class="text-xs text-gray-500 mt-1">₱${reservationObj.total_price}</div>
+                            </td>
+                            <td class="p-3 space-x-2">
+                                <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs transition-colors" 
+                                        onclick="redirectToCheckin(${JSON.stringify(reservationObj).replace(/"/g, '&quot;')})"
+                                        title="Go to check-in page">
+                                    Check-in
+                                </button>
+                                <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition-colors" 
+                                        onclick="deleteReservation('${reservation.id}', this)"
+                                        title="Delete reservation">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                tableBody.innerHTML = rows;
+                
+                // Replace feather icons
+                feather.replace();
+                
+                // Show success message with count
+                if (result.count !== undefined) {
+                    console.log(`Successfully loaded ${result.count} reservations`);
+                }
+                
+            } catch (error) {
+                console.error('Error loading reservations:', error);
+                document.getElementById('reservations-table').innerHTML = `
+                    <tr>
+                        <td colspan="6" class="p-6 text-center text-red-500">
+                            <div class="flex flex-col items-center">
+                                <i data-feather="alert-circle" class="h-8 w-8 mb-2"></i>
+                                <p class="font-medium">Error loading reservations</p>
+                                <p class="text-sm">${error.message}</p>
+                                <button onclick="loadReservations()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-xs">
+                                    Try Again
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                feather.replace();
+            }
+        }
+
+        // Generate room number based on room type (since your DB doesn't have room_number)
+        function generateRoomNumber(roomType) {
+            const roomNumbers = {
+                'Standard Room': '200-299',
+                'Deluxe Suite': '400-499',
+                'Presidential Suite': '800-899',
+                'Family Suite': '300-399',
+                'Executive Suite': '500-599'
+            };
+            
+            // Generate a random room number in the appropriate range
+            const range = roomNumbers[roomType] || '100-199';
+            const [min, max] = range.split('-').map(Number);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // Delete reservation
+        async function deleteReservation(reservationId, buttonElement) {
+            if (!confirm('Are you sure you want to delete this reservation? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('delete_reservation.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${reservationId}`
+                });
+
+                if (response.ok) {
+                    // Remove the row with animation
+                    const row = document.getElementById(`reservation-${reservationId}`);
+                    if (row) {
+                        row.style.transition = 'all 0.5s ease';
+                        row.style.opacity = '0';
+                        row.style.transform = 'translateX(-20px)';
+                        
+                        setTimeout(() => {
+                            row.remove();
+                            showNotification('Reservation deleted successfully', 'success');
+                        }, 500);
+                    }
+                } else {
+                    throw new Error('Failed to delete reservation');
+                }
+            } catch (error) {
+                console.error('Error deleting reservation:', error);
+                showNotification('Delete function not implemented. Please create delete_reservation.php', 'error');
+            }
+        }
+
+       // Initialize page and load reservations
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Hotel Front Desk Dashboard loaded successfully');
+    
+    // Load reservations when page loads
+    loadReservations();
+    
+    // Load guests when page loads
+    loadGuests();
+    
+    // Refresh reservations every 5 minutes
+    setInterval(loadReservations, 5 * 60 * 1000);
+    
+    // Refresh guests every 5 minutes
+    setInterval(loadGuests, 5 * 60 * 1000);
+});
+
+// Load checked-in guests
+async function loadGuests() {
+    try {
+        const response = await fetch('get_guests.php');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        const tableBody = document.getElementById('guests-table');
+        
+        if (result.success === false) {
+            throw new Error(result.error || 'Unknown error from server');
+        }
+        
+        const data = result.data || result;
+        
+        if (!data || data.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="p-6 text-center text-gray-500">
+                        <div class="flex flex-col items-center">
+                            <i data-feather="users" class="h-8 w-8 mb-2"></i>
+                            <p class="font-medium">No guests checked in</p>
+                            <p class="text-sm">Checked-in guests will appear here</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            feather.replace();
+            return;
+        }
+
+        let rows = "";
+        data.forEach(guest => {
+            const checkIn = new Date(guest.check_in);
+            const checkOut = new Date(guest.check_out);
+            const diffTime = Math.abs(checkOut - checkIn);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const duration = `${diffDays} night${diffDays > 1 ? 's' : ''}`;
+
+            rows += `
+                <tr class="border-b text-sm hover:bg-gray-50 transition-colors" id="guest-${guest.id}">
+                    <td class="p-3">
+                        <div class="font-medium">${guest.guest_name}</div>
+                        <div class="text-xs text-gray-500">Conf: SOL${guest.id}</div>
+                    </td>
+                    <td class="p-3">
+                        <div class="font-medium">${guest.room_type}</div>
+                        <div class="text-xs text-gray-500">Room ${guest.room_number || 'TBA'}</div>
+                    </td>
+                    <td class="p-3">${formatDate(guest.check_in)}</td>
+                    <td class="p-3">${formatDate(guest.check_out)}</td>
+                    <td class="p-3">
+                        <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">${duration}</span>
+                    </td>
+                    <td class="p-3">
+                        <div class="text-xs">${guest.guest_email || 'N/A'}</div>
+                        <div class="text-xs text-gray-500">${guest.guest_phone || 'N/A'}</div>
+                    </td>
+                    <td class="p-3">
+                        <button class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-xs transition-colors" 
+                                onclick="checkoutGuest('${guest.id}')"
+                                title="Check out guest">
+                            Check-out
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tableBody.innerHTML = rows;
+        feather.replace();
+        
+    } catch (error) {
+        console.error('Error loading guests:', error);
+        document.getElementById('guests-table').innerHTML = `
+            <tr>
+                <td colspan="7" class="p-6 text-center text-red-500">
+                    <div class="flex flex-col items-center">
+                        <i data-feather="alert-circle" class="h-8 w-8 mb-2"></i>
+                        <p class="font-medium">Error loading guests</p>
+                        <p class="text-sm">${error.message}</p>
+                        <button onclick="loadGuests()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-xs">
+                            Try Again
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+        feather.replace();
+    }
+}
+
+// Check out a guest
+async function checkoutGuest(guestId) {
+    if (!confirm('Are you sure you want to check out this guest?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch('checkout_guest.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `id=${guestId}`
+        });
+
+        if (response.ok) {
+            const row = document.getElementById(`guest-${guestId}`);
+            if (row) {
+                row.style.transition = 'all 0.5s ease';
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    row.remove();
+                    showNotification('Guest checked out successfully', 'success');
+                }, 500);
+            }
+        } else {
+            throw new Error('Failed to check out guest');
+        }
+    } catch (error) {
+        console.error('Error checking out guest:', error);
+        showNotification('Error checking out guest. Please try again.', 'error');
+    }
+}
+    </script>
+</body>
+</html>
