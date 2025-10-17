@@ -1,22 +1,14 @@
 <?php
-$servername = "localhost";
-$username   = "root";   // default XAMPP user
-$password   = "";       // no password by default
-$dbname     = "hotel_system";
+$servername = "localhost"; // or "127.0.0.1"
+$username = "root";        // default XAMPP username
+$password = "";            // default XAMPP password is empty
+$dbname = "hotel_system"; // your actual database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    header('Content-Type: application/json');
-    echo json_encode([
-        'success' => false,
-        'message' => 'Database connection failed: ' . $conn->connect_error
-    ]);
-    exit;
+    die("Connection failed: " . $conn->connect_error);
 }
-
-// Set charset (important for special characters)
-$conn->set_charset("utf8mb4");
-?>
+echo "Connected successfully";
